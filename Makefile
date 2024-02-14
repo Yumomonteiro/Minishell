@@ -3,8 +3,9 @@ CC		= cc
 CFLAGS	= -Wall -Wextra -Werror -g #-fsanitize=address
 
 SRCS	= ./main.c \
+		./srcs/built-in/cd.c \
 
-LIBFT	= libs/libft/libft.a
+LIBFT	= includes/libft/libft.a
 OBJS	= $(SRCS:.c=.o)
 
 all: $(NAME)
@@ -13,15 +14,15 @@ $(NAME): $(LIBFT) $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
 
 $(LIBFT):
-	make -C libs/libft
+	make -C includes/libft
 
 clean:
 	$(RM) $(OBJS)
-	make clean -C libs/libft
+	make clean -C includes/libft
 
 fclean: clean
 	$(RM) $(NAME)
-	make fclean -C libs/libft
+	make fclean -C includes/libft
 
 re: fclean all
 

@@ -6,7 +6,7 @@
 /*   By: yude-oli <yude-oli@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/02/10 15:59:04 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/02/14 15:21:23 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,13 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
+
+typedef struct minishell
+{
+        char    *cmd;
+        char    **env;
+}               s_list;
+
+int     cd_builtin(char **args, char **envp);
 
 #endif
