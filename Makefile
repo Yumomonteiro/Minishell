@@ -1,8 +1,9 @@
 NAME	= minishell
 CC		= cc
+LDLIBS = -lreadline
 CFLAGS	= -Wall -Wextra -Werror -g #-fsanitize=address
 
-SRCS	= ./main.c \
+SRCS =  $(wildcard srcs/*.c utils/*.c *.c)
 
 LIBFT	= libs/libft/libft.a
 OBJS	= $(SRCS:.c=.o)
@@ -10,7 +11,7 @@ OBJS	= $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(LDLIBS)
 
 $(LIBFT):
 	make -C libs/libft

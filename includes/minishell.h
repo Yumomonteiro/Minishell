@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/02/10 15:59:04 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/02/14 16:51:10 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <stdio.h>
 // # include "history.h"
-# include "libft/libft.h"
+# include "../libs/libft/libft.h"
 // # include "readline.h"
 # include <errno.h>
 # include <fcntl.h>
@@ -26,5 +26,12 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
+
+typedef struct s_env
+{
+    char	**env;
+    int    size;
+    int    status;
+}	t_env;
 
 #endif
