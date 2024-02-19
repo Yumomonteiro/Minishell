@@ -1,9 +1,11 @@
 NAME	= minishell
 CC		= cc
-CFLAGS	= -Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS	= -Wall -Wextra -Werror -lreadline -g -fsanitize=address
 
 SRCS	= ./main.c \
 		./srcs/built-in/cd.c \
+		./srcs/env/get_env.c \
+		./srcs/parse/cmd.c \
 
 LIBFT	= includes/libft/libft.a
 OBJS	= $(SRCS:.c=.o)

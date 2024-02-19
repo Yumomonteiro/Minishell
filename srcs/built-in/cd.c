@@ -6,71 +6,89 @@
 /*   By: yude-oli <yude-oli@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 11:32:11 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/02/14 16:17:34 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/02/17 17:17:21 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*find_path(char *cmd, char **env)
+void    pwd(void)
 {
-	char	**paths;
-	char	*path;
-	char	*partition_path;
-	int		i;
-
-	i = 0;
-	while (ft_strnstr(env[i], "PATH", 4) == 0 && env[i + 1])
-		i++;
-        if(ft_strnstr(env[i], "PATH", 4) == 0)
-                return (0);
-	paths = ft_split(env[i] + 5, ':');
-	i = 0;
-	while (paths[i])
-	{
-		partition_path = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(partition_path, cmd);
-		free(partition_path);
-		if (access(path, F_OK) == 0)
-			return (path);
-		free(path);
-		i++;
-	}
-	i = -1;
-	while (paths[++i])
-		free(paths[i]);
-	free(paths);
-	return (0);
-}
-
-void	execute_cmd(char **argv, char **env)
-{
-	char	**cmd;
-	char	*path;
-	int		i;
-
-	i = -1;
-	cmd = ft_split(*argv, ' ');
-	if (!cmd[0])
-		exit(0);
-	path = find_path(cmd[0], env);
-	if (!path)
-	{
-		while (cmd[++i])
-			free(cmd[i]);
-		free(cmd);
-		write(2, "Error, invalid command!\n", 24);
-		exit(0);
-	}
-	if (execve(path, cmd, env) == -1) 
-                printf("Error\n");
-}
-int     cd_builtin(char **args, char **envp)
-{
-        if (!args[0])
+        char *pwd;
+        pwd = getcwd(NULL, 0);
+        if(!pwd)
         {
-                printf("error");
+                perror("-> minishell error: pwd");
+                return ;
         }
-        execute_cmd(&args[1], envp);
-        return 0;
+        //write(1, pwd, 1);
+        printf("%s\n", pwd);
+        free(pwd);
+}
+
+void     env(char **envp)
+{
+        if(!*envp || !envp)
+                perror("Minishell error: env does not exist");
+        while(*envp)
+                ft_putendl_fd(*envp++, 1);
+
+}
+
+void    echo(char **cmd)
+{
+        int i;
+        if(!cmd[1])
+        {
+                perror("Minishell -> error : echo comando invalido");
+                return ;
+        }
+        if(strncmp(cmd[1], "-n", 3) == 0)
+        {
+                i = 2;
+                while(strcmp(cmd[i], "-n") == 0)
+                {
+                        i++;
+                }
+                while(cmd[i])
+                {
+                        printf("%s", cmd[i]);
+                        i++;
+                        if(!cmd[i])
+                        {
+                                printf("%%");
+                                printf("\n");
+                                break;
+                        }
+                        write(1, " ", 1);
+                }
+                
+        }
+        else
+        {
+                i = 1;
+                while(cmd[i])
+                {
+                        printf("%s", cmd[i]);
+                        i++;
+                        if(!cmd[i])
+                        {
+                                printf("\n");
+                            break;    
+                        }
+                        printf(" ");
+                }
+                
+        }
+                        
+}
+
+void    cd(char ** cmd)
+{
+        if(!cmd[1])
+                printf("IR PARA HOME");
+        if(strncmp(cmd[1], "-", 2) == 0)
+                printf("OLDPWD");
+        if(strncmp(cmd[1], "../", 4) == 0 || strncmp(cmd[1], "..", 3) == 0)
+                
 }
