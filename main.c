@@ -6,7 +6,7 @@
 /*   By: yude-oli <yude-oli@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 12:45:25 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/02/17 16:43:51 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/02/19 15:14:04 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int main(int argc, char **argv, char **envp)
                                 printf("entrou");
                                 exit(0);
                         }
+                        else if(strncmp(str, "cd", 3) == 0)
+                                cd(cmds->cmd, var->env);
                                 
                         free(str);
                 }

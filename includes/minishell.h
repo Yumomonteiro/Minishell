@@ -6,7 +6,7 @@
 /*   By: yude-oli <yude-oli@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/02/16 15:47:13 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/02/19 15:14:22 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ void    pwd(void);
 void     env(char **envp);
 void    echo(char **cmd);
 char **cmd_parsing(char *str, char **cmd);
+void    cd(char **cmd, char **env);
 
 #endif

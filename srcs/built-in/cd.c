@@ -6,7 +6,7 @@
 /*   By: yude-oli <yude-oli@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 11:32:11 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/02/17 17:17:21 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/02/19 16:18:52 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void    pwd(void)
                 perror("-> minishell error: pwd");
                 return ;
         }
-        //write(1, pwd, 1);
         printf("%s\n", pwd);
         free(pwd);
 }
@@ -38,20 +37,37 @@ void     env(char **envp)
 void    echo(char **cmd)
 {
         int i;
-        if(!cmd[1])
-        {
-                perror("Minishell -> error : echo comando invalido");
+        int j;
+        char *env_var_name;
+        char *env_var_value;
+        if (!cmd[1])
                 return ;
-        }
-        if(strncmp(cmd[1], "-n", 3) == 0)
+        if (strncmp(cmd[1], "-n", 3) == 0)
         {
                 i = 2;
-                while(strcmp(cmd[i], "-n") == 0)
-                {
+                while (strcmp(cmd[i], "-n") == 0)
                         i++;
-                }
-                while(cmd[i])
+                while (cmd[i])
                 {
+                        j = 0;
+                        if(cmd[i][j] == '$' && cmd[i][j + 1] != 32 && cmd[i][j + 1])
+                        {
+                                env_var_name = cmd[i] + 1;
+                                env_var_value = getenv(env_var_name);
+                                if (env_var_value == NULL)
+                                {
+                                        printf("\n");
+                                        return ;
+                                }
+                                printf("%s", env_var_value);
+                                i++;
+                                if(!cmd[i])
+                                {
+                                        printf("\n");    
+                                        return;
+                                }
+                                printf(" ");
+                        }
                         printf("%s", cmd[i]);
                         i++;
                         if(!cmd[i])
@@ -60,15 +76,33 @@ void    echo(char **cmd)
                                 printf("\n");
                                 break;
                         }
-                        write(1, " ", 1);
+                        printf(" ");
                 }
-                
         }
         else
         {
                 i = 1;
                 while(cmd[i])
                 {
+                        j = 0;
+                        if(cmd[i][j] == '$' && cmd[i][j + 1] != 32 && cmd[i][j + 1])
+                        {
+                                env_var_name = cmd[i] + 1;
+                                env_var_value = getenv(env_var_name);
+                                if (env_var_value == NULL)
+                                {
+                                        printf("\n");
+                                        return ;
+                                }
+                                printf("%s", env_var_value);
+                                i++;
+                                if(!cmd[i])
+                                {
+                                        printf("\n");    
+                                        return;
+                                }
+                                printf(" ");
+                        }
                         printf("%s", cmd[i]);
                         i++;
                         if(!cmd[i])
@@ -78,17 +112,25 @@ void    echo(char **cmd)
                         }
                         printf(" ");
                 }
-                
         }
-                        
 }
-
-void    cd(char ** cmd)
+void cd_home(char *env, char *cmd);
+void    cd(char **cmd, char **env)
 {
+        char *homedir;
+        printf("entrouuuu\n");
+        if(env)
+                printf("v\n");
         if(!cmd[1])
-                printf("IR PARA HOME");
-        if(strncmp(cmd[1], "-", 2) == 0)
-                printf("OLDPWD");
-        if(strncmp(cmd[1], "../", 4) == 0 || strncmp(cmd[1], "..", 3) == 0)
+        {
+                homedir = getenv("HOME");
+                if(!homedir)
+                        return ;
+                if (chdir(homedir) != 0)
+                        return ;
+        }
+        
+        // if(strncmp(cmd[1], "-", 2) == 0)
+        //         printf("oldpwdddd");
                 
 }
