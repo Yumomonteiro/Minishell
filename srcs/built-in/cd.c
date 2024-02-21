@@ -6,7 +6,7 @@
 /*   By: yude-oli <yude-oli@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 11:32:11 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/02/19 16:18:52 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/02/21 10:10:07 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,9 @@ void    echo(char **cmd)
                                 env_var_value = getenv(env_var_name);
                                 if (env_var_value == NULL)
                                 {
-                                        printf("\n");
-                                        return ;
+                                        if(!cmd[i])
+                                                printf("\n");
+                                        i++;
                                 }
                                 printf("%s", env_var_value);
                                 i++;
