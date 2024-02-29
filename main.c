@@ -32,6 +32,14 @@ void print_env(char **env)
 	}
 }
 
+void free_cmds(char **cmds)
+{
+	int i = -1;
+	while(cmds[++i])
+		free(cmds[i]);
+	free(cmds);
+}
+
 // int main(int argc, char **argv)
 // {
 // 	if(argc == 2)
@@ -64,45 +72,67 @@ int main(int argc, char **argv, char **envp)
 {
         (void)argc;
         (void)argv;
+		int pos = 0;
         t_env *var;
         t_cmd *cmds;
+	
         cmds = (t_cmd *)malloc(sizeof(t_cmd));
         var = (t_env *)malloc(sizeof(t_env));
+		cmds = (t_cmd *)malloc(sizeof(t_cmd));
+			if (!cmds) 
+			{
+				free(var);
+				return 1;
+			}
         var->env = create_env(envp);
         char *str;
                 while(1)
                 {
-                        //\033[32m➜ \033[0m \033[36m\033[1mminishell \033[34mgit:(\033[31mmain\033[34m)\033[0m 👍 "
-                        str = readline("minishell: ");
-                        cmds->cmd = cmd_parsing(str, cmds->cmd);
-                        // if(strcmp(str, "pwd") == 0)
-                        //         pwd();
-			int i = -1;
-			while(str[++i] && str[i + 1])
-			{
-                                
-			        if(str[i] == '\"')
-				        dub_quote(str + 1);
-				else if(str[i] == '\'')
-				        sing_quote(str + 1);
-			}
-                        // else if(strcmp(str, "env") == 0)
-                        //         env(var->env);
-                        // else if(strcmp(str, "minishell") == 0)
-                        //         printf("alooow\n");
-                        if(strncmp(str, "echo", 4) == 0)
-                        {
-                                echo(cmds->cmd);
-                        }
-                        // else if(strncmp(str, "exit", 4) == 0)
+					   str = readline("minishell: ");
+						add_history(str); 
+
+					
+
+						cmds->token = get_cmd(str, &pos, cmds->token);
+						int j = -1;
+						while(cmds->token[++j])
+							printf("%s\n", cmds->token[j]);
+						
+						int i = -1;
+						while(str[++i] && str[i + 1])
+						{
+											
+								if(str[i] == '\"')
+									dub_quote(str);
+							else if(str[i] == '\'')
+									sing_quote(str);
+						}
+                        // if(strncmp(str, "echo", 4) == 0)
                         // {
-                        //         printf("entrou");
-                        //         exit(0);
+                        //         ft_echo(cmds->token);
                         // }
-                        // else if(strncmp(str, "cd", 3) == 0)
-                        //         cd(cmds->cmd, var->env);
-                                
+                        // cd(cmds->cmd, var->env);
                         free(str);
                 }
+				free(cmds);
                 
 }
+
+// int main() {
+//     char input[] = "this is 'quoted string' and this is not";
+//     int current_pos = 0;
+
+//     while (input[current_pos]) {
+//         char *token = get_token(input, &current_pos);
+// 		del_quote(token);
+//         if (token) {
+//             printf("Token: %s\n", token);
+//             free(token);
+//         }
+//         // Skip white spaces
+//         while (input[current_pos] && cmd_delimiter(input[current_pos]))
+//             current_pos++;
+//     }
+
+//     return 0;
+// }

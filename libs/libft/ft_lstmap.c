@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 17:17:30 by yude-oli          #+#    #+#             */
-/*   Updated: 2023/10/11 10:17:22 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/02/28 13:46:13 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 	new_lst = NULL;
 	while (lst)
 	{
-		elem = ft_lstnew((f(lst->content)));
+		elem = ft_lstnew((f(lst->data)));
 		if (!elem)
 		{
 			ft_lstclear(&new_lst, del);

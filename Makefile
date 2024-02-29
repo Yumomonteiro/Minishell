@@ -10,20 +10,22 @@ OBJS	= $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJS)
+$(NAME): $(LIBFT) $(OBJS) 
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(LDLIBS)
 
 $(LIBFT):
-	make -C libs/libft
+	make -C libs/libft -s
 
 clean:
 	$(RM) $(OBJS)
-	make clean -C libs/libft
+	make clean -C libs/libft -s
 
 fclean: clean
 	$(RM) $(NAME)
-	make fclean -C libs/libft
+	make fclean -C libs/libft -s
 
 re: fclean all
 
 .PHONY: all clean fclean re
+
+.SILENT:

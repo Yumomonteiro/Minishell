@@ -21,7 +21,7 @@ void     env(char **envp)
                 ft_putendl_fd(*envp++, 1);
 
 }
-void    echo(char **cmd)
+void    ft_echo(char **cmd)
 {
         int flag_space = 0;
         int i;
