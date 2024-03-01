@@ -78,7 +78,6 @@ int main(int argc, char **argv, char **envp)
 	
         cmds = (t_cmd *)malloc(sizeof(t_cmd));
         var = (t_env *)malloc(sizeof(t_env));
-		cmds = (t_cmd *)malloc(sizeof(t_cmd));
 			if (!cmds) 
 			{
 				free(var);
