@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 19:04:55 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/01/27 15:18:29 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/02/29 18:17:31 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 typedef struct s_list
 {
-	void			*content;
+	void			*data;
 	struct s_list	*next;
 }	t_list;
 
@@ -29,6 +29,8 @@ int		ft_atoi(const char *str);
 void	ft_bzero(void *s, size_t n);
 
 void	*ft_calloc(size_t count, size_t size);
+
+void *ft_realloc(void *ptr, size_t size);
 
 int		ft_isalnum(int c);
 
@@ -74,6 +76,8 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 
 size_t	ft_strlen(const char *s);
 
+char	*ft_strncpy(char *dest, char *src, size_t n);
+
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -99,6 +103,8 @@ int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
 
 void	ft_lstadd_front(t_list **alst, t_list *new);
+
+void	ft_lstadd_back(t_list **lst, t_list *new);
 
 //void	ft_lstadd_back(t_list **alst, t_list *new);
 

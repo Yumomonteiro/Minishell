@@ -1,21 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/06 15:09:05 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/02/28 13:46:36 by ada-mata         ###   ########.fr       */
+/*   Created: 2023/10/05 09:57:25 by yude-oli          #+#    #+#             */
+/*   Updated: 2024/02/29 18:17:02 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstdelone(t_list *lst, void (*del)(void*))
+void *ft_realloc(void *ptr, size_t size) 
 {
-	if (!lst)
-		return ;
-	del (lst->data);
-	free (lst);
+    if (!ptr) {
+        return malloc(size);
+    }
+    if (size == 0) {
+        free(ptr);
+        return NULL;
+    }
+
+    void *new_ptr = realloc(ptr, size);
+    if (!new_ptr) {
+        return NULL;
+    }
+    return new_ptr;
 }
