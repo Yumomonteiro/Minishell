@@ -23,13 +23,12 @@ void     env(char **envp)
 }
 void    ft_echo(char **cmd)
 {
-        int flag_space = 0;
         int i;
-        int j;
-        char *env_var_name;
-        char *env_var_value;
         if (!cmd[1])
                 return ;
+        // int n = -1;
+        // while(cmd[++n])
+        //         printf("%s\n", cmd[n]);
         if (strncmp(cmd[1], "-n", 3) == 0)
         {
                 i = 2;
@@ -37,37 +36,11 @@ void    ft_echo(char **cmd)
                         i++;
                 while (cmd[i])
                 {
-                        j = 0;
-                        while(cmd[i][j] == '$' && cmd[i][j + 1] != 32 && cmd[i][j + 1] && cmd[i])
-                        {
-                                env_var_name = cmd[i] + 1;
-                                env_var_value = getenv(env_var_name);
-                                if (env_var_value == NULL)
-                                {
-                                        if(!cmd[i + 1])
-                                        {
-                                                printf("\n");
-                                                return;
-                                        }
-                                        flag_space = 1;
-                                }
-                                else
-                                        printf("%s", env_var_value);
-                                i++;
-                                if(!cmd[i])
-                                {
-                                        printf("\n");    
-                                        return;
-                                }
-                                if(flag_space == 0)
-                                        printf(" ");
-                                flag_space = 0;
-                        }
-                        printf("%s", cmd[i]);
+                        if(cmd[i][0] == '\'')
+                                sing_quote(cmd[i]);
+                        else
+                                dub_quote(cmd[i]);
                         i++;
-                        if(!cmd[i])
-                                break;
-                        printf(" ");
                 }
         }
         else
@@ -75,43 +48,16 @@ void    ft_echo(char **cmd)
                 i = 1;
                 while(cmd[i])
                 {
-                        j = 0;
-                        while(cmd[i][j] == '$' && cmd[i][j + 1] != 32 && cmd[i][j + 1] && cmd[i])
-                        {
-                                env_var_name = cmd[i] + 1;
-                                env_var_value = getenv(env_var_name);
-                                if (env_var_value == NULL)
-                                {
-                                        if(!cmd[i + 1])
-                                        {
-                                                printf("\n");
-                                                return;
-                                        }  
-                                        flag_space = 1;
-                                }
-                                else
-                                        printf("%s", env_var_value);
-                                i++;
-                                if(!cmd[i])
-                                {
-                                        printf("\n");    
-                                        return;
-                                }
-                                if(flag_space == 0)
-                                        printf(" ");
-                                flag_space = 0;
-                        }
-                        printf("%s", cmd[i]);
+                        if(cmd[i][0] == '\'')
+                                sing_quote(cmd[i]);
+                        else
+                                dub_quote(cmd[i]);
                         i++;
-                        if(!cmd[i])
-                        {
-                                printf("\n");
-                            break;    
-                        }
-                        printf(" ");
                 }
+                printf("\n");
         }
 }
+
 void cd_home(char *env, char *cmd);
 
 int check_env_var(char **env, char *var_env)
