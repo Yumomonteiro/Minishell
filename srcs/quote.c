@@ -3,12 +3,8 @@
 void sing_quote(char *cmd)
 {
     del_quote(cmd);
-    printf("%s", cmd);
+    printf("%s ", cmd);
 }
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 char **$_split(char *str)
 {
@@ -45,149 +41,79 @@ char **$_split(char *str)
     return res;
 }
 
-int check_nest_quote(char **str)
-{
-    int i = 0;
-    int j = 0;
-    int check = 0;
-
-    while(str[i])
-    {
-        j = 0;
-        while(str[i][j])
-        {
-            if(str[i][j] == '\"')
-            {
-                check = 1;
-                break;
-            }
-            else
-                j++;
+void process_variable(char *str, int *i, int *check, 
+                    int *check2, int *flag, int add_space) {
+    int pos = 0;
+    int k = -1;
+    int len = strlen(str) - 1;
+    if (str[len] == '\'') 
+        pos = 1;
+    (*i)++;
+    if (str[*i] == '\"') {
+        del_quote(str);
+        char **res = $_split(str);
+        while (res[0][++k] != '\0')
+            ft_putchar_fd(res[0][k], 1);
+        *check2 = 1;
+    } else if (str[*i] == '\'') {
+        sing_quote(&str[*i]);
+        *flag = 1;
+    } else {
+        del_quote(str);
+        k = 0;
+        char *env_var_name = (char *)malloc(len + 1);
+        if (str[len] == ',') {
+            len--;
+            *check = 1;
         }
-        i++;
-    }
-   return (check);
-}
-
-
-int check_dub_quote(char **str)
-{
-    int i = 0;
-    int j = 0;
-    int check = 0;
-
-    while(str[i])
-    {
-        j = 0;
-        while(str[i][j])
-        {
-            if(str[i][j] == '\"')
-                check++;
-            j++;
+        while (len > 0) {
+            env_var_name[k] = str[*i];
+            k++;
+            (*i)++;
+            len--;
         }
-        i++;
-    }
-    if(check % 2 == 0)
-        return 1;
-    else
-        return 0;
-}
-
-int check_sing_quote(char **str)
-{
-    int i = 0;
-    int j = 0;
-    int check = 0;
-
-    while(str[i])
-    {
-        j = 0;
-        while(str[i][j])
-        {
-            if(str[i][j] == '\'')
-                check++;
-            j++;
+        env_var_name[k] = '\0';
+        char *result = getenv(env_var_name);
+        if (!result) {
+            *check = 1;
+            return;
         }
-        i++;
+        k = 0;
+        while (result[k] != '\0') {
+            ft_putchar_fd(result[k], 1);
+            k++;
+        }
+        if (*check)
+            ft_putchar_fd(',', 1);
+        if(pos)
+            ft_putchar_fd('\'', 1);
+        if (!(*flag) && add_space == 1)
+            ft_putchar_fd(' ', 1);
+        *flag = 1;
+        free(env_var_name);
     }
-    if(check % 2 == 0)
-        return 1;
-    else
-        return 0;
 }
 
 int var_expand(char *str, int add_space, int nested_quote)
 {
     int i = 0;
-    int k = 0;
-    int len = 0;
-    int check = 0;
     int res = 0;
     int flag = 0;
     int check2 = 0;
-    char *env_var_name = NULL;
 
     while (str[i] != '\0') {
         if ((str[i] == '$' && str[i + 1] != ' ' && str[i + 1] != '\0')) {
-            k = -1;
-            len = strlen(str) - 1;
-            i++;
-            if(str[i] == '\"')
-            {
-                del_quote(str);
-                char **res = $_split(str);
-                while(res[0][++k] != '\0')
-                    ft_putchar_fd(res[0][k], 1);
-                check2 = 1;
-                continue;
-            }
-            else if(str[i] == '\'')
-            {
-                sing_quote(&str[i]);
-                flag = 1;
-                break;
-            }
-            else
-                del_quote(str);
-      
-            k = 0;
-            env_var_name = (char *)malloc(len + 1);
-            if (str[len] == ',')
-            {
-                len--;
-                check = 1;
-            }
-            while (len > 0)
-            {
-                env_var_name[k] = str[i];
-                k++;
-                i++;
-                len--;
-            }
-            env_var_name[k] = '\0';
-            char *result = getenv(env_var_name);
-
-            if (!result)
-            {
+          int check = 0;
+            process_variable(str, &i, &check, &check2, &flag, add_space);
+            if (check) {
                 res = 1;
                 break;
             }
-            k = 0;
-            while (result[k] != '\0')
-            {
-                ft_putchar_fd(result[k], 1);
-                k++;
-            }
-            if (check)
-                ft_putchar_fd(',', 1);
-            if (!flag && str + 1 && add_space == 1)
-                ft_putchar_fd(' ', 1);
-            flag = 1; 
         }
         else if (!flag && str[i] == '\'' && !check2 && nested_quote)
             ft_putchar_fd(str[i], 1);
         else if (!flag && str[i] != '\"' && !check2 && str[i] != '\'')
-            ft_putchar_fd(str[i], 1);
+             ft_putchar_fd(str[i], 1);
         i++;
     }
     if (!flag && !res) 
@@ -195,13 +121,91 @@ int var_expand(char *str, int add_space, int nested_quote)
     return (res);
 }
 
+// int var_expand(char *str, int add_space, int nested_quote)
+// {
+//     int i = 0;
+//     int k = 0;
+//     int len = 0;
+//     int check = 0;
+//     int res = 0;
+//     int flag = 0;
+//     int check2 = 0;
+//     char *env_var_name = NULL;
+
+//     while (str[i] != '\0') {
+//         if ((str[i] == '$' && str[i + 1] != ' ' && str[i + 1] != '\0')) {
+//             k = -1;
+//             len = strlen(str) - 1;
+//             i++;
+//             if(str[i] == '\"')
+//             {
+//                 del_quote(str);
+//                 char **res = $_split(str);
+//                 while(res[0][++k] != '\0')
+//                     ft_putchar_fd(res[0][k], 1);
+//                 check2 = 1;
+//                 continue;
+//             }
+//             else if(str[i] == '\'')
+//             {
+//                 sing_quote(&str[i]);
+//                 flag = 1;
+//                 break;
+//             }
+//             else
+//                 del_quote(str);
+      
+//             k = 0;
+//             env_var_name = (char *)malloc(len + 1);
+//             if (str[len] == ',')
+//             {
+//                 len--;
+//                 check = 1;
+//             }
+//             while (len > 0)
+//             {
+//                 env_var_name[k] = str[i];
+//                 k++;
+//                 i++;
+//                 len--;
+//             }
+//             env_var_name[k] = '\0';
+//             char *result = getenv(env_var_name);
+
+//             if (!result)
+//             {
+//                 res = 1;
+//                 break;
+//             }
+//             k = 0;
+//             while (result[k] != '\0')
+//             {
+//                 ft_putchar_fd(result[k], 1);
+//                 k++;
+//             }
+//             if (check)
+//                 ft_putchar_fd(',', 1);
+//             if (!flag && str + 1 && add_space == 1)
+//                 ft_putchar_fd(' ', 1);
+//             flag = 1; 
+//         }
+//         else if (!flag && str[i] == '\'' && !check2 && nested_quote)
+//             ft_putchar_fd(str[i], 1);
+//         else if (!flag && str[i] != '\"' && !check2 && str[i] != '\'')
+//             ft_putchar_fd(str[i], 1);
+//         i++;
+//     }
+//     if (!flag && !res) 
+//         ft_putchar_fd(' ', 1);
+//     return (res);
+// }
+
 void dub_quote(char *cmd) {
     int check = 0;
     char **str = ft_split(cmd, ' ');
     int check1 = check_nest_quote(str);
     if (str == NULL)
         return;
-    // printf("%s\n", str[0]);
     if(!check_dub_quote(str))
         return;
     int i = 0;
@@ -222,7 +226,6 @@ void dub_quote(char *cmd) {
         }
         i++;
     }
-    // ft_putchar_fd(' ', 1);
     i = 0;
     while (str[i] != NULL) {
         free(str[i]);
@@ -366,7 +369,6 @@ void get_cmd(char *input, int *current_pos, t_cmd *cmd)
 {
     char *token;
     int i = 0;
-    // int j = 0;
     
     int len = ft_strlen(input);
     cmd->token = ft_calloc(1, sizeof(t_cmd) * len);
@@ -378,7 +380,6 @@ void get_cmd(char *input, int *current_pos, t_cmd *cmd)
         {
             token = get_token(input, current_pos);
             cmd->token[i] = ft_strdup(token);
-            // printf("%s\n", cmd->token[i]);
             free(token);
             i++;
         }
