@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 19:04:55 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/02/29 18:17:31 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/05/15 20:23:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <limits.h>
+#include <fcntl.h> 
 
 typedef struct s_list
 {
@@ -53,6 +54,8 @@ void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	*ft_memmove(void *dst, const void *src, size_t len);
 
 void	*ft_memset(void *b, int c, size_t len);
+
+void	*ft_memdel(void *ptr);
 
 void	ft_putchar_fd(char c, int fd);
 

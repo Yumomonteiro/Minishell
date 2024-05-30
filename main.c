@@ -1,144 +1,117 @@
-#include "./includes/minishell.h"
+#include "includes/minishell.h"
 
-void print_env1(char **env, char *name)
+t_token	*next_run(t_token *token, int skip)
 {
-	int i;
-
-	i = 0;
-
-	while (env[i] != NULL)
+	type_arg(token, 0);
+	if (token && skip)
+		token = token->next;
+	while (token && token->type != CMD)
 	{
-		char *key = strtok(env[i], "=");
-		char *value = strtok(NULL, "=");
-		if(ft_strncmp(key, name, 3) == 0)
-			printf("%s:%s\n", name, value);
-		i++;
+		token = token->next;
+		if (token && token->type == CMD && token->prev == NULL)
+			;
+		else if (token && token->type == CMD && token->prev->type < END)
+			token = token->next;
+	}
+	return (token);
+}
+
+int		is_type(t_token *token, int type)
+{
+	if (token && token->type == type)
+		return (1);
+	else
+		return (0);
+}
+
+void	free_env(t_env *env)
+{
+	t_env	*tmp;
+
+	while (env && env->next)
+	{
+		tmp = env;
+		env = env->next;
+		ft_memdel(tmp->value);
+		ft_memdel(tmp);
+	}
+	ft_memdel(env->value);
+	ft_memdel(env);
+}
+
+void	free_token(t_token *start)
+{
+	while (start && start->next)
+	{
+		ft_memdel(start->str);
+		start = start->next;
+		ft_memdel(start->prev);
+	}
+	if (start)
+	{
+		ft_memdel(start->str);
+		ft_memdel(start);
 	}
 }
 
-void print_env(char **env)
+int		quote_check(t_msh *mini, char **line)
 {
-	int i;
-
-	i = 0;
-
-	while (env[i] != NULL)
+	if (quotes(*line, 2147483647))
 	{
-		while(env[i] != NULL)
-		{
-			printf("%s\n", env[i]);
-			i++;
-		}
+		ft_putendl_fd("minishell: syntax error with open quotes", STDERR);
+		ft_memdel(*line);
+		mini->ret = 2;
+		mini->start = NULL;
+		return (1);
+	}
+	return (0);
+}
+
+void	parse(t_msh *mini)
+{
+
+	t_token	*token;
+
+
+	token = mini->start;
+	while (token)
+	{
+		if (is_type(token, ARG))
+			type_arg(token, 0);
+		token = token->next;
 	}
 }
 
-void free_cmds(char **cmds)
+void	minishell(t_msh *mini)
 {
-	int i = -1;
-	while(cmds[++i])
-		free(cmds[i]);
-	free(cmds);
-}
-
-// int main(int argc, char **argv)
-// {
-// 	if(argc == 2)
-// 	{
-		
-// 		sing_quote(argv[1]);
-// 	}
-// 	else
-// 		printf("wront input\n");
-
+	t_token	*token;
 	
-// 	// t_env *var;
-// 	// var = (t_env *)malloc(sizeof(t_env));
-// 	// var->env = create_env(env);
-// 	// char *new = "VAR=this";
-// 	// var->env = add_env(new, var->env);
-// 	// print_env(var->env);
-// 	// // print_env1(var->env, "VAR");
-// 	// var->env = rm_env(var->env, "LESS");
-// 	// printf("REMOVENDO VAR\n");
-// 	// print_env(var->env);
-// 	// //print_env1(var->env, "PATH");
-// 	// free_env(var->env);
-// 	// free(var);
-
-// 	return (0);
-// }
-
-int main(int argc, char **argv, char **envp)
+	token = next_run(mini->start, NOSKIP);
+	exec_cmd(mini, token);
+	token = next_run(token, SKIP);
+	
+}
+int		main(int ac, char **av, char **env)
 {
-        (void)argc;
-        (void)argv;
-        t_env *var;
-        t_cmd *cmds;
-		t_redir *redir;
-	
-        cmds = (t_cmd *)malloc(sizeof(t_cmd));
-        var = (t_env *)malloc(sizeof(t_env));
-		redir = (t_redir *)malloc(sizeof(t_redir));
-			if (!cmds) 
-			{
-				free(var);
-				return 1;
-			}
-        var->env = create_env(envp);
-        char *str;
-                while(1)
-                {
-					   str = readline("minishell: ");
-						add_history(str); 
+	t_msh	mini;
+	// t_token *token = NULL;
+	char *line;
 
-					  int pos = 0;
 
-						get_cmd(str, &pos, cmds);
-						// int j = -1;
-						// while(cmds->token[++j])
-						// 	printf("%s\n", cmds->token[j]);
-						// printf("%s\n", cmds->redir[1]);
-						// printf("%s\n", cmds->token[1]);
-
-						// int i = -1;
-						// while(str[++i] && str[i + 1])
-						// {
-											
-						// 	if(str[i] == '\"')
-						// 		dub_quote(str);
-						// 	else if(str[i] == '\'')
-						// 		sing_quote(str);
-						// }
-                        if(strncmp(str, "echo", 4) == 0)
-                        {
-                                ft_echo(cmds->token);
-                        }
-                        // cd(cmds->cmd, var->env);
-                        free(str);
-						free(cmds->token);
-						free(cmds->redir);
-                }
-			
-				free(cmds);
-                
+	(void)ac;
+	(void)av;
+	env_init(&mini, env);
+	while (1)
+	{
+		line = readline("minishell: ");
+		add_history(line);
+		if (quote_check(&mini, &line))
+			return 0;
+		mini.start = get_tokens(line);
+		parse(&mini);
+		minishell(&mini);
+		free(mini.start);
+	}
+	free_env(mini.env);
+	return (mini.ret);
 }
-
-
-// int main() {
-//     char input[] = "this is 'quoted string' and this is not";
-//     int current_pos = 0;
-
-//     while (input[current_pos]) {
-//         char *token = get_token(input, &current_pos);
-// 		del_quote(token);
-//         if (token) {
-//             printf("Token: %s\n", token);
-//             free(token);
-//         }
-//         // Skip white spaces
-//         while (input[current_pos] && cmd_delimiter(input[current_pos]))
-//             current_pos++;
-//     }
-
-//     return 0;
-// }

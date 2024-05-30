@@ -1,9 +1,9 @@
 NAME	= minishell
-CC		= cc
+CC		= cc -g
 LDLIBS = -lreadline
 CFLAGS	= -Wall -Wextra -Werror -g #-fsanitize=address
 
-SRCS =  $(wildcard srcs/*.c utils/*.c *.c srcs/env/*.c parse/*.c)
+SRCS =  $(wildcard srcs/*.c utils/*.c *.c srcs/env/*.c srcs/builtins/*.c srcs/expansions/*.c  parse/*.c)
 
 LIBFT	= libs/libft/libft.a
 OBJS	= $(SRCS:.c=.o)
