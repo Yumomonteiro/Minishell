@@ -24,11 +24,9 @@ void     env(char **envp)
 void    ft_echo(char **cmd)
 {
         int i;
+       
         if (!cmd[1])
                 return ;
-        // int n = -1;
-        // while(cmd[++n])
-        //         printf("%s\n", cmd[n]);
         if (strncmp(cmd[1], "-n", 3) == 0)
         {
                 i = 2;
@@ -36,7 +34,8 @@ void    ft_echo(char **cmd)
                         i++;
                 while (cmd[i])
                 {
-                        if(cmd[i][0] == '\'')
+                        int j = -1;
+                        if(cmd[i][++j] == '\'')
                                 sing_quote(cmd[i]);
                         else
                                 dub_quote(cmd[i]);
@@ -48,7 +47,8 @@ void    ft_echo(char **cmd)
                 i = 1;
                 while(cmd[i])
                 {
-                        if(cmd[i][0] == '\'')
+                        int j = -1;
+                        if(cmd[i][++j] == '\'')
                                 sing_quote(cmd[i]);
                         else
                                 dub_quote(cmd[i]);
@@ -57,7 +57,6 @@ void    ft_echo(char **cmd)
                 printf("\n");
         }
 }
-
 void cd_home(char *env, char *cmd);
 
 int check_env_var(char **env, char *var_env)

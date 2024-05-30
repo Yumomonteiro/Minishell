@@ -72,12 +72,13 @@ int main(int argc, char **argv, char **envp)
 {
         (void)argc;
         (void)argv;
-		int pos = 0;
         t_env *var;
         t_cmd *cmds;
+		t_redir *redir;
 	
         cmds = (t_cmd *)malloc(sizeof(t_cmd));
         var = (t_env *)malloc(sizeof(t_env));
+		redir = (t_redir *)malloc(sizeof(t_redir));
 			if (!cmds) 
 			{
 				free(var);
@@ -90,32 +91,38 @@ int main(int argc, char **argv, char **envp)
 					   str = readline("minishell: ");
 						add_history(str); 
 
-					
+					  int pos = 0;
 
-						cmds->token = get_cmd(str, &pos, cmds->token);
-						int j = -1;
-						while(cmds->token[++j])
-							printf("%s\n", cmds->token[j]);
-						
-						int i = -1;
-						while(str[++i] && str[i + 1])
-						{
+						get_cmd(str, &pos, cmds);
+						// int j = -1;
+						// while(cmds->token[++j])
+						// 	printf("%s\n", cmds->token[j]);
+						// printf("%s\n", cmds->redir[1]);
+						// printf("%s\n", cmds->token[1]);
+
+						// int i = -1;
+						// while(str[++i] && str[i + 1])
+						// {
 											
-								if(str[i] == '\"')
-									dub_quote(str);
-							else if(str[i] == '\'')
-									sing_quote(str);
-						}
-                        // if(strncmp(str, "echo", 4) == 0)
-                        // {
-                        //         ft_echo(cmds->token);
-                        // }
+						// 	if(str[i] == '\"')
+						// 		dub_quote(str);
+						// 	else if(str[i] == '\'')
+						// 		sing_quote(str);
+						// }
+                        if(strncmp(str, "echo", 4) == 0)
+                        {
+                                ft_echo(cmds->token);
+                        }
                         // cd(cmds->cmd, var->env);
                         free(str);
+						free(cmds->token);
+						free(cmds->redir);
                 }
+			
 				free(cmds);
                 
 }
+
 
 // int main() {
 //     char input[] = "this is 'quoted string' and this is not";

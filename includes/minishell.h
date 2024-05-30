@@ -6,7 +6,7 @@
 /*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/03/07 16:42:28 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/03/04 18:12:55 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,6 @@
 # define WHITE_SPACE " \t\n\r\v\f"
  #define MAX_TOKENS 100
 
- typedef enum s_bool
- {
-    TRUE,
-    FALSE,
- } t_bool;
-
 typedef struct s_env
 {
     char	**env;
@@ -56,7 +50,6 @@ typedef struct s_cmd
     char **token;
     int     max_token;
     char **redir;
-    t_bool literal;
 } t_cmd;
 
 typedef struct s_token
@@ -80,18 +73,13 @@ char **alloc_env(char **env, int change);
 char **rm_env(char **env, char *limit);
 char  **add_env(char *line, char **env);
 void print_env(char **env);
-int check_quote(char **str);
 // QUOTES
 void sing_quote(char *cmd);
 void dub_quote(char *cmd);
-int check_dub_quote(char **str);
-int check_sing_quote(char **str);
-int check_nest_quote(char **str);
-void del_quote(char *cmd);
-void	skip_quote(const char *input, int *curr_pos);
-// COMMANDS
 int token_delimiter(char c);
 int cmd_delimiter(char c);
+void del_quote(char *cmd);
+void	skip_quote(const char *input, int *curr_pos);
 char *get_token(char *input, int *current_pos);
 // PIPEX
 char	*find_path(char *cmd, char **envp);
