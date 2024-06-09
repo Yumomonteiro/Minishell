@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/05/15 21:01:45 by marvin           ###   ########.fr       */
+/*   Updated: 2024/06/06 20:21:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ typedef struct	s_token
 	int				type;
 	struct s_token	*prev;
 	struct s_token	*next;
+	int             quoted;
+	char            quote_type;
 }				t_token;
 
 typedef struct s_redir

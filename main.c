@@ -89,7 +89,6 @@ void	minishell(t_msh *mini)
 	token = next_run(mini->start, NOSKIP);
 	exec_cmd(mini, token);
 	token = next_run(token, SKIP);
-	
 }
 int		main(int ac, char **av, char **env)
 {

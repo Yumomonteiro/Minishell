@@ -19,37 +19,36 @@ static int	print_error(int error, const char *arg)
 	return (ERROR);
 }
 
-int	env_add(const char *value, t_env *env)
+int env_add(const char *value, t_env *env)
 {
-	t_env	*new;
-	t_env	*tmp;
+    t_env *new;
+    t_env *tmp;
 
-	if (env == NULL)
-		return (-1);
+    if (env == NULL)
+        return (-1);
 
-	if (env->value == NULL)
-	{
-		env->value = ft_strdup(value);
-		return (SUCCESS);
-	}
+    if (env->value == NULL)
+    {
+        env->value = ft_strdup(value);
+        return (SUCCESS);
+    }
 
-	new = malloc(sizeof(t_env));
-	if (new == NULL)
-		return (-1);
+    new = malloc(sizeof(t_env));
+    if (new == NULL)
+        return (-1);
 
-	new->value = ft_strdup(value);
-	new->next = NULL;
+    new->value = ft_strdup(value);
+    new->next = NULL;
 
-	tmp = env;
+    tmp = env;
 
-	while (tmp->next != NULL)
-		tmp = tmp->next;
+    while (tmp->next != NULL)
+        tmp = tmp->next;
 
-	tmp->next = new;
+    tmp->next = new;
 
-	return (SUCCESS);
+    return (SUCCESS);
 }
-
 
 
 char		*get_env_name(char *dest, const char *src)

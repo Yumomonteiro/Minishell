@@ -47,34 +47,43 @@ int		next_alloc(char *line, int *i)
 	return (j - count + 1);
 }
 
-t_token	*next_token(char *line, int *i)
+t_token *next_token(char *line, int *i)
 {
-	t_token	*token;
-	int		j;
-	char	c;
+    t_token *token;
+    int j;
+    char c;
 
-	j = 0;
-	c = ' ';
-	if (!(token = malloc(sizeof(t_token)))
-	|| !(token->str = malloc(sizeof(char) * next_alloc(line, i))))
-		return (NULL);
-	while (line[*i] && (line[*i] != ' ' || c != ' '))
-	{
-		if (c == ' ' && (line[*i] == '\'' || line[*i] == '\"'))
-			c = line[(*i)++];
-		else if (c != ' ' && line[*i] == c)
-		{
-			c = ' ';
-			(*i)++;
-		}
-		else if (line[*i] == '\\' && (*i)++)
-			token->str[j++] = line[(*i)++];
-		else
-			token->str[j++] = line[(*i)++];
-	}
-	token->str[j] = '\0';
-	return (token);
+    j = 0;
+    c = ' ';
+    if (!(token = malloc(sizeof(t_token))) || !(token->str = malloc(sizeof(char) * next_alloc(line, i))))
+        return (NULL);
+
+    token->quoted = 0; // Initialize quoted to 0
+    token->quote_type = '\0'; // Initialize quote_type to null character
+
+    while (line[*i] && (line[*i] != ' ' || c != ' '))
+    {
+        if (c == ' ' && (line[*i] == '\'' || line[*i] == '\"'))
+        {
+            c = line[(*i)++];
+            token->quoted = 1; // Mark token as quoted
+            token->quote_type = c; // Set quote_type to the type of quote
+        }
+        else if (c != ' ' && line[*i] == c)
+        {
+            c = ' ';
+            (*i)++;
+        }
+        else if (line[*i] == '\\' && (*i)++)
+            token->str[j++] = line[(*i)++];
+        else
+            token->str[j++] = line[(*i)++];
+    }
+    token->str[j] = '\0';
+    return (token);
 }
+
+
 
 int		ignore_sep(char *line, int i)
 {
@@ -108,10 +117,12 @@ t_token	*get_tokens(char *line)
 	next = NULL;
 	i = 0;
 	ft_skip_space(line, &i);
+	// printf("line = %s\n", line);
 	while (line[i])
 	{
 		sep = ignore_sep(line, i);
 		next = next_token(line, &i);
+		// printf("next->str = %s\n", next->str);
 		next->prev = prev;
 		if (prev)
 			prev->next = next;
@@ -159,107 +170,3 @@ int		quotes(char *line, int index)
 	}
 	return (open);
 }
-
-int		expand_check(char *line, int index)
-{
-	int	i;
-	int	open;
-
-	i = 0;
-	open = 1;
-	while (line[i] && i != index)
-	{
-		if (i > 0 && line[i - 1] == '\\')
-			;
-		else if (open == 0 && line[i] == '\'')
-			open = 0;
-		else if (open == 1 && line[i] == '\'')
-			open = 1;
-		i++;
-	}
-	return (open);
-}
-
-// void del_quote(char *cmd)
-// {
-//     int i;
-//     int double_quote;
-//     int single_quote;
-
-//     i = 0;
-//     double_quote = 0;
-//     single_quote = 0;
-
-//     while (cmd[i])
-//     {
-//         if (cmd[i] == '\"' && single_quote == 0)
-//         {
-//             double_quote = !double_quote;
-//             ft_strlcpy(&cmd[i], &cmd[i + 1], strlen(&cmd[i]));
-//             continue;
-//         }
-//         else if (cmd[i] == '\'' && double_quote == 0)
-//         {
-//             single_quote = !single_quote;
-//             ft_strlcpy(&cmd[i], &cmd[i + 1], strlen(&cmd[i]));
-//             continue;
-//         }
-//         i++;
-//     }
-// }
-
-// int is_quote(char c)
-// {
-//     if (c == '\'' || c == '\"')
-//         return (1);
-//     return (0);
-// }
-
-// int ft_is_space(char c)
-// {
-//     if (c == ' ' || (c >= 9 && c <= 13))
-//         return (1);
-//     return (0);
-// }
-
-// void skip_space(char *input, int *current_pos)
-// {
-//     while (ft_is_space(input[*current_pos]))
-//         (*current_pos)++;
-// }
-
-// void	skip_quote(const char *input, int *current_pos)
-// {
-// 	int		double_quote;
-// 	int		single_quote;
-
-// 	double_quote = 0;
-// 	single_quote = 0;
-// 	while (input[*current_pos])
-// 	{
-// 		if (input[*current_pos] == '\"' && single_quote == 0)
-// 			double_quote = !double_quote;
-// 		else if (input[*current_pos] == '\'' && double_quote == 0)
-// 			single_quote = !single_quote;
-// 		(*current_pos)++;
-// 		if (!double_quote && !single_quote)
-// 			break ;
-// 	}
-// }
-
-// int cmd_delimiter(char c)
-// {
-//     if (c == '|' || c == ';' || c == '&')
-//         return (1);
-//     return (0);
-// }
-
-// int token_delimiter(char c)
-// {
-//     if(ft_strchr(WHITE_SPACE, c) != 0)
-//         return (1);
-//     if (c == '|' || c == '>' || c == '<' || c == ';' || c == '&')
-//         return (1);
-//     return (0);
-// }
-
