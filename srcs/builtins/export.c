@@ -93,6 +93,7 @@ int			ft_export(char **args, t_env *env, t_env *secret)
 	new_env = 0;
 	if (!args[1])
 	{
+		printf("Entrou\n");
 		print_sorted_env(secret);
 		return (SUCCESS);
 	}
