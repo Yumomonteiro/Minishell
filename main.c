@@ -72,7 +72,6 @@ void	parse(t_msh *mini)
 
 	t_token	*token;
 
-
 	token = mini->start;
 	while (token)
 	{
@@ -94,8 +93,9 @@ int		main(int ac, char **av, char **env)
 {
 	t_msh	mini;
 	// t_token *token = NULL;
-	char *line;
-
+	char *line = NULL;
+	mini.env = NULL;
+	mini.secret_env = NULL;
 
 	(void)ac;
 	(void)av;
@@ -103,13 +103,16 @@ int		main(int ac, char **av, char **env)
 	while (1)
 	{
 		line = readline("minishell: ");
-		add_history(line);
-		if (quote_check(&mini, &line))
-			return 0;
-		mini.start = get_tokens(line);
-		parse(&mini);
-		minishell(&mini);
-		free(mini.start);
+		if(line[0])
+		{
+			add_history(line);
+			quote_check(&mini, &line);
+			mini.start = get_tokens(line);
+			printf("mini.start->str = %s\n", mini.start->str);
+			parse(&mini);
+			minishell(&mini);
+			free(mini.start);
+		}
 	}
 	free_env(mini.env);
 	return (mini.ret);
