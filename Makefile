@@ -1,31 +1,31 @@
 NAME	= minishell
 CC		= cc
-CFLAGS	= -Wall -Wextra -Werror -lreadline -g -fsanitize=address
+LDLIBS = -lreadline
+CFLAGS	= -Wall -Wextra -Werror -g #-fsanitize=address
 
-SRCS	= ./main.c \
-		./srcs/built-in/cd.c \
-		./srcs/env/get_env.c \
-		./srcs/parse/cmd.c \
+SRCS =  $(wildcard srcs/*.c utils/*.c *.c srcs/env/*.c parse/*.c srcs/built-in/*.c srcs/exec/*.c srcs/expansions/*.c)
 
-LIBFT	= includes/libft/libft.a
+LIBFT	= libs/libft/libft.a
 OBJS	= $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
+$(NAME): $(LIBFT) $(OBJS) 
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(LDLIBS)
 
 $(LIBFT):
-	make -C includes/libft
+	make -C libs/libft -s
 
 clean:
 	$(RM) $(OBJS)
-	make clean -C includes/libft
+	make clean -C libs/libft -s
 
 fclean: clean
 	$(RM) $(NAME)
-	make fclean -C includes/libft
+	make fclean -C libs/libft -s
 
 re: fclean all
 
 .PHONY: all clean fclean re
+
+.SILENT:

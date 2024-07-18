@@ -1,220 +1,122 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 11:32:11 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/03/05 16:03:14 by yude-oli         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../includes/minishell.h"
 
-void    pwd(int flag)
+char *get_env_var_cd(t_env *env, char *env_var)
 {
-        char *pwd;
-        pwd = getcwd(NULL, 0);
-        if(!pwd)
-        {
-                perror("-> minishell error: pwd");
-                return ;
-        }
-        if(flag == 0)
-                printf("%s\n", pwd);
-        free(pwd);
+    while(env)
+    {
+        if(strncmp(env->value, env_var, strlen(env_var)) == 0)
+            return(env->value);
+        env = env->next;
+    }
+    return (NULL);
 }
 
-void     env(char **envp)
+char *get_env_var_value_cd(t_env *env, char *env_var)
 {
-        if(!*envp || !envp)
-                perror("Minishell error: env does not exist");
-        while(*envp)
-                ft_putendl_fd(*envp++, 1);
-
-}
-void    echo(char **cmd)
-{
-        int flag_space = 0;
-        int i;
-        int j;
-        char *env_var_name;
-        char *env_var_value;
-        if (!cmd[1])
-                return ;
-        if (strncmp(cmd[1], "-n", 3) == 0)
-        {
-                i = 2;
-                while (strcmp(cmd[i], "-n") == 0)
-                        i++;
-                while (cmd[i])
-                {
-                        j = 0;
-                        while(cmd[i][j] == '$' && cmd[i][j + 1] != 32 && cmd[i][j + 1] && cmd[i])
-                        {
-                                env_var_name = cmd[i] + 1;
-                                env_var_value = getenv(env_var_name);
-                                if (env_var_value == NULL)
-                                {
-                                        if(!cmd[i + 1])
-                                        {
-                                                printf("\n");
-                                                return;
-                                        }
-                                        flag_space = 1;
-                                }
-                                else
-                                        printf("%s", env_var_value);
-                                i++;
-                                if(!cmd[i])
-                                {
-                                        printf("\n");    
-                                        return;
-                                }
-                                if(flag_space == 0)
-                                        printf(" ");
-                                flag_space = 0;
-                        }
-                        printf("%s", cmd[i]);
-                        i++;
-                        if(!cmd[i])
-                                break;
-                        printf(" ");
-                }
-        }
-        else
-        {
-                i = 1;
-                while(cmd[i])
-                {
-                        j = 0;
-                        while(cmd[i][j] == '$' && cmd[i][j + 1] != 32 && cmd[i][j + 1] && cmd[i])
-                        {
-                                env_var_name = cmd[i] + 1;
-                                env_var_value = getenv(env_var_name);
-                                if (env_var_value == NULL)
-                                {
-                                        if(!cmd[i + 1])
-                                        {
-                                                printf("\n");
-                                                return;
-                                        }  
-                                        flag_space = 1;
-                                }
-                                else
-                                        printf("%s", env_var_value);
-                                i++;
-                                if(!cmd[i])
-                                {
-                                        printf("\n");    
-                                        return;
-                                }
-                                if(flag_space == 0)
-                                        printf(" ");
-                                flag_space = 0;
-                        }
-                        printf("%s", cmd[i]);
-                        i++;
-                        if(!cmd[i])
-                        {
-                                printf("\n");
-                            break;    
-                        }
-                        printf(" ");
-                }
-        }
-}
-char     *get_env_var(char **env, char *env_var)
-{
-        int i = -1;
-        while(env[++i])
-        {
-                if(strncmp(env[i], env_var, ft_strlen(env_var)) == 0)
-                        return(env[i]);
-        }
-        return (NULL);
+    while(env)
+    {
+        if(strncmp(env->value, env_var, strlen(env_var)) == 0)
+            return(env->value + (strlen(env_var) + 1));
+        env = env->next;
+    }
+    return (NULL);
 }
 
-char     *get_env_var_value(char **env, char *env_var)
+t_env *rm_env(t_env *env, char *del_env)
 {
-        int i = -1;
-        while(env[++i])
+    t_env *prev = NULL;
+    t_env *current = env;
+    while(current)
+    {
+        if(strncmp(current->value, del_env, strlen(del_env)) == 0)
         {
-                if(strncmp(env[i], env_var, ft_strlen(env_var)) == 0)
-                        return(env[i] + (ft_strlen(env_var) + 1));
+            if(prev)
+                prev->next = current->next;
+            else
+                env = current->next;
+            free(current->value);
+            free(current);
+            break;
         }
-        return (NULL);
+        prev = current;
+        current = current->next;
+    }
+    return env;
 }
 
-void change_env_oldpwd(t_env *env)
+t_env *add_env(char *line, t_env *env)
 {
-        char *pwd;
-        char *pwd_var;
-        // altera o pwd nas variaveis de ambiente.
-        //remove a antiga e aloca uma nova variavel com o valor PWD novo
-        pwd = getcwd(NULL, 0);
-        pwd_var = ft_strjoin("PWD=", pwd);
-        env->env = rm_env(env->env, "PWD");
-        env->env = add_env(pwd_var, env->env);
-}
-void change_env_pwd(char *oldpwd, t_env *env)
-{
-        char *oldpwd_var;
-        oldpwd_var = NULL;
-     
-        //altera o OLDPWD, removendo o antigo e alocando a nova string nas variaveis ambientais
-        oldpwd_var = ft_strjoin("OLDPWD=", oldpwd);
-        env->env = rm_env(env->env, "OLDPWD");
-        env->env = add_env(oldpwd_var, env->env);
-}
-void    cd(char **cmd, t_env *env)
-
-{
-        char *dir;
-        char *oldpwd;
-
-        oldpwd = NULL;
-        dir = NULL;
-        if(!env->env)
-                printf("nao tem env\n");
-        
-        if(!cmd[1])
-        {
-                oldpwd = getcwd(NULL, 0);
-                dir = get_env_var_value(env->env, "HOME");
-                if(dir)
-                {
-                        if(chdir(dir) != 0)
-                                perror("Erro ao alterar diretorio");
-                        change_env_pwd(oldpwd, env);
-                        change_env_oldpwd(env);
-                }
-        }
-        else if (strcmp(&cmd[1][0], "-") == 0)
-        {
-                printf("entrou no cd -\n");
-                dir = get_env_var_value(env->env, "OLDPWD");
-                if(chdir(dir) != 0)
-                {
-                        perror("Erro ao alterar de diretorio");
-                }
-        }
-        else if (cmd[1])
-        {
-                printf("entrou no cd (diretorio)\n");
-                if(chdir(cmd[1]) != 0)
-                {
-                        perror("Erro ao alterar de diretorio");
-                }
-        }
+    t_env *new_env = malloc(sizeof(t_env));
+    new_env->value = strdup(line);
+    new_env->next = env;
+    return new_env;
 }
 
-void    signals(int sig)
+void change_env_oldpwd(t_msh *mini)
 {
-        if(sig == SIGINT)
+    char *pwd;
+    char *pwd_var;
+    pwd = getcwd(NULL, 0);
+    pwd_var = malloc(strlen("PWD=") + strlen(pwd) + 1);
+    strcpy(pwd_var, "PWD=");
+    strcat(pwd_var, pwd);
+    mini->env = rm_env(mini->env, "PWD");
+    mini->env = add_env(pwd_var, mini->env);
+}
+
+void change_env_pwd(t_msh *mini, char *oldpwd)
+{
+    char *oldpwd_var;
+    oldpwd_var = malloc(strlen("OLDPWD=") + strlen(oldpwd) + 1);
+    strcpy(oldpwd_var, "OLDPWD=");
+    strcat(oldpwd_var, oldpwd);
+    mini->env = rm_env(mini->env, "OLDPWD");
+    mini->env = add_env(oldpwd_var, mini->env);
+}
+
+int ft_cd(char **cmd, t_msh *mini)
+{
+    char *dir;
+    char *oldpwd;
+
+    oldpwd = NULL;
+    dir = NULL;
+    if(!mini->env)
+        printf("nao tem env\n");
+
+    if(!cmd[1])
+    {
+        oldpwd = getcwd(NULL, 0);
+        dir = get_env_var_value_cd(mini->env, "HOME");
+        if(dir)
         {
-                printf("\n");
-                return;
-        }     
+            if(chdir(dir) != 0)
+                perror("Erro ao alterar diretorio");
+            change_env_pwd(mini, oldpwd);
+            change_env_oldpwd(mini);
+        }
+    }
+    else if (strcmp(&cmd[1][0], "-") == 0)
+    {       
+        oldpwd = getcwd(NULL, 0);
+        dir = get_env_var_value_cd(mini->env, "OLDPWD");
+        if(chdir(dir) != 0)
+        {
+            perror("Erro ao alterar de diretorio");
+        }
+        change_env_pwd(mini, oldpwd);;
+        change_env_oldpwd(mini);
+    }
+    else if (cmd[1])
+    {
+        oldpwd = getcwd(NULL, 0);
+        printf("entrou no cd (diretorio)\n");
+        if(chdir(cmd[1]) != 0)
+        {
+            perror("Erro ao alterar de diretorio");
+        }
+        change_env_pwd(mini, oldpwd);
+        change_env_oldpwd(mini);
+    }
+    return 0;
 }

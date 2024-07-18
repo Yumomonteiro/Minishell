@@ -1,0 +1,11 @@
+Makefile
+README.md
+includes
+libs
+main.c
+main.o
+minishell
+parse
+srcs
+test
+yuritest
