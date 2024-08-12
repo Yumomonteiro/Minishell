@@ -3,7 +3,7 @@ CC		= cc
 LDLIBS = -lreadline
 CFLAGS	= -Wall -Wextra -Werror -g #-fsanitize=address
 
-SRCS =  $(wildcard srcs/*.c utils/*.c *.c srcs/env/*.c parse/*.c)
+SRCS =  $(wildcard srcs/*.c utils/*.c *.c srcs/env/*.c parse/*.c srcs/built-in/*.c srcs/exec/*.c srcs/expansions/*.c)
 
 LIBFT	= libs/libft/libft.a
 OBJS	= $(SRCS:.c=.o)
