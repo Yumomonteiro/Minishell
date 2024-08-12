@@ -100,6 +100,7 @@ int pipex(t_msh *mini, t_token *token) {
     int pipefd[2];
     pid_t pid;
     int fd_in = STDIN_FILENO; // O input inicial é o STDIN
+    printf("entrou1\n");
     while (token) {
         if (token->type == PIPE) {
             token = token->next;
@@ -113,31 +114,40 @@ int pipex(t_msh *mini, t_token *token) {
             perror("fork");
             return 1;
         }
-
-        if (pid == 0) { // Processo filho
-                dup2(fd_in, STDIN_FILENO);            
-                t_token *next_token = token;
-            while (next_token && next_token->type != PIPE) {
+        printf("%s\n", token->str);
+        if (pid == 0)
+        {
+            printf("entrou3\n");
+            dup2(fd_in, STDIN_FILENO);            
+            t_token *next_token = token;
+            while (next_token && (next_token->type != PIPE)) 
+            {
+                if(next_token && (next_token->type == TRUNC || next_token->type == APPEND))
+                    redir(mini, next_token);
                 next_token = next_token->next;
             }
-            if (next_token && next_token->type == PIPE) {
+            if (next_token && next_token->type == PIPE)
+            {
+                printf("entrou aqui\n");
                 dup2(pipefd[1], STDOUT_FILENO);
             }
-        //     else if(next_token->type == TRUNC)
-        //         redir(mini, next_token);
+            // else if(next_token && next_token->type == TRUNC)
+            // {
+            //     redir(mini, next_token);
+            // }
             close(pipefd[0]);
-            close(pipefd[1]); // Fecha o descritor de escrita no pipe
+            close(pipefd[1]); 
             
             exec_pipe_cmd(mini, token);
-            // Se execve falhar, deve-se sair do processo filho
             perror("exec_cmd");
             exit(EXIT_FAILURE);
-        } else { // Processo pai
-            close(pipefd[1]); // Fecha o descritor de escrita no pipe
+        }
+        else
+        {
+            printf("entrou4\n");
+            close(pipefd[1]); 
             waitpid(pid, &mini->ret, 0);
             fd_in = pipefd[0]; // Guarda o input para o próximo comando
-            
-            // Avance para o próximo comando após o PIPE
             while (token && token->type != PIPE) {
                 token = token->next;
             }
