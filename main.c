@@ -16,83 +16,20 @@ t_token	*next_run(t_token *token, int skip)
 	return (token);
 }
 
-int		is_type(t_token *token, int type)
-{
-	if (token && token->type == type)
-		return (1);
-	else
-		return (0);
-}
-
-void	free_env(t_env *env)
-{
-	t_env	*tmp;
-
-	while (env && env->next)
-	{
-		tmp = env;
-		env = env->next;
-		ft_memdel(tmp->value);
-		ft_memdel(tmp);
-	}
-	ft_memdel(env->value);
-	ft_memdel(env);
-}
-
-void	free_token(t_token *start)
-{
-	while (start && start->next)
-	{
-		ft_memdel(start->str);
-		start = start->next;
-		ft_memdel(start->prev);
-	}
-	if (start)
-	{
-		ft_memdel(start->str);
-		ft_memdel(start);
-	}
-}
-
-int		quote_check(t_msh *mini, char **line)
-{
-	if (quotes(*line, 2147483647))
-	{
-		ft_putendl_fd("minishell: syntax error with open quotes", STDERR);
-		ft_memdel(*line);
-		mini->ret = 2;
-		mini->start = NULL;
-		return (1);
-	}
-	return (0);
-}
-
-void	parse(t_msh *mini)
-{
-
-	t_token	*token;
-
-	token = mini->start;
-	while (token)
-	{
-		if (is_type(token, ARG))
-			type_arg(token, 0);
-		token = token->next;
-	}
-}
-
 void	minishell(t_msh *mini)
 {
 	t_token	*token;
 	
+	token = NULL;
 	token = next_run(mini->start, NOSKIP);
 	exec_cmd(mini, token);
 	token = next_run(token, SKIP);
 }
+
+
 int		main(int ac, char **av, char **env)
 {
 	t_msh	mini;
-	// t_token *token = NULL;
 	char *line = NULL;
 	mini.env = NULL;
 	mini.secret_env = NULL;
@@ -100,6 +37,7 @@ int		main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	env_init(&mini, env);
+	secret_env_init(&mini, env);
 	while (1)
 	{
 		line = readline("minishell: ");
@@ -107,13 +45,13 @@ int		main(int ac, char **av, char **env)
 		{
 			add_history(line);
 			quote_check(&mini, &line);
-			mini.start = get_tokens(line);
-			printf("mini.start->str = %s\n", mini.start->str);
+			mini.start = get_tokens(line, mini.env, mini.ret);
 			parse(&mini);
 			minishell(&mini);
 			free(mini.start);
 		}
 	}
 	free_env(mini.env);
+	free_env(mini.secret_env);
 	return (mini.ret);
 }

@@ -23,30 +23,59 @@ static void		free_node(t_msh *mini, t_env *env)
 	ft_memdel(env);
 }
 
-int				ft_unset(char **a, t_msh *mini)
+void unset_env_var(char *var, t_env **env, t_msh *mini)
 {
-	t_env	*env;
-	t_env	*tmp;
+	t_env *current = *env;
+	t_env *prev = NULL;
+	t_env *tmp;
 
-	env = mini->env;
+	while (current)
+	{
+		if (ft_strncmp(var, current->value, env_size(current->value)) == 0)
+		{
+			tmp = current->next;
+			if (prev)
+				prev->next = tmp;
+			else
+				*env = tmp;
+			free_node(mini, current);
+			break;
+		}
+		prev = current;
+		current = current->next;
+	}
+}
+
+void unset_secret_env_var(char *var, t_env **secret_env, t_msh *mini)
+{
+	t_env *current = *secret_env;
+	t_env *prev = NULL;
+	t_env *tmp;
+
+	while (current)
+	{
+		if (ft_strncmp(var, current->value, env_size(current->value)) == 0)
+		{
+			tmp = current->next;
+			if (prev)
+				prev->next = tmp;
+			else
+				*secret_env = tmp;
+			free_node(mini, current);
+			break;
+		}
+		prev = current;
+		current = current->next;
+	}
+}
+
+int ft_unset(char **a, t_msh *mini)
+{
 	if (!(a[1]))
 		return (SUCCESS);
-	if (ft_strncmp(a[1], env->value, env_size(env->value)) == 0)
-	{
-		mini->env = (env->next) ? env->next : mini->env;
-		free_node(mini, env);
-		return (SUCCESS);
-	}
-	while (env && env->next)
-	{
-		if (ft_strncmp(a[1], env->next->value, env_size(env->next->value)) == 0)
-		{
-			tmp = env->next->next;
-			free_node(mini, env->next);
-			env->next = tmp;
-			return (SUCCESS);
-		}
-		env = env->next;
-	}
+
+	unset_env_var(a[1], &(mini->env), mini);
+	unset_secret_env_var(a[1], &(mini->secret_env), mini);
+
 	return (SUCCESS);
 }
