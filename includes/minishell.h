@@ -6,14 +6,14 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/05/15 21:01:45 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/14 17:46:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../libs/libft/libft.h"
+# include "libft/libft.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -58,7 +58,7 @@ typedef struct	s_sig
 {
 	pid_t			pid;
 }				t_sig;
- typedef enum s_bool
+typedef enum s_bool
  {
     TRUE,
     FALSE,
@@ -78,6 +78,7 @@ typedef struct	s_token
 	struct s_token	*next;
 	int             quoted;
 	char            quote_type;
+	int						 quote_space;
 }				t_token;
 
 typedef struct s_redir
@@ -219,4 +220,56 @@ void check_type(t_msh *mini);
 int heredoc(t_msh *mini, t_token *token);
 void pipex_builtin(t_msh *mini, t_token *token);
 void exec_pipe_cmd(t_msh *mini, t_token *token);
+
+//
+int		ft_unset(char **a, t_msh *mini);
+int		ft_echo(char **args);
+int		ft_export(char **args, t_env *env, t_env *secret);
+int		env_init(t_msh *mini, char **env_array);
+int		secret_env_init(t_msh *mini, char **env_array);
+int		is_sep(char *line, int i);
+int		ignore_sep(char *line, int i);
+int		quotes(char *line, int index);
+int		exec_builtin(char **args, t_msh *mini);
+int		ft_strcmp(const char *s1, const char *s2);
+int		is_valid_env(const char *env);
+int		ft_env(t_env *env);
+int		is_builtin(char *command);
+int		quotes(char *line, int index);
+int		expand_check(char *line, int index);
+int		is_env_char(int c);
+int		ret_size(int ret);
+int		next_alloc(char *line, int *i);
+int		quotes(char *line, int index);
+int		is_type(t_token *token, int type);
+int		quote_check(t_msh *mini, char **line);
+int		get_var_len(const char *arg, int pos, t_env *env, int ret);
+int		arg_alloc_len(const char *arg, t_env *env, int ret);
+
+
+char	*get_env_value(char *arg, t_env *env);
+char	*get_env_name(char *dest, const char *src);
+char	*env_to_str(t_env *lst);
+char	*expansions(char *arg, t_env *env, int ret);
+char	**cmd_tab(t_token *start);
+
+
+void	print_sorted_env(t_env *env);
+void	*ft_memdel(void *ptr);
+void	type_arg(t_token *token, int separator);
+void	free_env(t_env *env);
+void	exec_cmd(t_msh *mini, t_token *token);
+void	free_tab(char **tab);
+void	type_arg(t_token *token, int separator);
+void 	handle_escapes(char *line, char *temp, int *j, int *i);
+void 	handle_variable_expansion(char *line, t_env *env, char *temp, int *j, int *i, int ret, char quote);
+void	ft_skip_space(const char *str, int *i);
+void	parse(t_msh *mini);
+void	*ft_memdel(void *ptr);
+void	free_tab(char **tab);
+
+
+t_token *get_tokens(char *line, t_env *env, int ret);
+
+
 #endif

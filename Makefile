@@ -1,16 +1,22 @@
-NAME	= minishell
-CC		= cc
-LDLIBS = -lreadline
-CFLAGS	= -Wall -Wextra -Werror -g #-fsanitize=address
+NAME    = minishell
+CC      = cc -g
+LDLIBS  = -lreadline
+CFLAGS  = -Wall -Wextra -Werror -g #-fsanitize=address
 
-SRCS =  $(wildcard srcs/*.c utils/*.c *.c srcs/env/*.c parse/*.c srcs/built-in/*.c srcs/exec/*.c srcs/expansions/*.c)
+SRCS    = main.c \
+          $(addprefix srcs/builtins/, cd.c echo.c env.c export.c unset.c) \
+          $(addprefix srcs/env/, env.c get_env.c sort_env.c) \
+          $(addprefix srcs/expansions/, expand.c expand_utils.c) \
+          $(addprefix srcs/, exec.c exec_utils.c free.c) \
+					$(addprefix srcs/parse/, parse.c parse_utils.c parse_utils2.c) \
 
-LIBFT	= libs/libft/libft.a
-OBJS	= $(SRCS:.c=.o)
+OBJS    = $(SRCS:.c=.o)
+
+LIBFT   = libs/libft/libft.a
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJS) 
+$(NAME): $(LIBFT) $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(LDLIBS)
 
 $(LIBFT):

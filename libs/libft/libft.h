@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 19:04:55 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/01/27 15:18:29 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/05/15 20:23:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <limits.h>
+#include <fcntl.h> 
 
 typedef struct s_list
 {
-	void			*content;
+	void			*data;
 	struct s_list	*next;
 }	t_list;
 
@@ -29,6 +30,8 @@ int		ft_atoi(const char *str);
 void	ft_bzero(void *s, size_t n);
 
 void	*ft_calloc(size_t count, size_t size);
+
+void *ft_realloc(void *ptr, size_t size);
 
 int		ft_isalnum(int c);
 
@@ -52,6 +55,8 @@ void	*ft_memmove(void *dst, const void *src, size_t len);
 
 void	*ft_memset(void *b, int c, size_t len);
 
+void	*ft_memdel(void *ptr);
+
 void	ft_putchar_fd(char c, int fd);
 
 void	ft_putendl_fd(char *s, int fd);
@@ -73,6 +78,8 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 
 size_t	ft_strlen(const char *s);
+
+char	*ft_strncpy(char *dest, char *src, size_t n);
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 
@@ -99,6 +106,8 @@ int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
 
 void	ft_lstadd_front(t_list **alst, t_list *new);
+
+void	ft_lstadd_back(t_list **lst, t_list *new);
 
 //void	ft_lstadd_back(t_list **alst, t_list *new);
 
