@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/08/14 17:46:53 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/14 18:03:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void		*ft_memdel(void *ptr);
 int			is_sep(char *line, int i);
 int			ignore_sep(char *line, int i);
 int			quotes(char *line, int index);
-t_token		*get_tokens(char *line);
+/* t_token		*get_tokens(char *line); */
 int			exec_builtin(char **args, t_msh *mini, int flag);
 int			ft_strcmp(const char *s1, const char *s2);
 void		free_env(t_env *env);
@@ -134,7 +134,7 @@ char		*env_to_str(t_env *lst);
 int		is_valid_env(const char *env);
 int		ft_env(t_env *env);
 int		is_builtin(char *command);
-void exec_cmd(t_msh *mini, t_token *token);
+void	exec_cmd(t_msh *mini, t_token *token);
 void	free_tab(char **tab);
 char	**cmd_tab(t_token *start);
 void	type_arg(t_token *token, int separator);
@@ -149,46 +149,7 @@ void	close_fds(t_msh *mini);
 void	reset_fds(t_msh *mini);
 
 int    ft_pwd(int flag);
-// void     env(char **envp);
-// // void    ft_echo(char **cmd, t_cmd *check);
-// char **cmd_parsing(char *str, char **cmd);
 int    ft_cd(char **cmd, t_msh *mini);
-// void get_input(char *input, int *current_pos, t_cmd *cmd);
-// // ENV variables
-// // void  free_env(char **env);
-// char **create_env(char **env);
-// char **alloc_env(char **env, int change);
-// char **rm_env(char **env, char *limit);
-// char  **add_env(char *line, char **env);
-// void print_env(char **env);
-// // QUOTES
-// void sing_quote(char *cmd);
-// void dub_quote(char *cmd);
-// int check_dub_quote(char **str);
-// int check_sing_quote(char **str);
-// int check_nest_quote(char **str);
-// // PARSING
-// int ft_is_space(char c);
-// int is_quote(char c);
-// int cmd_delimiter(char c);
-// int token_delimiter(char c);
-// void skip_space(char *input, int *current_pos);
-// void literal_check(t_cmd *cmd, char **str);
-// void del_quote(char *cmd);
-// void	skip_quote(const char *input, int *curr_pos);
-// // COMMANDS
-// int token_delimiter(char c);
-// int cmd_delimiter(char c);
-// char *get_token(char *input, int *current_pos);
-// // void exec_builtin(t_cmd *cmd, t_env *var, t_msh *msh);
-// void	get_cmd(char **cmd, char **envp, t_cmd *input);
-// void exec_cmd(t_cmd *cmd, t_env *var, t_msh *msh);
-// // PIPEX
-// int	find_path(char *cmd, char **envp);
-// void pipex(int argc, char **argv, char **env);
-// void error(char *str);
-// void	child_process(char **argv, char **env, int *fd);
-// void	parent_process(char **argv, char **env, int *fd);
 
 
 //PIPES
@@ -230,7 +191,7 @@ int		secret_env_init(t_msh *mini, char **env_array);
 int		is_sep(char *line, int i);
 int		ignore_sep(char *line, int i);
 int		quotes(char *line, int index);
-int		exec_builtin(char **args, t_msh *mini);
+/* int		exec_builtin(char **args, t_msh *mini); */
 int		ft_strcmp(const char *s1, const char *s2);
 int		is_valid_env(const char *env);
 int		ft_env(t_env *env);

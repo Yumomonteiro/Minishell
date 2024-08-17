@@ -205,7 +205,7 @@ int		main(int ac, char **av, char **env)
                 {
                         add_history(line);
                         quote_check(&mini, &line);
-                        mini.start = get_tokens(line);
+                        mini.start = get_tokens(line, mini.env, mini.ret);
                         parse(&mini);
                         minishell(&mini);
                         free(mini.start);

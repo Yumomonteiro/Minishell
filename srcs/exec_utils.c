@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+/* #include "../includes/minishell.h"
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -34,8 +34,8 @@ int		is_builtin(char *command)
 int		exec_builtin(char **args, t_msh *mini)
 {
 	int		result;
-/* 	if(token == NULL)
-		return (0); */
+ 	if(token == NULL)
+		return (0); 
 
 	result = 0;
 	if (ft_strcmp(args[0], "echo") == 0)
@@ -51,4 +51,5 @@ int		exec_builtin(char **args, t_msh *mini)
 	if (ft_strcmp(args[0], "unset") == 0)
 		ft_unset(args, mini);
 	return (result);
-}
+} */
+ 

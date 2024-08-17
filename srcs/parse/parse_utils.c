@@ -11,7 +11,7 @@ void	type_arg(t_token *token, int separator)
 	else if (ft_strcmp(token->str, "<") == 0 && separator == 0)
 		token->type = INPUT;
 	else if (ft_strcmp(token->str, "<<") == 0 && separator == 0)
-		token->type = HEREDOCS;
+		token->type = HEREDOC;
 	else if (ft_strcmp(token->str, "|") == 0 && separator == 0)
 		token->type = PIPE;
 	else if (ft_strcmp(token->str, ";") == 0 && separator == 0)
