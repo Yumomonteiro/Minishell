@@ -118,43 +118,35 @@ void  redir_builtin(char **cmd, t_msh * mini, t_token *token)
 void exec_cmd(t_msh *mini, t_token *token)
 {
     char **cmd;
-    int i;
+    
     cmd = cmd_tab(token);
-    
-    
     t_sig sig;
-    i = 0;
-	while(cmd && cmd[i])
-	{
-		cmd[i] = expansions(cmd[i], mini->env, mini->ret);
-		i++;
-	}
-       
-        if (cmd && ft_strcmp(cmd[0], "exit") == 0)
+    
+    if (cmd && ft_strcmp(cmd[0], "exit") == 0)
                 exit(EXIT_FAILURE);
-        else if (cmd && is_builtin(cmd[0]))
+    else if (cmd && is_builtin(cmd[0]))
+    {
+                
+        if(search_pipe(token))
         {
-                
-                if(search_pipe(token))
-                {
-                        pipex_builtin(mini, token);
+            pipex_builtin(mini, token);
                          
-                }
+        }
                 
-                else if(has_redir(token))
-                {
-                        redir_builtin(cmd, mini, token);
-                }    
-                else
-                {
-                        mini->ret = exec_builtin(cmd, mini, 0);
-                }
+        else if(has_redir(token))
+        {
+            redir_builtin(cmd, mini, token);
+        }    
+        else
+        {
+            mini->ret = exec_builtin(cmd, mini, 0);
+        }
                                 
         }
         else if (cmd)
         {
                  
-                mini->ret = exec_bin(cmd, mini->env, mini, &sig);
+            mini->ret = exec_bin(cmd, mini->env, mini, &sig);
         }
         
         ft_close(mini->pipin);

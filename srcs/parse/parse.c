@@ -71,8 +71,8 @@ t_token *get_tokens(char *line, t_env *env, int ret)
 		return (1);
 	else
 		return (0);
-}
- */
+} */
+
 void	parse(t_msh *mini)
 {
 
