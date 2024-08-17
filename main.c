@@ -142,6 +142,8 @@ void exit_error(void)
 int		main(int ac, char **av, char **env)
 {
         t_msh	mini;
+        mini.secret_env = NULL;
+        mini.env = NULL;
         mini.in = dup(STDIN);
 	mini.out = dup(STDOUT);
 	if(ac > 1 && av)
@@ -151,6 +153,7 @@ int		main(int ac, char **av, char **env)
         signal(SIGQUIT, SIG_IGN);
 
 	env_init(&mini, env);
+        secret_env_init(&mini, env);
         shell_level(mini.env);
 	while (1)
 	{
