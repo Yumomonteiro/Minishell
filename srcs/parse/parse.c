@@ -65,14 +65,14 @@ t_token *get_tokens(char *line, t_env *env, int ret)
     return next;
 }
 
-int		is_type(t_token *token, int type)
+/* int		is_type(t_token *token, int type)
 {
 	if (token && token->type == type)
 		return (1);
 	else
 		return (0);
 }
-
+ */
 void	parse(t_msh *mini)
 {
 

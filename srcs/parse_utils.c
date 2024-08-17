@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+/* #include "../includes/minishell.h"
 
 void	type_arg(t_token *token, int separator)
 {
@@ -169,4 +169,4 @@ int		quotes(char *line, int index)
 		i++;
 	}
 	return (open);
-}
+} */

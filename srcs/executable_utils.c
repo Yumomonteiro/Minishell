@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+/* #include "../includes/minishell.h"
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -50,3 +50,4 @@ int		exec_builtin(char **args, t_msh *mini)
 		ft_unset(args, mini);
 	return (result);
 }
+ */

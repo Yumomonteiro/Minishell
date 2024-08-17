@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/08/14 18:03:47 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/17 19:48:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ typedef struct	s_token
 	int				type;
 	struct s_token	*prev;
 	struct s_token	*next;
-	int             quoted;
-	char            quote_type;
+	int            quoted;
+	char           quote_type;
 	int						 quote_space;
 }				t_token;
 
@@ -220,14 +220,12 @@ void	*ft_memdel(void *ptr);
 void	type_arg(t_token *token, int separator);
 void	free_env(t_env *env);
 void	exec_cmd(t_msh *mini, t_token *token);
-void	free_tab(char **tab);
 void	type_arg(t_token *token, int separator);
 void 	handle_escapes(char *line, char *temp, int *j, int *i);
 void 	handle_variable_expansion(char *line, t_env *env, char *temp, int *j, int *i, int ret, char quote);
 void	ft_skip_space(const char *str, int *i);
 void	parse(t_msh *mini);
 void	*ft_memdel(void *ptr);
-void	free_tab(char **tab);
 
 
 t_token *get_tokens(char *line, t_env *env, int ret);

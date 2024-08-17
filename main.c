@@ -16,50 +16,6 @@ t_token	*next_run(t_token *token, int skip)
 	return (token);
 }
 
-
-void	free_env(t_env *env)
-{
-	t_env	*tmp;
-
-	while (env && env->next)
-	{
-		tmp = env;
-		env = env->next;
-		ft_memdel(tmp->value);
-		ft_memdel(tmp);
-	}
-	ft_memdel(env->value);
-	ft_memdel(env);
-}
-
-
-int		quote_check(t_msh *mini, char **line)
-{
-	if (quotes(*line, 2147483647))
-	{
-		ft_putendl_fd("minishell: syntax error with open quotes", STDERR);
-		ft_memdel(*line);
-		mini->ret = 2;
-		mini->start = NULL;
-		return (1);
-	}
-	return (0);
-}
-
-void	parse(t_msh *mini)
-{
-
-	t_token	*token;
-
-
-	token = mini->start;
-	while (token)
-	{
-		if (is_type(token, ARG))
-			type_arg(token, 0);
-		token = token->next;
-	}
-}
 t_token *skip_cmd(t_token *tmp)
 {
         while(tmp && tmp->next)
