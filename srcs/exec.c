@@ -1,6 +1,7 @@
 #include "../includes/minishell.h"
 
-char	**cmd_tab(t_token *start)
+
+/char	**cmd_tab(t_token *start)
 {
 	t_token	*token;
 	char	**tab;
