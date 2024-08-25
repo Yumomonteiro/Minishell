@@ -47,9 +47,13 @@ char			*env_to_str(t_env *lst)
 	return (env);
 }
 
-
 int				env_init(t_msh *mini, char **env_array)
 {
+/* if (env_array == NULL || env_array[0] == NULL)
+{
+    printf("Error: No environment variable\n");
+    exit(1);
+} */
 	t_env	*env;
 	t_env	*new;
 	int		i;

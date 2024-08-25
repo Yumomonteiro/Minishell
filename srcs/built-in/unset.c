@@ -2,6 +2,8 @@
 
 static size_t	env_size(char *env)
 {
+	if(!env)
+		return (0);
 	size_t		i;
 
 	i = 0;
