@@ -116,7 +116,7 @@ typedef struct	s_msh
 char			*expansions(char *arg, t_env *env, int ret);
 int		search_redir(t_token *token);
 int			ft_unset(char **a, t_msh *mini);
-int			ft_echo(char **args);
+int			ft_echo(t_msh *mini, char **args);
 int			ft_export(char **args, t_env *env, t_env *secret);
 int			env_init(t_msh *mini, char **env_array);
 char		*get_env_value(char *arg, t_env *env);
@@ -184,7 +184,7 @@ void exec_pipe_cmd(t_msh *mini, t_token *token);
 
 //
 int		ft_unset(char **a, t_msh *mini);
-int		ft_echo(char **args);
+// int		ft_echo(char **args);
 int		ft_export(char **args, t_env *env, t_env *secret);
 int		env_init(t_msh *mini, char **env_array);
 int		secret_env_init(t_msh *mini, char **env_array);
