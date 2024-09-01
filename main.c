@@ -146,6 +146,7 @@ int		main(int ac, char **av, char **env)
         mini.env = NULL;
         mini.in = dup(STDIN);
 	mini.out = dup(STDOUT);
+        mini.ret = 0;
 	if(ac > 1 && av)
     	        exit_error();
 	char *line;
