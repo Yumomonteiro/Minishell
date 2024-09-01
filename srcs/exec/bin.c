@@ -5,7 +5,7 @@ int			error_message(char *path)
 	DIR	*folder;
 	int	fd;
 	int	ret;
-
+        ret  = 0;
 	fd = open(path, O_WRONLY);
 	folder = opendir(path);
 	ft_putstr_fd("minishell; ", STDERR);
@@ -13,7 +13,7 @@ int			error_message(char *path)
 	if (ft_strchr(path, '/') == NULL)
 		ft_putendl_fd(": command not found", STDERR);
 	else if (fd == -1 && folder == NULL)
-		ft_putendl_fd(": No such file or directory", STDERR);
+                ft_putendl_fd(": No such file or directory", STDERR);	
 	else if (fd == -1 && folder != NULL)
 		ft_putendl_fd(": is a directory", STDERR);
 	else if (fd != -1 && folder == NULL)
@@ -49,9 +49,11 @@ int	                exec_magic(char *path, char **args, t_env *env, t_msh *mini,
 	}
 	else
 		waitpid(sig->pid, &ret, 0);
-	ret = (ret == 32256 || ret == 32512) ? ret / 256 : !!ret;
-	return (ret);
+	if(!(ret == 32256 || ret == 32512 || ret == 512))
+                return(!!ret);
+        return(ret / 256);   
 }
+                
 
 char		*path_join(const char *s1, const char *s2)
 {

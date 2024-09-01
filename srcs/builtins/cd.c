@@ -83,6 +83,11 @@ int ft_cd(char **cmd, t_msh *mini)
     dir = NULL;
     if(!mini->env)
         printf("nao tem env\n");
+    if(cmd[2] != NULL)
+	{
+		ft_putstr_fd("cd: too many args\n", STDERR);
+		return 1;
+	}
 
     if(!cmd[1])
     {
@@ -91,7 +96,10 @@ int ft_cd(char **cmd, t_msh *mini)
         if(dir)
         {
             if(chdir(dir) != 0)
-                perror("Erro ao alterar diretorio");
+            {
+                ft_putstr_fd("cd: Erro ao alterar diretorio\n", STDERR);
+                return 1;
+            }
             change_env_pwd(mini, oldpwd);
             change_env_oldpwd(mini);
         }
@@ -102,7 +110,8 @@ int ft_cd(char **cmd, t_msh *mini)
         dir = get_env_var_value_cd(mini->env, "OLDPWD");
         if(chdir(dir) != 0)
         {
-            perror("Erro ao alterar de diretorio");
+            ft_putstr_fd("cd: Erro ao alterar diretorio\n", STDERR);
+            return 1;
         }
         change_env_pwd(mini, oldpwd);;
         change_env_oldpwd(mini);
@@ -110,10 +119,10 @@ int ft_cd(char **cmd, t_msh *mini)
     else if (cmd[1])
     {
         oldpwd = getcwd(NULL, 0);
-        printf("entrou no cd (diretorio)\n");
         if(chdir(cmd[1]) != 0)
         {
-            perror("Erro ao alterar de diretorio");
+            ft_putstr_fd("cd: Erro ao alterar diretorio\n", STDERR);
+            return 1;
         }
         change_env_pwd(mini, oldpwd);
         change_env_oldpwd(mini);
