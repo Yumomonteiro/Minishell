@@ -54,7 +54,7 @@ char **build_args(t_token *token) {
     char **args = malloc((argc + 1) * sizeof(char *));
     int i = 0;
 
-    while (token && token->type != PIPE && token->type != TRUNC) {
+    while (token && token->type != PIPE && (token->type == ARG || token->type == CMD)) {
         args[i++] = token->str;
         token = token->next;
     }
@@ -68,16 +68,16 @@ void exec_pipe_cmd(t_msh *mini, t_token *token) {
         char *path = find_executable(args[0], mini->env);
         char **env_array = env_list_to_array(mini->env);
 
-        // Imprimir informações para depuração
-        //printf("Comando: %s\n", args[0]);
-        // if (path) {
-        //     printf("Path encontrado: %s\n", path);
-        // } else {
-        //     printf("Path não encontrado\n");
-        // }
-        // for (int i = 0; args[i]; i++) {
-        //     printf("Arg[%d]: %s\n", i, args[i]);
-        // }
+//        // Imprimir informações para depuração
+//         printf("Comando: %s\n", args[0]);
+//         if (path) {
+//             printf("Path encontrado: %s\n", path);
+//         } else {
+//             printf("Path não encontrado\n");
+//         }
+//         for (int i = 0; args[i]; i++) {
+//             printf("Arg[%d]: %s\n", i, args[i]);
+//         }
 
         if (!env_array) {
             perror("env_to_str");
@@ -99,8 +99,7 @@ void exec_pipe_cmd(t_msh *mini, t_token *token) {
 int pipex(t_msh *mini, t_token *token) {
     int pipefd[2];
     pid_t pid;
-    int fd_in = STDIN_FILENO; // O input inicial é o STDIN
-    printf("entrou1\n");
+    mini->pipin = STDIN_FILENO; // O input inicial é o STDIN
     while (token) {
         if (token->type == PIPE) {
             token = token->next;
@@ -114,40 +113,35 @@ int pipex(t_msh *mini, t_token *token) {
             perror("fork");
             return 1;
         }
-        printf("%s\n", token->str);
         if (pid == 0)
         {
-            printf("entrou3\n");
-            dup2(fd_in, STDIN_FILENO);            
+            dup2(mini->pipin, STDIN_FILENO);            
             t_token *next_token = token;
             while (next_token && (next_token->type != PIPE)) 
             {
                 if(next_token && (next_token->type == TRUNC || next_token->type == APPEND))
                     redir(mini, next_token);
+                // if(next_token && (next_token->type == INPUT))
+                //         input(mini, next_token);
+                // if(next_token && (next_token->type == HEREDOC))
+                //         heredoc(mini, next_token);
                 next_token = next_token->next;
             }
             if (next_token && next_token->type == PIPE)
             {
-                printf("entrou aqui\n");
                 dup2(pipefd[1], STDOUT_FILENO);
             }
-            // else if(next_token && next_token->type == TRUNC)
-            // {
-            //     redir(mini, next_token);
-            // }
             close(pipefd[0]);
             close(pipefd[1]); 
-            
             exec_pipe_cmd(mini, token);
             perror("exec_cmd");
             exit(EXIT_FAILURE);
         }
         else
         {
-            printf("entrou4\n");
             close(pipefd[1]); 
             waitpid(pid, &mini->ret, 0);
-            fd_in = pipefd[0]; // Guarda o input para o próximo comando
+            mini->pipin = pipefd[0]; // Guarda o input para o próximo comando
             while (token && token->type != PIPE) {
                 token = token->next;
             }
