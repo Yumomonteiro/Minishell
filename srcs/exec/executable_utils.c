@@ -3,7 +3,7 @@
 void	is_valid_cmd(char **cmd)
 {
 	if(!cmd)
-		printf("aqui\n");
+		printf("valido");
 }               
 char **env_list_to_array(struct s_env *env_list)
 {
@@ -78,13 +78,13 @@ int exec_builtin(char **args, t_msh *mini, int flag) {
     if (flag == 1) {
         if (dup2(mini->fdout, STDOUT_FILENO) == -1) {
             perror("dup2");
-            return -1;
+            return 1;
         }
         close(mini->fdout);
     }
 
     if (ft_strcmp(args[0], "echo") == 0) {
-        result = ft_echo(args);
+        result = ft_echo(mini, args);
     } else if (ft_strcmp(args[0], "cd") == 0) {
         result = ft_cd(args, mini);
     } else if (ft_strcmp(args[0], "pwd") == 0) {
