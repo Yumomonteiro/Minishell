@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/08/19 18:53:13 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/28 17:38:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,11 @@ typedef struct	s_msh
 	int				ret;
 	int				exit;
 	int				no_exec;
+	char			*last_arg;
+	char			*shell_name;
+	char			*underscore;
 }				t_msh;
 
-char			*expansions(char *arg, t_env *env, int ret);
 int		search_redir(t_token *token);
 int			ft_unset(char **a, t_msh *mini);
 int			ft_echo(char **args);
@@ -211,7 +213,7 @@ int		arg_alloc_len(const char *arg, t_env *env, int ret);
 char	*get_env_value(char *arg, t_env *env);
 char	*get_env_name(char *dest, const char *src);
 char	*env_to_str(t_env *lst);
-char	*expansions(char *arg, t_env *env, int ret);
+
 char	**cmd_tab(t_token *start);
 
 
@@ -222,7 +224,7 @@ void	free_env(t_env *env);
 void	exec_cmd(t_msh *mini, t_token *token);
 void	type_arg(t_token *token, int separator);
 void 	handle_escapes(char *line, char *temp, int *j, int *i);
-void 	handle_variable_expansion(char *line, t_env *env, char *temp, int *j, int *i, int ret, char quote);
+void handle_variable_expansion(char *line, t_env *env, char *temp, int *j, int *i, int ret, char quote);
 void	ft_skip_space(const char *str, int *i);
 void	parse(t_msh *mini);
 void	*ft_memdel(void *ptr);
