@@ -6,7 +6,7 @@
 /*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/09/02 13:02:13 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/09/02 19:40:24 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ char		*get_env_value(char *arg, t_env *env);
 void		print_sorted_env(t_env *env);
 void		*ft_memdel(void *ptr);
 int			is_sep(char *line, int i);
-int check_args(char **args);
+int check_args(char **args, t_token *token);
 int			ignore_sep(char *line, int i);
 int			quotes(char *line, int index);
 /* t_token		*get_tokens(char *line); */
@@ -153,7 +153,7 @@ void	reset_fds(t_msh *mini);
 
 int    ft_pwd(int flag);
 int    ft_cd(char **cmd, t_msh *mini);
-
+int	env_add(const char *value, t_env *env);
 
 //PIPES
 int	is_type(t_token *token, int type);
@@ -165,9 +165,13 @@ void	error(void);
 char **create_cmd_array(t_token *current);
 
 //MINI EXIT
-int	        exec_magic(char *path, char **args, t_env *env, t_msh *mini, t_sig *sig);
+void	redir_builtin(char **cmd, t_msh *mini, t_token *token);
+void	pipex_builtin(t_msh *mini, t_token *token);
+void handle_child_process(int fd_in, t_token *token, int pipefd[2], t_msh *mini);
+void setup_child_process(int fd_in, t_token *token, int pipefd[2], t_msh *mini);
+int	        exec_magic(char *path, char **args, t_env *env, t_msh *mini);
 void	mini_exit(t_msh *mini, char **cmd);
-int     exec_bin(char **args, t_env *env, t_msh *mini, t_sig *sig);
+int     exec(char **args, t_env *env, t_msh *mini);
 void	free_token(t_token *start);
 void	ft_close(int fd);
 void   shell_lvl(t_env *env);
@@ -229,6 +233,7 @@ void handle_variable_expansion(char *line, t_env *env, char *temp, int *j, int *
 void	ft_skip_space(const char *str, int *i);
 void	parse(t_msh *mini);
 void	*ft_memdel(void *ptr);
+int	check_path(char **args, t_env *env, t_msh *mini, char *path);
 
 
 t_token *get_tokens(char *line, t_env *env, int ret);

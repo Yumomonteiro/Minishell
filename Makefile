@@ -8,7 +8,7 @@ SRCS    = main.c \
           $(addprefix srcs/env/, env.c get_env.c sort_env.c shlvl.c) \
           $(addprefix srcs/expansions/, expand.c expand_utils.c) \
 					$(addprefix srcs/parse/, parse.c parse_utils.c parse_utils2.c cmd.c) \
-					$(addprefix srcs/exec/, bin.c exec.c executable_utils.c pipe.c) \
+					$(addprefix srcs/exec/, bin.c exec.c executable_utils.c pipe.c exec_builtins.c) \
 					$(addprefix srcs/, redir.c free.c exit.c check_type.c fd.c) \
 
 OBJS    = $(SRCS:.c=.o)
