@@ -69,3 +69,13 @@ t_token	*next_type(t_token *token, int type, int skip)
 		token = token->next;
 	return (token);
 }
+
+int check_args(char **args)
+{
+	if(ft_strncmp(args[0], "cat", 3) == 0 && !args[1])
+	{
+                printf("enbtrou\n");
+		return 1;
+	}
+	return 0;
+}

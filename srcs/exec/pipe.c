@@ -53,7 +53,6 @@ char **build_args(t_token *token) {
     int argc = count_args(token);
     char **args = malloc((argc + 1) * sizeof(char *));
     int i = 0;
-
     while (token && token->type != PIPE && (token->type == ARG || token->type == CMD)) {
         args[i++] = token->str;
         token = token->next;
@@ -62,32 +61,27 @@ char **build_args(t_token *token) {
     return args;
 }
 
+
+
+
 void exec_pipe_cmd(t_msh *mini, t_token *token) {
     if (mini) {
+		printf("entrou\n");
         char **args = build_args(token);
         char *path = find_executable(args[0], mini->env);
         char **env_array = env_list_to_array(mini->env);
-
-//        // Imprimir informações para depuração
-//         printf("Comando: %s\n", args[0]);
-//         if (path) {
-//             printf("Path encontrado: %s\n", path);
-//         } else {
-//             printf("Path não encontrado\n");
-//         }
-//         for (int i = 0; args[i]; i++) {
-//             printf("Arg[%d]: %s\n", i, args[i]);
-//         }
-
         if (!env_array) {
             perror("env_to_str");
             exit(EXIT_FAILURE);
         }
         if (path) {
-                //printf("entrou no path\n");
-                execve(path, args, env_array);
-                perror("execve");
-                exit(EXIT_FAILURE);
+				if(check_args(args) == 0)
+				{
+					execve(path, args, env_array);
+					exit(EXIT_FAILURE);
+				}
+				token = token->next;
+				exec_pipe_cmd(mini, token);
         } else {
             perror("Command not found");
             exit(EXIT_FAILURE);
