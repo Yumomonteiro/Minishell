@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/08/28 17:38:53 by marvin           ###   ########.fr       */
+/*   Updated: 2024/09/02 13:02:13 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ char		*get_env_value(char *arg, t_env *env);
 void		print_sorted_env(t_env *env);
 void		*ft_memdel(void *ptr);
 int			is_sep(char *line, int i);
+int check_args(char **args);
 int			ignore_sep(char *line, int i);
 int			quotes(char *line, int index);
 /* t_token		*get_tokens(char *line); */

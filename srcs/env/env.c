@@ -1,6 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/02 13:27:46 by yude-oli          #+#    #+#             */
+/*   Updated: 2024/09/02 13:27:46 by yude-oli         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
+t_env	*add_env(char *line, t_env *env)
+{
+	t_env	*new_env;
 
+	new_env = malloc(sizeof(t_env));
+	new_env->value = strdup(line);
+	new_env->next = env;
+	return (new_env);
+}
 size_t			size_env(t_env *lst)
 {
 	size_t	lst_len;

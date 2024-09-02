@@ -68,3 +68,27 @@ void				shell_level(t_env *env)
 		env = env->next;
 	}
 }
+t_env	*rm_env(t_env *env, char *del_env)
+{
+	t_env	*prev;
+	t_env	*current;
+
+	prev = NULL;
+	current = env;
+	while (current)
+	{
+		if (strncmp(current->value, del_env, strlen(del_env)) == 0)
+		{
+			if (prev)
+				prev->next = current->next;
+			else
+				env = current->next;
+			free(current->value);
+			free(current);
+			break ;
+		}
+		prev = current;
+		current = current->next;
+	}
+	return (env);
+}
