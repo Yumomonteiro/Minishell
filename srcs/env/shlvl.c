@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shlvl.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/02 14:24:07 by yude-oli          #+#    #+#             */
+/*   Updated: 2024/09/02 14:24:50 by yude-oli         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	ft_skip_whitespaces(const char *str, int *i)
 {
 	while ((str[*i] == ' ' || str[*i] == '\t' || str[*i] == '\n')
-	|| (str[*i] == '\r' || str[*i] == '\v' || str[*i] == '\f'))
+		|| (str[*i] == '\r' || str[*i] == '\v' || str[*i] == '\f'))
 		(*i)++;
 }
 
-static int			invalid_lvl(const char *str)
+static int	invalid_lvl(const char *str)
 {
 	int		i;
 
@@ -21,7 +33,7 @@ static int			invalid_lvl(const char *str)
 	return (0);
 }
 
-static int			get_lvl(const char *str)
+static int	get_lvl(const char *str)
 {
 	int	i;
 	int	sign;
@@ -42,7 +54,7 @@ static int			get_lvl(const char *str)
 	return (num * sign);
 }
 
-void				shell_level(t_env *env)
+void	shell_level(t_env *env)
 {
 	int		shell_level;
 	char	env_name[BUFF_SIZE];
@@ -68,6 +80,7 @@ void				shell_level(t_env *env)
 		env = env->next;
 	}
 }
+
 t_env	*rm_env(t_env *env, char *del_env)
 {
 	t_env	*prev;
