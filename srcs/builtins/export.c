@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/02 13:50:33 by yude-oli          #+#    #+#             */
+/*   Updated: 2024/09/02 13:50:33 by yude-oli         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static int	print_error(int error, const char *arg)
 {
-	int		i;
+	int	i;
 
 	if (error == -1)
 		ft_putstr_fd("export: not valid in this context: ", STDERR);
@@ -19,39 +30,7 @@ static int	print_error(int error, const char *arg)
 	return (ERROR);
 }
 
-int env_add(const char *value, t_env *env)
-{
-    t_env *new;
-    t_env *tmp;
-
-    if (env == NULL)
-        return (-1);
-
-    if (env->value == NULL)
-    {
-        env->value = ft_strdup(value);
-        return (SUCCESS);
-    }
-
-    new = malloc(sizeof(t_env));
-    if (new == NULL)
-        return (-1);
-
-    new->value = ft_strdup(value);
-    new->next = NULL;
-
-    tmp = env;
-
-    while (tmp->next != NULL)
-        tmp = tmp->next;
-
-    tmp->next = new;
-
-    return (SUCCESS);
-}
-
-
-char		*get_env_name(char *dest, const char *src)
+char	*get_env_name(char *dest, const char *src)
 {
 	int		i;
 
@@ -65,7 +44,7 @@ char		*get_env_name(char *dest, const char *src)
 	return (dest);
 }
 
-int			is_in_env(t_env *env, char *args)
+int	is_in_env(t_env *env, char *args)
 {
 	char	var_name[BUFF_SIZE];
 	char	env_name[BUFF_SIZE];
@@ -85,36 +64,32 @@ int			is_in_env(t_env *env, char *args)
 	return (SUCCESS);
 }
 
-int ft_export(char **args, t_env *env, t_env *secret)
+static void	add_to_envs(char *arg, t_env *env, t_env *secret)
 {
-    int error_ret;
-   
-    if (!args[1])
-    {
-        print_sorted_env(secret);
-        return (SUCCESS);
-    }
-    else
-    {
-        error_ret = is_valid_env(args[1]);
-        if (args[1][0] == '=')
-            error_ret = -3;
-        if (error_ret <= 0)
-            return (print_error(error_ret, args[1]));
-        char *equal_sign = strchr(args[1], '=');
-        if (equal_sign != NULL)
-        {
-            if (is_in_env(env, args[1]) == 0)
-                env_add(args[1], env);
-            env_add(args[1], secret);
-        }
-        else
-        {
-            if (is_in_env(secret, args[1]) == 0)
-                env_add(args[1], secret);
-        }
-    }
-    return (SUCCESS);
+	if (strchr(arg, '=') != NULL)
+	{
+		if (is_in_env(env, arg) == 0)
+			env_add(arg, env);
+		env_add(arg, secret);
+	}
+	else if (is_in_env(secret, arg) == 0)
+		env_add(arg, secret);
 }
 
+int	ft_export(char **args, t_env *env, t_env *secret)
+{
+	int		error_ret;
 
+	if (!args[1])
+	{
+		print_sorted_env(secret);
+		return (SUCCESS);
+	}
+	error_ret = is_valid_env(args[1]);
+	if (args[1][0] == '=')
+		error_ret = -3;
+	if (error_ret <= 0)
+		return (print_error(error_ret, args[1]));
+	add_to_envs(args[1], env, secret);
+	return (SUCCESS);
+}
