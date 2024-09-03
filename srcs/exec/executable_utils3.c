@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executable_utils3.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:00:44 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/09/03 13:07:05 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/09/03 19:33:27 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,45 @@ void	exec_pipe_cmd(t_msh *mini, t_token *token)
 		else
 			perror("minishell: command not found");
 	}
+}
+
+t_token	*execute_command_or_pipe(t_msh *mini, t_token *token, t_token *tmp)
+{
+	int	res;
+
+	res = 0;
+	if (is_type(tmp->next, PIPE) == 1 && !is_builtin(token->str))
+	{
+		res = pipex(mini, token);
+		if (res == 1)
+			return (NULL);
+		token = tmp->next;
+	}
+	if (token && is_type(token, PIPE) == 0)
+	{
+		if (token->prev && is_type(token->prev, HEREDOC) == 1)
+			token = token->next;
+		else
+			exec_cmd(mini, token);
+	}
+	return (next_run(mini->start, SKIP));
+}
+
+t_token	*skip_cmd(t_token *tmp)
+{
+	while (tmp && tmp->next)
+	{
+		if (tmp->type == CMD || tmp->type == ARG)
+		{
+			tmp = tmp->next;
+			continue ;
+		}
+		if (tmp && (tmp->type == TRUNC || tmp->type == APPEND
+				||tmp->type == HEREDOC || tmp->type == PIPE
+				|| tmp->type == INPUT))
+			return (tmp->prev);
+		else
+			tmp = tmp->next;
+	}
+	return (tmp);
 }

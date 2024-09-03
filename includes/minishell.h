@@ -6,7 +6,7 @@
 /*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/09/03 19:18:03 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/09/03 19:47:35 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,9 @@ void		free_env(t_env *env);
 //SIGNALS
 void		handle_eof(void);
 void		handle_sigint(int sig);
+void		handle_sigint(int sig);
+int			handle_sig_eof(char *line);
+void		handle_eof(void);
 //PIPES
 int			check_path(char **args, t_env *env, t_msh *mini, char *path);
 char		*path_join_pipe(const char *s1, const char *s2);
@@ -160,9 +163,14 @@ char		**env_list_to_array(struct s_env *env_list);
 void		reset_std(t_msh *mini);
 void		close_fds(t_msh *mini);
 void		reset_fds(t_msh *mini);
+void		cleanup(t_msh *mini);
+void		exit_error(void);
 //EXEC
 void		exec_cmd(t_msh *mini, t_token *token);
+t_token		*skip_cmd(t_token *tmp);
 t_token		*get_tokens(char *line, t_env *env, int ret);
+t_token		*next_run(t_token *token, int skip);
+t_token		*execute_command_or_pipe(t_msh *mini, t_token *token, t_token *tmp);
 char		*find_executable(char *cmd, t_env *env);
 int			count_args(t_token *token);
 char		**cmd_tab(t_token *start);
@@ -172,6 +180,9 @@ void		exec_cmd(t_msh *mini, t_token *token);
 void		free_tab(char **tab);
 char		**cmd_tab(t_token *start);
 int			exec(char **args, t_env *env, t_msh *mini);
+int			handle_special_tokens(t_msh *mini, t_token *tmp);
+void		process_tokens(t_msh *mini);
+void		minishell(t_msh *mini);
 t_token		*next_run(t_token *token, int skip);
 void		mini_exit(t_msh *mini, char **cmd);
 void		free_token(t_token *start);
