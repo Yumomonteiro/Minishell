@@ -6,7 +6,7 @@
 /*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:07:58 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/09/02 19:37:42 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:16:49 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	insert_var(t_expansions *ex, char *arg, t_env *env, int ret)
 	if (ft_isdigit(arg[ex->j]) == 0 && arg[ex->j - 1] != '?')
 	{
 		while (is_env_char(arg[ex->j]) == 1)
-			ex->j++ printf("enbtrou\n");;
+			ex->j++;
 	}
 }
 
