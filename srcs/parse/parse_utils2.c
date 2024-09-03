@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_utils2.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/03 17:02:43 by ada-mata          #+#    #+#             */
+/*   Updated: 2024/09/03 17:02:43 by ada-mata         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
-int		ignore_sep(char *line, int i)
+int	ignore_sep(char *line, int i)
 {
 	if (line[i] && line[i] == '\\' && line[i + 1] && line[i + 1] == ';')
 		return (1);
@@ -9,7 +21,7 @@ int		ignore_sep(char *line, int i)
 	else if (line[i] && line[i] == '\\' && line[i + 1] && line[i + 1] == '>')
 		return (1);
 	else if (line[i] && line[i] == '\\' && line[i + 1] && line[i + 1] == '>'
-				&& line[i + 2] && line[i + 2] == '>')
+		&& line[i + 2] && line[i + 2] == '>')
 		return (1);
 	return (0);
 }
@@ -17,11 +29,11 @@ int		ignore_sep(char *line, int i)
 void	ft_skip_space(const char *str, int *i)
 {
 	while ((str[*i] == ' ' || str[*i] == '\t')
-	|| (str[*i] == '\r' || str[*i] == '\v' || str[*i] == '\f'))
+		|| (str[*i] == '\r' || str[*i] == '\v' || str[*i] == '\f'))
 		(*i)++;
 }
 
-int		is_sep(char *line, int i)
+int	is_sep(char *line, int i)
 {
 	if (i > 0 && line[i - 1] == '\\' && ft_strchr("<>|;", line[i]))
 		return (0);
@@ -31,7 +43,7 @@ int		is_sep(char *line, int i)
 		return (0);
 }
 
-int		quotes(char *line, int index)
+int	quotes(char *line, int index)
 {
 	int	i;
 	int	open;
@@ -55,7 +67,7 @@ int		quotes(char *line, int index)
 	return (open);
 }
 
-int		quote_check(t_msh *mini, char **line)
+int	quote_check(t_msh *mini, char **line)
 {
 	if (quotes(*line, 2147483647))
 	{

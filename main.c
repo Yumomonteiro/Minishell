@@ -6,7 +6,7 @@
 /*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 18:46:41 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/09/01 19:55:15 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/09/03 17:33:36 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,9 +180,11 @@ int	main(int ac, char **av, char **env)
 		if (line[0])
 		{
 			add_history(line);
-			quote_check(&mini, &line);
+			if((quote_check(&mini, &line)))
+				continue ;
 			mini.start = get_tokens(line, mini.env, mini.ret);
-			parse(&mini);
+			if(parse(&mini) == 1)
+				continue ;
 			minishell(&mini);
 			free(mini.start);
 		}
