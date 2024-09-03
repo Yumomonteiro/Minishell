@@ -6,7 +6,7 @@
 /*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 17:31:05 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/09/02 17:43:31 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/09/03 15:47:13 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,13 @@ void	handle_child_process(int fd_in, t_token *token,
 	dup2(fd_in, STDIN_FILENO);
 	next_token = token;
 	while (next_token && next_token->type != PIPE)
+	{
+		if (next_token->type == TRUNC || next_token->type == APPEND)
+			redir(mini, next_token);
+		if (next_token->type == INPUT)
+			input(mini, next_token);
 		next_token = next_token->next;
+	}
 	if (next_token && next_token->type == PIPE)
 		dup2(pipefd[1], STDOUT_FILENO);
 	close(pipefd[0]);
