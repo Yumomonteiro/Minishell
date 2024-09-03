@@ -6,7 +6,7 @@
 /*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/09/03 19:47:35 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/09/03 20:30:38 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ typedef enum s_bool
 
 typedef struct s_env
 {
-	char	var_cpy[1024];
-	char	*expanded_value;
-	char			*value;
 	struct s_env	*next;
+	char			var_cpy[1024];
+	char			*expanded_value;
+	char			*value;
 }				t_env;
 
 typedef struct s_token
@@ -204,9 +204,9 @@ void		type_arg(t_token *token, int separator);
 void		handle_escapes(char *line, char *temp,
 				int *j, int *i);
 void		handle_variable_expansion(char **params, t_env *env,
-									int *indices, int ret);
+				int *indices, int ret);
 void		ft_skip_space(const char *str, int *i);
-int		parse(t_msh *mini);
+int			parse(t_msh *mini);
 void		*ft_memdel(void *ptr);
 void		type_arg(t_token *token, int separator);
 void		free_env(t_env *env);

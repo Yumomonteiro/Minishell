@@ -6,7 +6,7 @@
 /*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 19:50:57 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/09/03 19:50:58 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/09/03 20:26:39 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	str_is_num(const char *str)
 	}
 	return (1);
 }
+
 void	mini_exit(t_msh *mini, char **cmd)
 {
 	mini->exit = 1;

@@ -12,19 +12,19 @@
 
 #include "libft.h"
 
-void *ft_realloc(void *ptr, size_t size) 
+void	*ft_realloc(void *ptr, size_t size)
 {
-    if (!ptr) {
-        return malloc(size);
-    }
-    if (size == 0) {
-        free(ptr);
-        return NULL;
-    }
+	void	*new_ptr;
 
-    void *new_ptr = realloc(ptr, size);
-    if (!new_ptr) {
-        return NULL;
-    }
-    return new_ptr;
+	if (!ptr)
+		return (malloc(size));
+	if (size == 0)
+	{
+		free(ptr);
+		return (NULL);
+	}
+	new_ptr = realloc(ptr, size);
+	if (!new_ptr)
+		return (NULL);
+	return (new_ptr);
 }
