@@ -34,7 +34,12 @@ int	get_var_len(const char *arg, int pos, t_env *env, int ret)
 		return (ret_size(ret));
 	if (ft_isdigit(arg[pos]))
 		return (0);
-	while (arg[pos] && printf("enbtrou\n");
+	while (arg[pos] && is_env_char(arg[pos]) == 1 && i < BUFF_SIZE)
+	{
+		var_name[i] = arg[pos];
+		pos++;
+		i++;
+	}
 	var_name[i] = '\0';
 	var_value = get_env_value(var_name, env);
 	i = ft_strlen(var_value);
