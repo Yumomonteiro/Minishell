@@ -6,7 +6,7 @@
 /*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 14:40:43 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/09/02 16:42:00 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/09/03 12:53:24 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	error_message(char *path)
 	return (ret);
 }
 
-int	exec_magic(char *path, char **args, t_env *env, t_msh *mini)
+int	execute(char *path, char **args, t_env *env, t_msh *mini)
 {
 	char	**env_array;
 	char	*ptr;
@@ -118,7 +118,7 @@ int	exec(char **args, t_env *env, t_msh *mini)
 		&& ft_strncmp(temp_env->value, "PATH=", 5) != 0)
 		temp_env = temp_env->next;
 	if (temp_env == NULL || temp_env->next == NULL)
-		return (exec_magic(args[0], args, env, mini));
+		return (execute(args[0], args, env, mini));
 	bin = ft_split(temp_env->value, ':');
 	if (!args[0] && !bin[0])
 		return (ERROR);
