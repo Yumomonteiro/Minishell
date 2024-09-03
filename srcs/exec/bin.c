@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bin.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/02 14:40:43 by yude-oli          #+#    #+#             */
+/*   Updated: 2024/09/03 12:53:24 by yude-oli         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
-int			error_message(char *path)
+int	error_message(char *path)
 {
 	DIR	*folder;
 	int	fd;
 	int	ret;
-        ret  = 0;
+
 	fd = open(path, O_WRONLY);
 	folder = opendir(path);
 	ft_putstr_fd("minishell; ", STDERR);
@@ -13,11 +25,11 @@ int			error_message(char *path)
 	if (ft_strchr(path, '/') == NULL)
 		ft_putendl_fd(": command not found", STDERR);
 	else if (fd == -1 && folder == NULL)
-                ft_putendl_fd(": No such file or directory", STDERR);	
+		ft_putendl_fd(": No such file or directory", STDERR);
 	else if (fd == -1 && folder != NULL)
 		ft_putendl_fd(": is a directory", STDERR);
 	else if (fd != -1 && folder == NULL)
-		ft_putendl_fd(": Permission denied", STDERR);   
+		ft_putendl_fd(": Permission denied", STDERR);
 	if (ft_strchr(path, '/') == NULL || (fd == -1 && folder == NULL))
 		ret = UNKNOWN_COMMAND;
 	else
@@ -28,14 +40,16 @@ int			error_message(char *path)
 	return (ret);
 }
 
-int	                exec_magic(char *path, char **args, t_env *env, t_msh *mini, t_sig *sig)
+int	execute(char *path, char **args, t_env *env, t_msh *mini)
 {
 	char	**env_array;
 	char	*ptr;
 	int		ret;
+	pid_t	pid;
+
 	ret = SUCCESS;
-	sig->pid = fork();
-	if (sig->pid == 0)
+	pid = fork();
+	if (pid == 0)
 	{
 		ptr = env_to_str(env);
 		env_array = ft_split(ptr, '\n');
@@ -48,14 +62,13 @@ int	                exec_magic(char *path, char **args, t_env *env, t_msh *mini,
 		exit(ret);
 	}
 	else
-		waitpid(sig->pid, &ret, 0);
-	if(!(ret == 32256 || ret == 32512 || ret == 512))
-                return(!!ret);
-        return(ret / 256);   
+		waitpid(pid, &ret, 0);
+	if (!(ret == 32256 || ret == 32512 || ret == 512))
+		return (!!ret);
+	return (ret / 256);
 }
-                
 
-char		*path_join(const char *s1, const char *s2)
+char	*path_join(const char *s1, const char *s2)
 {
 	char	*tmp;
 	char	*path;
@@ -66,7 +79,7 @@ char		*path_join(const char *s1, const char *s2)
 	return (path);
 }
 
-char		*check_dir(char *bin, char *command)
+char	*check_dir(char *bin, char *command)
 {
 	DIR				*folder;
 	struct dirent	*item;
@@ -76,42 +89,45 @@ char		*check_dir(char *bin, char *command)
 	folder = opendir(bin);
 	if (!folder)
 		return (NULL);
-	while ((item = readdir(folder)))
+	item = readdir(folder);
+	while (item != NULL)
 	{
 		if (ft_strcmp(item->d_name, command) == 0)
+		{
 			path = path_join(bin, item->d_name);
+			break ;
+		}
+		item = readdir(folder);
 	}
 	closedir(folder);
 	return (path);
 }
 
-int			exec_bin(char **args, t_env *env, t_msh *mini, t_sig *sig)
+int	exec(char **args, t_env *env, t_msh *mini)
 {
-    int		i;
-    char	**bin;
-    char	*path;
-    int		ret;
-    t_env	*temp_env;
+	int		i;
+	char	**bin;
+	char	*path;
+	int		ret;
+	t_env	*temp_env;
 
-    i = 0;
-    temp_env = env;
-    while (temp_env && temp_env->value && ft_strncmp(temp_env->value, "PATH=", 5) != 0)
-        temp_env = temp_env->next;
-    if (temp_env == NULL || temp_env->next == NULL)
-        return (exec_magic(args[0], args, env, mini, sig));
-    bin = ft_split(temp_env->value, ':');
-    if (!args[0] && !bin[0])
-        return (ERROR);
-    i = 1;
-    path = check_dir(bin[0] + 5, args[0]);
-    while (args[0] && bin[i] && path == NULL)
-        path = check_dir(bin[i++], args[0]);
-        
-    if (path != NULL)
-        ret = exec_magic(path, args, env, mini, sig);
-    else
-        ret = exec_magic(args[0], args, env, mini, sig);
-    free_tab(bin);
-    ft_memdel(path);
-    return (ret);
+	ret = UNKNOWN_COMMAND;
+	i = 0;
+	temp_env = env;
+	while (temp_env && temp_env->value
+		&& ft_strncmp(temp_env->value, "PATH=", 5) != 0)
+		temp_env = temp_env->next;
+	if (temp_env == NULL || temp_env->next == NULL)
+		return (execute(args[0], args, env, mini));
+	bin = ft_split(temp_env->value, ':');
+	if (!args[0] && !bin[0])
+		return (ERROR);
+	i = 1;
+	path = check_dir(bin[0] + 5, args[0]);
+	while (args[0] && bin[i] && path == NULL)
+		path = check_dir(bin[i++], args[0]);
+	ret = check_path(args, env, mini, path);
+	free_tab(bin);
+	ft_memdel(path);
+	return (ret);
 }
