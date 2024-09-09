@@ -17,7 +17,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <limits.h>
-#include <fcntl.h> 
+# include <fcntl.h> 
 
 typedef struct s_list
 {
@@ -31,7 +31,7 @@ void	ft_bzero(void *s, size_t n);
 
 void	*ft_calloc(size_t count, size_t size);
 
-void *ft_realloc(void *ptr, size_t size);
+void	*ft_realloc(void *ptr, size_t size);
 
 int		ft_isalnum(int c);
 

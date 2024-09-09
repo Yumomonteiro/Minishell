@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	free_env(t_env *env)
 {
@@ -65,4 +65,11 @@ void	free_tab(char **tab)
 	}
 	if (tab)
 		ft_memdel(tab);
+}
+
+void	cleanup(t_msh *mini)
+{
+	reset_std(mini);
+	close_fds(mini);
+	reset_fds(mini);
 }

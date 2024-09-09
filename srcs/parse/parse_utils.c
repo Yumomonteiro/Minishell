@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/02 16:21:07 by ada-mata          #+#    #+#             */
+/*   Updated: 2024/09/02 16:21:07 by ada-mata         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	type_arg(t_token *token, int separator)
@@ -22,7 +34,7 @@ void	type_arg(t_token *token, int separator)
 		token->type = ARG;
 }
 
-int		next_alloc(char *line, int *i)
+int	next_alloc(char *line, int *i)
 {
 	int		count;
 	int		j;
@@ -49,29 +61,46 @@ int		next_alloc(char *line, int *i)
 	return (j - count + 1);
 }
 
-void handle_escapes(char *line, char *temp, int *j, int *i)
+void	handle_escapes(char *line, char *temp, int *j, int *i)
 {
-    temp[(*j)++] = line[++(*i)];
-    (*i)++;
+	temp[(*j)++] = line[++(*i)];
+	(*i)++;
 }
 
-void handle_variable_expansion(char *line, t_env *env, char *temp, int *j, int *i, int ret, char quote)
+void	handle_variable_expansion(char **params, t_env *env,
+									int *indices, int ret)
 {
-    if (line[*i] == '$' && quote != '\'')
-    {
-        int start = *i;
-        (*i)++;
-        while (line[*i] && (ft_isalnum(line[*i]) || line[*i] == '_'))
-        {
-            (*i)++;
-        }
-        char var_part[1024];
-        strncpy(var_part, &line[start], *i - start);
-        var_part[*i - start] = '\0';
+	char	*line;
+	char	*temp;
+	char	quote;
+	int		*j;
+	int		*i;
 
-        char *expanded_value = expansions(var_part, env, ret);
-        strcpy(&temp[*j], expanded_value);
-        *j += strlen(expanded_value);
-        free(expanded_value);
-    }
+	line = params[0];
+	temp = params[1];
+	quote = *params[2];
+	j = &indices[0];
+	i = &indices[1];
+	if (line[*i] == '$' && quote != '\'')
+	{
+		indices[2] = *i;
+		(*i)++;
+		while (line[*i] && (ft_isalnum(line[*i]) || line[*i] == '_'))
+			(*i)++;
+		strncpy(env->var_cpy, &line[indices[2]], *i - indices[2]);
+		env->var_cpy[*i - indices[2]] = '\0';
+		env->expanded_value = expansions(env->var_cpy, env, ret);
+		strcpy(&temp[*j], env->expanded_value);
+		*j += strlen(env->expanded_value);
+		free(env->expanded_value);
+	}
+}
+
+void	handle_word_deliminator(char *c, int *i, char *line)
+{
+	if (*c != ' ' && line[*i] == *c)
+	{
+		*c = ' ';
+		(*i)++;
+	}
 }

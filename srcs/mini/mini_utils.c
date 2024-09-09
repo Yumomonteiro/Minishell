@@ -1,29 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   mini_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/02 13:55:42 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/09/02 13:57:10 by yude-oli         ###   ########.fr       */
+/*   Created: 2024/09/02 16:08:24 by ada-mata          #+#    #+#             */
+/*   Updated: 2024/09/03 19:45:59 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_pwd(int flag)
+void	handle_eof(void)
 {
-	char	*pwd;
+	printf("exit\n");
+	exit(0);
+}
 
-	pwd = getcwd(NULL, 0);
-	if (!pwd)
+int	handle_sig_eof(char *line)
+{
+	if (line == NULL)
 	{
-		perror("-> minishell error: pwd");
+		handle_eof();
 		return (1);
 	}
-	if (flag == 0)
-		printf("%s\n", pwd);
-	free(pwd);
 	return (0);
+}
+
+void	handle_sigint(int sig)
+{
+	(void)sig;
+	write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
