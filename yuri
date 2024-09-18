@@ -1,0 +1,15 @@
+.
+..
+.git
+.vscode
+Makefile
+README.md
+ad.txt
+ad1.txt
+includes
+libs
+main.c
+main.o
+minishell
+srcs
+yuri

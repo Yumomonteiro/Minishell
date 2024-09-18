@@ -6,7 +6,7 @@
 /*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 18:46:41 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/09/05 15:50:04 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/09/18 15:39:54 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,31 @@ void	func_initiate(char **env, t_msh *mini)
 	env_init(mini, env);
 	secret_env_init(mini, env);
 	shell_level(mini->env);
+	mini->fdin = -1;
+	mini->fdout = -1;
+	mini->pipin = -1;
+	mini->pipout = -1;
 }
+
+void free_all(t_msh *mini)
+{
+    free_env(mini->env);
+    free_env(mini->secret_env);
+}
+
+void free_tokens(t_token *token)
+{
+    t_token *tmp;
+
+    while (token) {
+        tmp = token;
+        token = token->next;
+        if (tmp->str)
+            free(tmp->str); 
+        free(tmp); 
+    }
+}
+
 
 int	main(int ac, char **av, char **env)
 {
@@ -47,9 +71,11 @@ int	main(int ac, char **av, char **env)
 			if (parse(&mini) == 1)
 				continue ;
 			minishell(&mini);
-			free(mini.start);
+			/* free_tokens(mini.start); */
 		}
 	}
-	free_env(mini.env);
+	free_all(&mini);
+	free(mini.env->value);
+	free(mini.secret_env->value);
 	return (mini.ret);
 }

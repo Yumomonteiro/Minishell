@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/09/03 20:30:38 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/09/09 18:03:43 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,4 +229,5 @@ int			is_env_char(int c);
 char		*expansions(char *arg, t_env *env, int ret);
 int			quotes(char *line, int index);
 int			ft_strcmp(const char *s1, const char *s2);
+void		free_tokens(t_token *token);
 #endif

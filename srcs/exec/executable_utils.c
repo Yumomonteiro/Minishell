@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executable_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 17:49:43 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/09/02 18:51:48 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/09/09 17:55:12 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	**env_list_to_array(struct s_env *env_list)
 	return (array);
 }
 
-int	ft_strcmp(const char *s1, const char *s2)
+/* int	ft_strcmp(const char *s1, const char *s2)
 {
 	size_t	i;
 
@@ -70,7 +70,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 		i++;
 	}
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-}
+} */
 
 int	is_builtin(char *command)
 {
