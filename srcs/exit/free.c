@@ -12,17 +12,19 @@
 
 #include "../../includes/minishell.h"
 
-void free_env(t_env *env) {
-    t_env *tmp;
+void	free_env(t_env *env)
+{
+	t_env	*tmp;
 
-    while (env) {
-        tmp = env;
-        env = env->next;
-        if (tmp->value) {
-            free(tmp->value);
-        }
-        free(tmp);
-    }
+	while (env && env->next)
+	{
+		tmp = env;
+		env = env->next;
+		ft_memdel(tmp->value);
+		ft_memdel(tmp);
+	}
+	ft_memdel(env->value);
+	ft_memdel(env);
 }
 
 void	free_token(t_token *start)
@@ -50,20 +52,20 @@ void	*ft_memdel(void *ptr)
 	return (NULL);
 }
 
-void	free_tab(char **tab)
+void free_tab(char **tab)
 {
-	int	i;
+    int i = 0;
 
-	i = 0;
-	while (tab[i])
-	{
-		if (tab[i])
-			ft_memdel(tab[i]);
-		i++;
-	}
-	if (tab)
-		ft_memdel(tab);
+    if (!tab)
+        return;
+    while (tab[i])
+    {
+        free(tab[i]);
+        i++;
+    }
+    free(tab);
 }
+
 
 void	cleanup(t_msh *mini)
 {

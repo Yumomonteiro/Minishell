@@ -6,7 +6,7 @@
 /*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 14:40:43 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/09/18 15:46:29 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/09/27 18:05:25 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	execute(char *path, char **args, t_env *env, t_msh *mini)
 		if (ft_strchr(path, '/') != NULL)
 			execve(path, args, env_array);
 		ret = error_message(path);
-		free_tab(env_array);
+		free(env_array);
 		free_token(mini->start);
 		exit(ret);
 	}

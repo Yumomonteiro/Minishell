@@ -34,6 +34,8 @@ void	change_env_oldpwd(t_msh *mini)
 	strcat(pwd_var, pwd);
 	mini->env = rm_env(mini->env, "PWD");
 	mini->env = add_env(pwd_var, mini->env);
+	free(pwd_var);
+	free(pwd);
 }
 
 void	change_env_pwd(t_msh *mini, char *oldpwd)
@@ -45,6 +47,7 @@ void	change_env_pwd(t_msh *mini, char *oldpwd)
 	strcat(oldpwd_var, oldpwd);
 	mini->env = rm_env(mini->env, "OLDPWD");
 	mini->env = add_env(oldpwd_var, mini->env);
+	free(oldpwd_var);
 }
 
 static int	handle_directory_change(char *dir, t_msh *mini, char *oldpwd)
@@ -84,4 +87,6 @@ int	ft_cd(char **cmd, t_msh *mini)
 	else
 		dir = cmd[1];
 	return (handle_directory_change(dir, mini, oldpwd));
+	free(oldpwd);
+	free(dir);
 }

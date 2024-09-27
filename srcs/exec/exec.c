@@ -6,7 +6,7 @@
 /*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:50:14 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/09/09 18:10:29 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/09/27 18:06:23 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ void	exec_cmd(t_msh *mini, t_token *token)
 		free_token(mini->start);
 		free_env(mini->env);
 		free_env(mini->secret_env);
+		/* free(mini->env->value);
+		free(mini->secret_env->value); */
 		exit(0);
 	}
 	else if (cmd && is_builtin(cmd[0]))
@@ -92,5 +94,5 @@ void	exec_cmd(t_msh *mini, t_token *token)
 	ft_close(mini->pipout);
 	mini->pipin = -1;
 	mini->pipout = -1;
-	free_tab(cmd);
+	free(cmd);
 }

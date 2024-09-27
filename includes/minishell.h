@@ -6,7 +6,7 @@
 /*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/09/09 18:03:43 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/09/27 18:52:04 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,6 @@ void		ft_skip_space(const char *str, int *i);
 int			parse(t_msh *mini);
 void		*ft_memdel(void *ptr);
 void		type_arg(t_token *token, int separator);
-void		free_env(t_env *env);
 void		handle_word_deliminator(char *c, int *i, char *line);
 int			quotes(char *line, int index);
 int			is_env_char(int c);
@@ -230,4 +229,5 @@ char		*expansions(char *arg, t_env *env, int ret);
 int			quotes(char *line, int index);
 int			ft_strcmp(const char *s1, const char *s2);
 void		free_tokens(t_token *token);
+void 		free_all(t_msh *mini);
 #endif
