@@ -6,7 +6,7 @@
 /*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/09/27 18:52:04 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/10/03 15:58:44 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,5 +229,5 @@ char		*expansions(char *arg, t_env *env, int ret);
 int			quotes(char *line, int index);
 int			ft_strcmp(const char *s1, const char *s2);
 void		free_tokens(t_token *token);
-void 		free_all(t_msh *mini);
+void		free_all(t_msh *mini);
 #endif

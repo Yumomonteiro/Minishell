@@ -52,20 +52,20 @@ void	*ft_memdel(void *ptr)
 	return (NULL);
 }
 
-void free_tab(char **tab)
+void	free_tab(char **tab)
 {
-    int i = 0;
+	int		i;
 
-    if (!tab)
-        return;
-    while (tab[i])
-    {
-        free(tab[i]);
-        i++;
-    }
-    free(tab);
+	i = 0;
+	if (!tab)
+		return ;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
 }
-
 
 void	cleanup(t_msh *mini)
 {

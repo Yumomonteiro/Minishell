@@ -118,7 +118,7 @@ t_token	*get_tokens(char *line, t_env *env, int ret)
 
 int	parse(t_msh *mini)
 {
-	t_token	*token = NULL;
+	t_token	*token;
 
 	token = mini->start;
 	if (token == NULL)

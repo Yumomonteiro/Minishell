@@ -6,7 +6,7 @@
 /*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 18:46:41 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/09/27 19:00:56 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/10/03 15:57:46 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,18 @@ void	func_initiate(char **env, t_msh *mini)
 	mini->pipout = -1;
 }
 
-void free_all(t_msh *mini)
+void	free_all(t_msh *mini)
 {
-		if(mini->env)
-			free_env(mini->env);
-		if(mini->secret_env)
-			free_env(mini->secret_env);
-		if(mini->start)
-			free_token(mini->start);
-		if(mini->env->value)
-			free(mini->env->value);
-		if(mini->secret_env->value)
-			free(mini->secret_env->value);
+	if (mini->env)
+		free_env(mini->env);
+	if (mini->secret_env)
+		free_env(mini->secret_env);
+	if (mini->start)
+		free_token(mini->start);
+	if (mini->env->value)
+		free(mini->env->value);
+	if (mini->secret_env->value)
+		free(mini->secret_env->value);
 }
 
 int	main(int ac, char **av, char **env)
