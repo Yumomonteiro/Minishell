@@ -69,6 +69,7 @@ int	ft_cd(char **cmd, t_msh *mini)
 {
 	char	*dir;
 	char	*oldpwd;
+	int		ret;
 
 	oldpwd = NULL;
 	dir = NULL;
@@ -86,7 +87,7 @@ int	ft_cd(char **cmd, t_msh *mini)
 		dir = get_env_var_value_cd(mini->env, "OLDPWD");
 	else
 		dir = cmd[1];
-	return (handle_directory_change(dir, mini, oldpwd));
+	ret = handle_directory_change(dir, mini, oldpwd);
 	free(oldpwd);
-	free(dir);
+	return (ret);
 }
