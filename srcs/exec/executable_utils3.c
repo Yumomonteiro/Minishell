@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executable_utils3.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:00:44 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/09/03 19:58:35 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:57:38 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,9 @@ void	exec_pipe_cmd(t_msh *mini, t_token *token)
 		else
 			perror("minishell: command not found");
 	}
+	free_tab(args);
+	free(path);
+	free_tab(env_array);
 }
 
 t_token	*execute_command_or_pipe(t_msh *mini, t_token *token, t_token *tmp)

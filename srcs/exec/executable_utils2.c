@@ -6,7 +6,7 @@
 /*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 12:50:14 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/09/27 17:46:21 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/10/09 14:57:19 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ char	*find_executable(char *cmd, t_env *env)
 	path = search_in_paths(bin_paths, cmd);
 	if (path)
 	{
-		free(bin_paths);
+		free_tab(bin_paths);
 		return (path);
 	}
-	free(bin_paths);
+	free_tab(bin_paths);
 	return (NULL);
 }
 
