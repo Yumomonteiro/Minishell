@@ -42,12 +42,12 @@ int	search_pipe(t_token *token)
 	return (0);
 }
 
-int	check_args(char **args, t_token *token)
+int     check_args(char **args, t_token *token)
 {
-	if (ft_strncmp(args[0], "cat", 3) == 0
-		&& !args[1] && token->next->type == PIPE)
-	{
-		return (1);
-	}
-	return (0);
+    if (args && args[0] && ft_strncmp(args[0], "cat", 3) == 0
+        && !args[1] && token && token->next && token->next->type == PIPE)
+    {
+        return (1);
+    }
+    return (0);
 }

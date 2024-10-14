@@ -87,7 +87,7 @@ void	exec_cmd(t_msh *mini, t_token *token)
 		else
 			mini->ret = exec_builtin(cmd, mini, 0);
 	}
-	else if (cmd)
+	else if (cmd && is_type(token, PIPE) == 0)
 		mini->ret = exec(cmd, mini->env, mini);
 	ft_close(mini->pipin);
 	ft_close(mini->pipout);
