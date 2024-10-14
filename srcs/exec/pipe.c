@@ -47,7 +47,6 @@ void	execute_child_process(t_msh *mini, t_token *token, int pipefd[2])
 	close(pipefd[0]);
 	close(pipefd[1]);
 	exec_pipe_cmd(mini, token);
-	perror("exec_cmd");
 	exit(EXIT_FAILURE);
 }
 

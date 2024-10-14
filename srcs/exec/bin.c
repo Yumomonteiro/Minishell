@@ -20,7 +20,7 @@ int	error_message(char *path)
 
 	fd = open(path, O_WRONLY);
 	folder = opendir(path);
-	ft_putstr_fd("minishell; ", STDERR);
+	ft_putstr_fd("minishell ", STDERR);
 	ft_putstr_fd(path, STDERR);
 	if (ft_strchr(path, '/') == NULL)
 		ft_putendl_fd(": command not found", STDERR);
