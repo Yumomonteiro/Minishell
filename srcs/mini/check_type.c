@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_type.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:14:48 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/09/03 19:45:26 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/10/14 15:56:24 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ int	search_pipe(t_token *token)
 	return (0);
 }
 
-int     check_args(char **args, t_token *token)
+int	check_args(char **args, t_token *token)
 {
-    if (args && args[0] && ft_strncmp(args[0], "cat", 3) == 0
-        && !args[1] && token && token->next && token->next->type == PIPE)
-    {
-        return (1);
-    }
-    return (0);
+	if (args && args[0] && ft_strncmp(args[0], "cat", 3) == 0
+		&& !args[1] && token && token->next && token->next->type == PIPE)
+	{
+		return (1);
+	}
+	return (0);
 }

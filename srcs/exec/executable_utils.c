@@ -6,7 +6,7 @@
 /*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 17:49:43 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/09/09 17:55:12 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/10/14 16:25:37 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,20 +57,6 @@ char	**env_list_to_array(struct s_env *env_list)
 	array[count] = NULL;
 	return (array);
 }
-
-/* int	ft_strcmp(const char *s1, const char *s2)
-{
-	size_t	i;
-
-	i = 0;
-	while (s1[i] == s2[i])
-	{
-		if (s1[i] == '\0' && s2[i] == '\0')
-			return (0);
-		i++;
-	}
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-} */
 
 int	is_builtin(char *command)
 {
