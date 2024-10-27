@@ -232,5 +232,5 @@ void		free_tokens(t_token *token);
 void		free_all(t_msh *mini);
 void		exit_cleanup(char *s1, char **s2, char **s3);
 void		mini_clean(t_msh *mini);
-char		*get_env_var_value_cd(t_env *env, char *env_var)
+char		*get_env_var_value_cd(t_env *env, char *env_var);
 #endif
