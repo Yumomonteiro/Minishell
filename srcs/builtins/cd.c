@@ -12,17 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-char	*get_env_var_value_cd(t_env *env, char *env_var)
-{
-	while (env)
-	{
-		if (ft_strncmp(env->value, env_var, ft_strlen(env_var)) == 0)
-			return (env->value + (ft_strlen(env_var) + 1));
-		env = env->next;
-	}
-	return (NULL);
-}
-
 void	change_env_oldpwd(t_msh *mini)
 {
 	char	*pwd;
