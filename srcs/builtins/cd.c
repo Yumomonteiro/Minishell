@@ -16,8 +16,8 @@ char	*get_env_var_value_cd(t_env *env, char *env_var)
 {
 	while (env)
 	{
-		if (strncmp(env->value, env_var, strlen(env_var)) == 0)
-			return (env->value + (strlen(env_var) + 1));
+		if (ft_strncmp(env->value, env_var, ft_strlen(env_var)) == 0)
+			return (env->value + (ft_strlen(env_var) + 1));
 		env = env->next;
 	}
 	return (NULL);
@@ -29,7 +29,7 @@ void	change_env_oldpwd(t_msh *mini)
 	char	*pwd_var;
 
 	pwd = getcwd(NULL, 0);
-	pwd_var = malloc(strlen("PWD=") + strlen(pwd) + 1);
+	pwd_var = malloc(strlen("PWD=") + ft_strlen(pwd) + 1);
 	strcpy(pwd_var, "PWD=");
 	strcat(pwd_var, pwd);
 	mini->env = rm_env(mini->env, "PWD");
@@ -42,7 +42,7 @@ void	change_env_pwd(t_msh *mini, char *oldpwd)
 {
 	char	*oldpwd_var;
 
-	oldpwd_var = malloc(strlen("OLDPWD=") + strlen(oldpwd) + 1);
+	oldpwd_var = malloc(strlen("OLDPWD=") + ft_strlen(oldpwd) + 1);
 	strcpy(oldpwd_var, "OLDPWD=");
 	strcat(oldpwd_var, oldpwd);
 	mini->env = rm_env(mini->env, "OLDPWD");
@@ -65,6 +65,25 @@ static int	handle_directory_change(char *dir, t_msh *mini, char *oldpwd)
 	return (0);
 }
 
+int	get_directory(char **cmd, t_msh *mini, char **dir)
+{
+	if (!cmd[1])
+		*dir = get_env_var_value_cd(mini->env, "HOME");
+	else if (strcmp(cmd[1], "-") == 0)
+	{
+		*dir = get_env_var_value_cd(mini->env, "OLDPWD");
+		if (*dir)
+			printf("%s\n", *dir);
+	}
+	else if (strcmp(cmd[1], "~") == 0)
+		*dir = get_env_var_value_cd(mini->env, "HOME");
+	else
+		*dir = cmd[1];
+	if (*dir)
+		return (0);
+	return (1);
+}
+
 int	ft_cd(char **cmd, t_msh *mini)
 {
 	char	*dir;
@@ -75,18 +94,14 @@ int	ft_cd(char **cmd, t_msh *mini)
 	dir = NULL;
 	if (!mini->env)
 		return (1);
-	if (cmd[2] != NULL)
+	if (cmd[1] && cmd[2] != NULL)
 	{
 		ft_putstr_fd("cd: too many args\n", STDERR);
 		return (1);
 	}
 	oldpwd = getcwd(NULL, 0);
-	if (!cmd[1])
-		dir = get_env_var_value_cd(mini->env, "HOME");
-	else if (strcmp(&cmd[1][0], "-") == 0)
-		dir = get_env_var_value_cd(mini->env, "OLDPWD");
-	else
-		dir = cmd[1];
+	if (get_directory(cmd, mini, &dir))
+		return (1);
 	ret = handle_directory_change(dir, mini, oldpwd);
 	free(oldpwd);
 	return (ret);
