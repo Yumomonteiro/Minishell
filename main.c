@@ -6,7 +6,7 @@
 /*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 18:46:41 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/10/03 15:57:46 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/10/28 18:29:30 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,79 @@ void	free_all(t_msh *mini)
 		free(mini->secret_env->value);
 }
 
+char **parse_command(char *input) {
+    char **args = malloc(ARG_SIZE * sizeof(char *));
+    int arg_index = 0;
+    int i = 0;
+
+    while (input && input[i] && (size_t)i < ft_strlen(input))
+		{
+        while (isspace(input[i]))
+					i++;
+        if (input[i] == '\0')
+					break;
+        int start = i;
+        while (input[i] && !is_sep(input, i))
+          i++;
+        if (i > start)
+				{
+            int length = i - start;
+            args[arg_index] = malloc(length + 1);
+            ft_strncpy(args[arg_index], input + start, length);
+            args[arg_index][length] = '\0';
+            arg_index++;
+        }
+        if (is_sep(input, i))
+				{
+            args[arg_index] = malloc(2);
+            args[arg_index][0] = input[i];
+            args[arg_index][1] = '\0';
+            arg_index++;
+            i++;
+        }
+    }
+    args[arg_index] = NULL;
+    return args;
+}
+
+char *concat_args(char **args)
+{
+    if (!args || !args[0])
+			return NULL;
+    int total_length;
+		int	i;
+		char *result;
+		
+		total_length = 0;
+    i = 0;
+    while (args[i])
+		{
+        total_length += ft_strlen(args[i]) + 1;
+        i++;
+    }
+    result = malloc(total_length);
+    if (!result) {
+        perror("Failed to allocate memory");
+        return NULL;
+    }
+    result[0] = '\0';
+    i = 0;
+    while (args[i])
+		{
+        ft_strcat(result, args[i]);
+        if (args[i + 1])
+            ft_strcat(result, " ");
+        i++;
+    }
+    return (result);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_msh	mini;
 	char	*line;
+	char **args = NULL;
+	char *line_arg;
 
 	if (ac > 1 && av)
 		exit_error();
@@ -56,19 +125,27 @@ int	main(int ac, char **av, char **env)
 	{
 		line = readline("minishell: ");
 		if (handle_sig_eof(line) == 1)
-			continue ;
+			continue;
 		if (line[0])
 		{
 			add_history(line);
 			if ((quote_check(&mini, &line)))
-				continue ;
-			mini.start = get_tokens(line, mini.env, mini.ret);
-			if (parse(&mini) == 1)
-				continue ;
+				continue;
+			args = parse_command(line);
+			line_arg = concat_args(args);
+			mini.start = get_tokens(line_arg, mini.env, mini.ret);
+			if (parse(&mini) == 1) 
+				continue;
 			minishell(&mini);
 			free_token(mini.start);
+			free_tab(args);
+			free(line_arg);
 		}
+		free(line);
 	}
 	free_all(&mini);
 	return (mini.ret);
 }
+
+
+

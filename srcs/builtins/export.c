@@ -50,7 +50,7 @@ int	is_in_env(t_env *env, char *args)
 	char	env_name[BUFF_SIZE];
 
 	get_env_name(var_name, args);
-	while (env && env->next)
+	while (env)
 	{
 		get_env_name(env_name, env->value);
 		if (ft_strcmp(var_name, env_name) == 0)
@@ -61,7 +61,7 @@ int	is_in_env(t_env *env, char *args)
 		}
 		env = env->next;
 	}
-	return (SUCCESS);
+	return (0);
 }
 
 static void	add_to_envs(char *arg, t_env *env, t_env *secret)
@@ -69,8 +69,10 @@ static void	add_to_envs(char *arg, t_env *env, t_env *secret)
 	if (strchr(arg, '=') != NULL)
 	{
 		if (is_in_env(env, arg) == 0)
+		{
 			env_add(arg, env);
-		env_add(arg, secret);
+			env_add(arg, secret);
+		}
 	}
 	else if (is_in_env(secret, arg) == 0)
 		env_add(arg, secret);
@@ -80,6 +82,8 @@ int	ft_export(char **args, t_env *env, t_env *secret)
 {
 	int		error_ret;
 
+	if (!env->value || !secret->value)
+		return (0);
 	if (!args[1])
 	{
 		print_sorted_env(secret);

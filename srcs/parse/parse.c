@@ -116,6 +116,7 @@ t_token	*get_tokens(char *line, t_env *env, int ret)
 	return (next);
 }
 
+
 int	parse(t_msh *mini)
 {
 	t_token	*token;

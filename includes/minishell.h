@@ -6,7 +6,7 @@
 /*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/10/14 16:19:23 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/10/28 18:20:24 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@
 # define NOSKIP 0
 
 # define BUFF_SIZE 4096
+# define ARG_SIZE 128
 # define EXPANSION 36
 # define ERROR 1
 # define SUCCESS 0
@@ -123,12 +124,11 @@ int			exec_builtin(char **args, t_msh *mini, int flag);
 //ENV
 int			env_add(const char *value, t_env *env);
 int			is_valid_env(const char *env);
+int			is_in_env(t_env *env, char *args);
 int			ft_env(t_env *env);
-int			is_sep(char *line, int i);
 int			env_init(t_msh *mini, char **env_array);
 int			secret_env_init(t_msh *mini, char **env_array);
 int			is_valid_env(const char *env);
-int			ft_env(t_env *env);
 t_env		*rm_env(t_env *env, char *del_env);
 t_env		*add_env(char *line, t_env *env);
 char		*get_env_name(char *dest, const char *src);

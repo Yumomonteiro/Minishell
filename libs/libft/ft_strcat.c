@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/02 13:49:57 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/09/02 13:49:57 by yude-oli         ###   ########.fr       */
+/*   Created: 2023/10/04 20:34:51 by yude-oli          #+#    #+#             */
+/*   Updated: 2023/10/11 10:25:33 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-int	ft_env(t_env *env)
+char *ft_strcat(char *dest, char *src)
 {
-	if (!env || !env->value)
-	{
-		return(0);
-	}
-	while (env && env->next != NULL)
-	{
-		ft_putendl_fd(env->value, 1);
-		env = env->next;
-	}
-	if (env)
-		ft_putendl_fd(env->value, 1);
-	return (SUCCESS);
-}
+	int i;
+	int j;
 
+	i = 0;
+	while (dest[i] != '\0')
+		i++;
+	j = 0;
+	while (src[j] != '\0')
+	{
+		dest[i + j] = src[j];
+		j++;
+	}
+	dest[i + j] = '\0';
+	return (dest);
+}

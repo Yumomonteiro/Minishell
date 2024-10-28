@@ -87,6 +87,8 @@ void	unset_secret_env_var(char *var, t_env **secret_env, t_msh *mini)
 
 int	ft_unset(char **a, t_msh *mini)
 {
+	if (!mini->env->value || !mini->secret_env->value)
+		return (0);
 	if (!(a[1]))
 		return (SUCCESS);
 	unset_env_var(a[1], &(mini->env), mini);

@@ -6,7 +6,7 @@
 /*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:50:14 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/10/14 16:19:56 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/10/26 18:27:30 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	exec_cmd(t_msh *mini, t_token *token)
 	if (cmd && ft_strcmp(cmd[0], "exit") == 0)
 	{
 		mini_clean(mini);
+		mini_exit(mini, cmd);
 		exit(0);
 	}
 	else if (cmd && is_builtin(cmd[0]))

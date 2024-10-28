@@ -6,7 +6,7 @@
 /*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 19:50:57 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/10/14 16:19:08 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/10/26 13:43:42 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	str_is_num(const char *str)
 void	mini_exit(t_msh *mini, char **cmd)
 {
 	mini->exit = 1;
-	ft_putstr_fd("exit ", STDERR);
 	if (cmd[1] && cmd[2])
 	{
 		mini->ret = 1;
@@ -47,7 +46,9 @@ void	mini_exit(t_msh *mini, char **cmd)
 		ft_putendl_fd(": numeric argument required", STDERR);
 	}
 	else if (cmd[1])
+	{
 		mini->ret = ft_atoi(cmd[1]);
+	}
 	else
 		mini->ret = 0;
 }
@@ -70,7 +71,10 @@ void	exit_cleanup(char *s1, char **s2, char **s3)
 
 void	mini_clean(t_msh *mini)
 {
-	free_env(mini->env);
-	free_env(mini->secret_env);
-	free_token(mini->start);
+	if(mini->env)
+		free_env(mini->env);
+	if(mini->secret_env)
+		free_env(mini->secret_env);
+	if(mini->start)
+		free_token(mini->start);
 }
