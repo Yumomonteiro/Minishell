@@ -6,7 +6,7 @@
 /*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 18:46:41 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/10/28 18:29:30 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/10/28 21:47:26 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,14 @@ void	free_all(t_msh *mini)
 		free(mini->secret_env->value);
 }
 
-char **parse_command(char *input) {
-    char **args = malloc(ARG_SIZE * sizeof(char *));
+char **parse_command(char *input)
+{
+    char **args = NULL;
     int arg_index = 0;
     int i = 0;
 
-    while (input && input[i] && (size_t)i < ft_strlen(input))
+		args = malloc(ARG_SIZE * sizeof(char *));
+    while (input && (size_t)i < ft_strlen(input))
 		{
         while (isspace(input[i]))
 					i++;
@@ -62,6 +64,12 @@ char **parse_command(char *input) {
 				{
             int length = i - start;
             args[arg_index] = malloc(length + 1);
+						if (!args[arg_index])
+						{
+							perror("Failed to allocate memory");
+							free_tab(args);
+							return NULL;
+						}
             ft_strncpy(args[arg_index], input + start, length);
             args[arg_index][length] = '\0';
             arg_index++;
@@ -69,6 +77,12 @@ char **parse_command(char *input) {
         if (is_sep(input, i))
 				{
             args[arg_index] = malloc(2);
+						if (!args[arg_index])
+						{
+							perror("Failed to allocate memory");
+							free_tab(args);
+							return NULL;
+						}
             args[arg_index][0] = input[i];
             args[arg_index][1] = '\0';
             arg_index++;
@@ -95,7 +109,8 @@ char *concat_args(char **args)
         i++;
     }
     result = malloc(total_length);
-    if (!result) {
+    if (!result)
+		{
         perror("Failed to allocate memory");
         return NULL;
     }
@@ -133,12 +148,12 @@ int	main(int ac, char **av, char **env)
 				continue;
 			args = parse_command(line);
 			line_arg = concat_args(args);
+			free_tab(args);
 			mini.start = get_tokens(line_arg, mini.env, mini.ret);
 			if (parse(&mini) == 1) 
 				continue;
 			minishell(&mini);
 			free_token(mini.start);
-			free_tab(args);
 			free(line_arg);
 		}
 		free(line);
