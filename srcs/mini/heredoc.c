@@ -23,16 +23,31 @@ int	handle_heredoc_pipe(t_msh *mini, int fd[2])
 	return (0);
 }
 
-void	read_heredoc_input(const char *delimiter, int fd[1])
+void	read_heredoc_input(t_msh *mini, t_token *token, int fd[1])
 {
 	char	*line;
+	char	*delimiter;
 
+	delimiter = token->str;
 	while (1)
 	{
 		line = readline("> ");
+		line = expansions(line, mini->env, 0);
 		if (!line || ft_strcmp(line, delimiter) == 0)
+		{
+			if (token->next && is_type(token->next, HEREDOC))
+			{
+				if (token->next->next)
+				{
+					token = token->next->next;
+					delimiter = token->str;
+					read_heredoc_input(mini, token, fd);
+				}
+			}
 			break ;
-		ft_putendl_fd(line, fd[1]);
+		}
+		if (!(token->next && is_type(token->next, HEREDOC)))
+			ft_putendl_fd(line, fd[1]);
 		free(line);
 	}
 	free(line);
@@ -60,7 +75,7 @@ int	heredoc(t_msh *mini, t_token *token)
 	}
 	if (handle_heredoc_pipe(mini, fd) != 0)
 		return (1);
-	read_heredoc_input(token->next->str, fd);
+	read_heredoc_input(mini, token->next, fd);
 	if (dup2(mini->fdin, STDIN_FILENO) == -1)
 	{
 		perror("dup2");
