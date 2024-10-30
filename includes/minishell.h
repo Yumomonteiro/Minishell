@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/10/30 19:05:31 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/10/30 19:35:05 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,5 +239,8 @@ void		free_tokens(t_token *token);
 void		free_all(t_msh *mini);
 void		exit_cleanup(char *s1, char **s2, char **s3);
 void		mini_clean(t_msh *mini);
+int			parse_command_loop(char *input, char **args, int *arg_index);
 char		*get_env_var_value_cd(t_env *env, char *env_var);
+t_token		*parse_tokens(char *line, t_env *env,
+				int ret, t_token **last_token);
 #endif

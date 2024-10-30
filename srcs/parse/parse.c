@@ -89,33 +89,19 @@ t_token	*next_token(char *line, t_env *env, int *i, int ret)
 
 t_token	*get_tokens(char *line, t_env *env, int ret)
 {
-	t_token	*prev;
-	t_token	*next;
-	int		i;
-	int		sep;
+	t_token	*last_token;
+	t_token	*token_head;
 
-	prev = NULL;
-	next = NULL;
-	i = 0;
-	if(!line)
+	last_token = NULL;
+	if (!line)
 		return (0);
-	ft_skip_space(line, &i);
-	while (line[i])
-	{
-		sep = ignore_sep(line, i);
-		next = next_token(line, env, &i, ret);
-		next->prev = prev;
-		if (prev)
-			prev->next = next;
-		prev = next;
-		type_arg(next, sep);
-		ft_skip_space(line, &i);
-	}
-	if (next)
-		next->next = NULL;
-	while (next && next->prev)
-		next = next->prev;
-	return (next);
+	ft_skip_space(line, &(int){0});
+	token_head = parse_tokens(line, env, ret, &last_token);
+	if (last_token)
+		last_token->next = NULL;
+	while (token_head && token_head->prev)
+		token_head = token_head->prev;
+	return (token_head);
 }
 
 int	parse(t_msh *mini)

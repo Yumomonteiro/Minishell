@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
+/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:08:24 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/10/30 13:59:21 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/10/30 19:33:07 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,31 @@ void	process_tokens(t_msh *mini)
 			return ;
 		token = execute_command_or_pipe(mini, token, tmp);
 	}
+}
+
+t_token	*parse_tokens(char *line, t_env *env, int ret, t_token **last_token)
+{
+	t_token	*current_token;
+	t_token	*prev_token;
+	int		i;
+	int		sep;
+
+	current_token = NULL;
+	prev_token = NULL;
+	i = 0;
+	while (line[i])
+	{
+		sep = ignore_sep(line, i);
+		current_token = next_token(line, env, &i, ret);
+		current_token->prev = prev_token;
+		if (prev_token)
+			prev_token->next = current_token;
+		type_arg(current_token, sep);
+		prev_token = current_token;
+		ft_skip_space(line, &i);
+	}
+	*last_token = current_token;
+	return (current_token);
 }
 
 void	minishell(t_msh *mini)

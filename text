@@ -1,7 +1,6 @@
-a
+build
 includes
 libs
-lol
 main.c
 main.o
 Makefile
@@ -11,4 +10,3 @@ README.md
 srcs
 text
 text1
-xablau

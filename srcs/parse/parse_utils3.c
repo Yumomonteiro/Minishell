@@ -36,73 +36,63 @@ int	parse_word(char *input, char **args, int *i, int *arg_index)
 	return (0);
 }
 
+int	parse_single_separator(char *input, char **args, int *i, int *arg_index)
+{
+	args[*arg_index] = malloc(2);
+	if (!args[*arg_index])
+	{
+		perror("Failed to allocate memory");
+		return (-1);
+	}
+	args[*arg_index][0] = input[*i];
+	args[*arg_index][1] = '\0';
+	(*arg_index)++;
+	(*i)++;
+	return (0);
+}
+
+int	parse_double_separator(char *input, char **args, int *i, int *arg_index)
+{
+	args[*arg_index] = malloc(3);
+	if (!args[*arg_index])
+	{
+		perror("Failed to allocate memory");
+		return (-1);
+	}
+	args[*arg_index][0] = input[*i];
+	args[*arg_index][1] = input[*i + 1];
+	args[*arg_index][2] = '\0';
+	(*arg_index)++;
+	(*i) += 2;
+	return (0);
+}
+
 int	parse_separator(char *input, char **args, int *i, int *arg_index)
 {
-    if ((input[*i] == '>' && input[*i + 1] == '>') || (input[*i] == '<' && input[*i + 1] == '<'))
-    {
-        args[*arg_index] = malloc(3);
-        if (!args[*arg_index])
-        {
-            perror("Failed to allocate memory");
-            return (-1);
-        }
-        args[*arg_index][0] = input[*i];
-        args[*arg_index][1] = input[*i + 1];
-        args[*arg_index][2] = '\0';
-        (*arg_index)++;
-        (*i) += 2; 
-    }
-    else
-    {
-        args[*arg_index] = malloc(2);
-        if (!args[*arg_index])
-        {
-            perror("Failed to allocate memory");
-            return (-1);
-        }
-        args[*arg_index][0] = input[*i];
-        args[*arg_index][1] = '\0';
-        (*arg_index)++;
-        (*i)++;
-    }
-    return (0);
+	if ((input[*i] == '>' && input[*i + 1] == '>')
+		|| (input[*i] == '<' && input[*i + 1] == '<'))
+		return (parse_double_separator(input, args, i, arg_index));
+	else
+		return (parse_single_separator(input, args, i, arg_index));
 }
 
 int	parse_command_loop(char *input, char **args, int *arg_index)
 {
-    int	i;
+	int	i;
 
-    i = 0;
-    while (input && (size_t)i < ft_strlen(input))
-    {
-        ft_skip_space(input, &i);
-        if (input[i] == '\0')
-            break;
-        if (parse_word(input, args, &i, arg_index) < 0)
-            return (-1);
-        if (is_sep_special(input, i))
-        {
-            if (parse_separator(input, args, &i, arg_index) < 0)
-                return (-1);
-        }
-    }
-    return (0);
-}
-
-char	**parse_input(char *input)
-{
-	char	**args;
-	int		arg_index;
-
-	arg_index = 0;
-	args = malloc(ARG_SIZE * sizeof(char *));
-	if (!args)
-		return (NULL);
-	if (parse_command_loop(input, args, &arg_index) < 0)
+	i = 0;
+	while (input && (size_t)i < ft_strlen(input))
 	{
-		free_tab(args);
-		return (NULL);
+		ft_skip_space(input, &i);
+		if (input[i] == '\0')
+			break ;
+		if (parse_word(input, args, &i, arg_index) < 0)
+			return (-1);
+		if (is_sep_special(input, i))
+		{
+			if (parse_separator(input, args, &i, arg_index) < 0)
+				return (-1);
+		}
 	}
-	args[arg_index] = NULL;
-	return (args);
+	return (0);
 }

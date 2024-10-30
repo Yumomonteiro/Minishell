@@ -96,11 +96,20 @@ void	handle_variable_expansion(char **params, t_env *env,
 	}
 }
 
-void	handle_word_deliminator(char *c, int *i, char *line)
+char	**parse_input(char *input)
 {
-	if (*c != ' ' && line[*i] == *c)
+	char	**args;
+	int		arg_index;
+
+	arg_index = 0;
+	args = malloc(ARG_SIZE * sizeof(char *));
+	if (!args)
+		return (NULL);
+	if (parse_command_loop(input, args, &arg_index) < 0)
 	{
-		*c = ' ';
-		(*i)++;
+		free_tab(args);
+		return (NULL);
 	}
+	args[arg_index] = NULL;
+	return (args);
 }
