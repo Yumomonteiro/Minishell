@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
+/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 19:50:57 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/10/30 13:59:56 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/10/30 18:16:29 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	str_is_num(const char *str)
 
 void	mini_exit(t_msh *mini, char **cmd)
 {
-	mini->exit = 1;
 	if (cmd[1] && cmd[2])
 	{
 		mini->ret = 1;
@@ -40,7 +39,6 @@ void	mini_exit(t_msh *mini, char **cmd)
 	}
 	else if (cmd[1] && str_is_num(cmd[1]) == 0)
 	{
-		mini->ret = 255;
 		ft_putstr_fd("minishell: exit: ", STDERR);
 		ft_putstr_fd(cmd[1], STDERR);
 		ft_putendl_fd(": numeric argument required", STDERR);

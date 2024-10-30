@@ -43,6 +43,18 @@ int	is_sep(char *line, int i)
 		return (0);
 }
 
+int	is_sep_special(char *line, int i)
+{
+    if (i > 0 && line[i - 1] == '\\' && ft_strchr("<>|;", line[i]))
+        return (0);
+    if ((line[i] == '>' && line[i + 1] == '>') || (line[i] == '<' && line[i + 1] == '<'))
+        return (2);
+    else if (ft_strchr("<>|;", line[i]) && quotes(line, i) == 0)
+        return (1);
+
+    return (0);
+}
+
 int	quotes(char *line, int index)
 {
 	int	i;

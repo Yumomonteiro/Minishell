@@ -97,6 +97,8 @@ t_token	*get_tokens(char *line, t_env *env, int ret)
 	prev = NULL;
 	next = NULL;
 	i = 0;
+	if(!line)
+		return (0);
 	ft_skip_space(line, &i);
 	while (line[i])
 	{

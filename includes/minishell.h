@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
+/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/10/30 13:54:28 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/10/30 17:07:11 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,7 @@ void		handle_variable_expansion(char **params, t_env *env,
 				int *indices, int ret);
 void		ft_skip_space(const char *str, int *i);
 int			parse(t_msh *mini);
+int			is_sep_special(char *line, int i);
 char		**parse_input(char *input);
 void		*ft_memdel(void *ptr);
 void		type_arg(t_token *token, int separator);
