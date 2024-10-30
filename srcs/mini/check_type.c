@@ -6,7 +6,7 @@
 /*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:14:48 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/10/30 18:58:31 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/10/30 19:02:17 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	check_args(char **args, t_token *token)
 	}
 	return (0);
 }
+
 int	env_init(t_msh *mini, char **env_array)
 {
 	t_env	*env;

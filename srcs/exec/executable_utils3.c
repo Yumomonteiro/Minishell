@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executable_utils3.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:00:44 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/10/30 16:19:13 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/10/30 19:05:40 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,24 @@ char	**build_args(t_token *token)
 	return (args);
 }
 
+void	execute_and_cleanup(char *path, char **args, char **env_array)
+{
+	if (path)
+	{
+		execve(path, args, env_array);
+		exit(EXIT_FAILURE);
+	}
+	else
+		perror("minishell: command not found");
+	exit_cleanup(path, args, env_array);
+}
+
 void	exec_pipe_cmd(t_msh *mini, t_token *token)
 {
 	char	**args;
 	char	*path;
 	char	**env_array;
-	
+
 	args = NULL;
 	env_array = NULL;
 	path = NULL;
@@ -58,18 +70,10 @@ void	exec_pipe_cmd(t_msh *mini, t_token *token)
 		env_array = env_list_to_array(mini->env);
 		if (!env_array)
 			return ;
-		if (path)
-		{
-			if (check_args(args, token) == 0)
-			{
-				execve(path, args, env_array);
-				exit(EXIT_FAILURE);
-			}
-			token = token->next;
-			exec_cmd(mini, token);
-		}
-		else
-			perror("minishell: command not found");
+		if (check_args(args, token) == 0)
+			execute_and_cleanup(path, args, env_array);
+		token = token->next;
+		exec_cmd(mini, token);
 	}
 	exit_cleanup(path, args, env_array);
 }
@@ -94,23 +98,4 @@ t_token	*execute_command_or_pipe(t_msh *mini, t_token *token, t_token *tmp)
 			exec_cmd(mini, token);
 	}
 	return (next_run(mini->start, SKIP));
-}
-
-t_token	*skip_cmd(t_token *tmp)
-{
-	while (tmp && tmp->next)
-	{
-		if (tmp->type == CMD || tmp->type == ARG)
-		{
-			tmp = tmp->next;
-			continue ;
-		}
-		if (tmp && (tmp->type == TRUNC || tmp->type == APPEND
-				||tmp->type == HEREDOC || tmp->type == PIPE
-				|| tmp->type == INPUT))
-			return (tmp->prev);
-		else
-			tmp = tmp->next;
-	}
-	return (tmp);
 }
