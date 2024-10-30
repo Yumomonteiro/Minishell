@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/10/30 19:35:05 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/10/30 22:23:42 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ void		print_sorted_env(t_env *env);
 void		print_sorted_env(t_env *env);
 void		*ft_memdel(void *ptr);
 void		free_env(t_env *env);
+int			update_env_and_secret(t_env *env, t_env *secret, char *args);
 //SIGNALS
 void		handle_eof(void);
 void		handle_sigint(int sig);
@@ -243,4 +244,5 @@ int			parse_command_loop(char *input, char **args, int *arg_index);
 char		*get_env_var_value_cd(t_env *env, char *env_var);
 t_token		*parse_tokens(char *line, t_env *env,
 				int ret, t_token **last_token);
+t_token		*next_token(char *line, t_env *env, int *i, int ret);
 #endif

@@ -68,14 +68,16 @@ static void	add_to_envs(char *arg, t_env *env, t_env *secret)
 {
 	if (strchr(arg, '=') != NULL)
 	{
-		if (is_in_env(env, arg) == 0)
+		if (update_env_and_secret(env, secret, arg) == 0)
 		{
 			env_add(arg, env);
 			env_add(arg, secret);
 		}
 	}
-	else if (is_in_env(secret, arg) == 0)
+	else if (update_env_and_secret(env, secret, arg) == 0)
+	{
 		env_add(arg, secret);
+	}
 }
 
 int	ft_export(char **args, t_env *env, t_env *secret)
