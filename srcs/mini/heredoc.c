@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 14:30:16 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/09/03 19:45:35 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/10/30 18:51:20 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@ int	handle_heredoc_pipe(t_msh *mini, int fd[2])
 	return (0);
 }
 
+t_token	*get_next_delimiter(t_token *token)
+{
+	if (token->next && is_type(token->next, HEREDOC) && token->next->next)
+		return (token->next->next);
+	return (NULL);
+}
+
 void	read_heredoc_input(t_msh *mini, t_token *token, int fd[1])
 {
 	char	*line;
@@ -35,19 +42,13 @@ void	read_heredoc_input(t_msh *mini, t_token *token, int fd[1])
 		line = expansions(line, mini->env, 0);
 		if (!line || ft_strcmp(line, delimiter) == 0)
 		{
-			if (token->next && is_type(token->next, HEREDOC))
-			{
-				if (token->next->next)
-				{
-					token = token->next->next;
-					delimiter = token->str;
-					read_heredoc_input(mini, token, fd);
-				}
-			}
-			break ;
+			token = get_next_delimiter(token);
+			if (!token)
+				break ;
+			delimiter = token->str;
+			continue ;
 		}
-		if (!(token->next && is_type(token->next, HEREDOC)))
-			ft_putendl_fd(line, fd[1]);
+		ft_putendl_fd(line, fd[1]);
 		free(line);
 	}
 	free(line);
