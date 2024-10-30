@@ -6,7 +6,7 @@
 /*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 18:46:41 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/10/30 17:40:13 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/10/30 18:40:31 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	process_line(char *line, t_msh *mini)
 
 	args = parse_input(line);
 	line_arg = concat_args(args);
-	printf("%s\n", line_arg);
 	mini->start = get_tokens(line_arg, mini->env, mini->ret);
 	if (parse(mini) == 1)
 	{
