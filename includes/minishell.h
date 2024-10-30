@@ -6,7 +6,7 @@
 /*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/10/28 18:20:24 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/10/30 13:54:28 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,7 @@ void		minishell(t_msh *mini);
 t_token		*next_run(t_token *token, int skip);
 void		mini_exit(t_msh *mini, char **cmd);
 void		free_token(t_token *start);
+void		free_all(t_msh *mini);
 void		ft_close(int fd);
 void		shell_lvl(t_env *env);
 void		ft_skip_whitespaces(const char *str, int *i);
@@ -198,6 +199,7 @@ int			redir(t_msh *mini, t_token *token);
 int			heredoc(t_msh *mini, t_token *token);
 //PARSE
 int			check_args(char **args, t_token *token);
+char		*concat_args(char **args);
 int			ignore_sep(char *line, int i);
 int			quotes(char *line, int index);
 void		type_arg(t_token *token, int separator);
@@ -207,6 +209,7 @@ void		handle_variable_expansion(char **params, t_env *env,
 				int *indices, int ret);
 void		ft_skip_space(const char *str, int *i);
 int			parse(t_msh *mini);
+char		**parse_input(char *input);
 void		*ft_memdel(void *ptr);
 void		type_arg(t_token *token, int separator);
 void		handle_word_deliminator(char *c, int *i, char *line);

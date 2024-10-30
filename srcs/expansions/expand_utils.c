@@ -75,3 +75,45 @@ int	arg_alloc_len(const char *arg, t_env *env, int ret)
 	}
 	return (size);
 }
+
+int	calculate_total_length(char **args)
+{
+	int	total_length;
+	int	i;
+
+	total_length = 0;
+	i = 0;
+	while (args[i])
+	{
+		total_length += ft_strlen(args[i]) + 1;
+		i++;
+	}
+	return (total_length);
+}
+
+char	*concat_args(char **args)
+{
+	int		total_length;
+	char	*result;
+	int		i;
+
+	if (!args || !args[0])
+		return (NULL);
+	total_length = calculate_total_length(args);
+	result = malloc(total_length);
+	if (!result)
+	{
+		perror("Failed to allocate memory");
+		return (NULL);
+	}
+	result[0] = '\0';
+	i = 0;
+	while (args[i])
+	{
+		ft_strcat(result, args[i]);
+		if (args[i + 1])
+			ft_strcat(result, " ");
+		i++;
+	}
+	return (result);
+}

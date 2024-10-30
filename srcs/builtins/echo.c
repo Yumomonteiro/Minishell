@@ -35,17 +35,18 @@ static void	print_args(char **args, int i)
 
 int	handle_n_option(char **args, int *flag)
 {
-	int i = 1;
-	int j;
+	int	i;
+	int	j;
 
 	*flag = 1;
+	i = 1;
 	while (args[i] && ft_strncmp(args[i], "-n", 2) == 0)
 	{
 		j = 2;
 		while (args[i][j] == 'n')
 			j++;
 		if (args[i][j] != '\0')
-			break;
+			break ;
 		*flag = 0;
 		i++;
 	}
@@ -54,9 +55,9 @@ int	handle_n_option(char **args, int *flag)
 
 int	ft_echo(t_msh *mini, char **args)
 {
-	int i;
-	int flag;
-	char *home;
+	int		i;
+	int		flag;
+	char	*home;
 
 	if (nb_args(args) > 1)
 	{
@@ -65,7 +66,7 @@ int	ft_echo(t_msh *mini, char **args)
 			home = get_env_value("HOME", mini->env);
 			ft_putstr_fd(home, 1);
 			write(1, "\n", 1);
-			return SUCCESS;
+			return (SUCCESS);
 		}
 		i = handle_n_option(args, &flag);
 		print_args(args, i);
@@ -74,6 +75,5 @@ int	ft_echo(t_msh *mini, char **args)
 	}
 	else
 		write(1, "\n", 1);
-	return SUCCESS;
+	return (SUCCESS);
 }
-

@@ -16,7 +16,7 @@ int	ft_env(t_env *env)
 {
 	if (!env || !env->value)
 	{
-		return(0);
+		return (0);
 	}
 	while (env && env->next != NULL)
 	{
@@ -27,4 +27,3 @@ int	ft_env(t_env *env)
 		ft_putendl_fd(env->value, 1);
 	return (SUCCESS);
 }
-

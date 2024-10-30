@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/04 20:34:51 by yude-oli          #+#    #+#             */
-/*   Updated: 2023/10/11 10:25:33 by yude-oli         ###   ########.fr       */
+/*   Created: 2024/09/03 13:17:08 by yude-oli          #+#    #+#             */
+/*   Updated: 2024/09/03 13:17:08 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-char	*ft_strcat(char *dest, char *src)
+void	free_all(t_msh *mini)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	while (dest[i] != '\0')
-		i++;
-	j = 0;
-	while (src[j] != '\0')
-	{
-		dest[i + j] = src[j];
-		j++;
-	}
-	dest[i + j] = '\0';
-	return (dest);
+	if (mini->env)
+		free_env(mini->env);
+	if (mini->secret_env)
+		free_env(mini->secret_env);
+	if (mini->start)
+		free_token(mini->start);
+	if (mini->env->value)
+		free(mini->env->value);
+	if (mini->secret_env->value)
+		free(mini->secret_env->value);
 }

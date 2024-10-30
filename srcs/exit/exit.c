@@ -6,7 +6,7 @@
 /*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 19:50:57 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/10/26 13:43:42 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/10/30 13:59:56 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ void	exit_cleanup(char *s1, char **s2, char **s3)
 
 void	mini_clean(t_msh *mini)
 {
-	if(mini->env)
+	if (mini->env)
 		free_env(mini->env);
-	if(mini->secret_env)
+	if (mini->secret_env)
 		free_env(mini->secret_env);
-	if(mini->start)
+	if (mini->start)
 		free_token(mini->start);
 }
