@@ -44,39 +44,44 @@ char	*get_env_name(char *dest, const char *src)
 	return (dest);
 }
 
-int	is_in_env(t_env *env, char *args)
+int	find_env_var(t_env *list, char *var_name)
 {
-	char	var_name[BUFF_SIZE];
 	char	env_name[BUFF_SIZE];
 
-	get_env_name(var_name, args);
-	while (env)
+	while (list)
 	{
-		get_env_name(env_name, env->value);
+		get_env_name(env_name, list->value);
 		if (ft_strcmp(var_name, env_name) == 0)
-		{
-			ft_memdel(env->value);
-			env->value = ft_strdup(args);
 			return (1);
-		}
-		env = env->next;
+		list = list->next;
 	}
 	return (0);
 }
 
 static void	add_to_envs(char *arg, t_env *env, t_env *secret)
 {
+	int		updated;
+	char	var_name[BUFF_SIZE];
+
+	get_env_name(var_name, arg);
 	if (strchr(arg, '=') != NULL)
 	{
-		if (update_env_and_secret(env, secret, arg) == 0)
+		updated = update_env_and_secret(env, secret, arg);
+		if (updated == 1 && !find_env_var(env, var_name))
+			env_add(arg, env);
+		else if (updated == 0)
 		{
 			env_add(arg, env);
 			env_add(arg, secret);
 		}
 	}
-	else if (update_env_and_secret(env, secret, arg) == 0)
+	else
 	{
-		env_add(arg, secret);
+		updated = update_env_and_secret(env, secret, arg);
+		if (updated == 0)
+			env_add(arg, secret);
+		else if (updated == 1 && !find_env_var(env, var_name))
+			env_add(arg, env);
 	}
 }
 

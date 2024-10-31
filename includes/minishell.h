@@ -6,7 +6,7 @@
 /*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/10/30 22:23:42 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/10/31 08:43:30 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_env
 	struct s_env	*next;
 	char			var_cpy[1024];
 	char			*expanded_value;
+	int				is_exported;
 	char			*value;
 }				t_env;
 
