@@ -72,13 +72,14 @@ static void	add_to_envs(char *arg, t_env *env, t_env *secret)
 		else if (updated == 0)
 		{
 			env_add(arg, env);
-			env_add(arg, secret);
+			if (!find_env_var(secret, var_name))
+				env_add(arg, secret);
 		}
 	}
 	else
 	{
 		updated = update_env_and_secret(env, secret, arg);
-		if (updated == 0)
+		if (updated == 0 && !find_env_var(secret, var_name))
 			env_add(arg, secret);
 		else if (updated == 1 && !find_env_var(env, var_name))
 			env_add(arg, env);
