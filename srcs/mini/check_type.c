@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_type.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:14:48 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/10/30 19:02:17 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/10/31 10:41:29 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ int	env_init(t_msh *mini, char **env_array)
 		env_add(env_pwd, env);
 		env_add("=/usr/bin/env", env);
 	}
+	free(pwd);
 	return (0);
 }
