@@ -6,7 +6,7 @@
 /*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:14:48 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/10/31 10:41:29 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/10/31 12:25:03 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int	env_init(t_msh *mini, char **env_array)
 	int		i;
 
 	pwd = getcwd(NULL, 0);
-	env_pwd = NULL;
 	env = malloc(sizeof(t_env));
 	if (!env)
 		return (1);
