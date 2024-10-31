@@ -6,7 +6,7 @@
 /*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 14:30:16 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/10/30 18:51:20 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/10/31 15:05:22 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ void	read_heredoc_input(t_msh *mini, t_token *token, int fd[1])
 			delimiter = token->str;
 			continue ;
 		}
-		ft_putendl_fd(line, fd[1]);
+		if (!(token->next && is_type(token->next, HEREDOC)))
+			ft_putendl_fd(line, fd[1]);
 		free(line);
 	}
 	free(line);
