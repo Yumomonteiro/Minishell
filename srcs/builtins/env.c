@@ -37,7 +37,7 @@ int	update_secret_list(t_env *secret, char *var_name, char *args)
 {
 	char	secret_name[BUFF_SIZE];
 
-	if (strchr(args, '=') != NULL)
+	if (ft_strchr(args, '=') != NULL)
 	{
 		while (secret)
 		{

@@ -19,8 +19,8 @@ void	change_env_oldpwd(t_msh *mini)
 
 	pwd = getcwd(NULL, 0);
 	pwd_var = malloc(strlen("PWD=") + ft_strlen(pwd) + 1);
-	strcpy(pwd_var, "PWD=");
-	strcat(pwd_var, pwd);
+	ft_strcpy(pwd_var, "PWD=");
+	ft_strcat(pwd_var, pwd);
 	mini->env = rm_env(mini->env, "PWD");
 	mini->env = add_env(pwd_var, mini->env);
 	free(pwd_var);
@@ -32,8 +32,8 @@ void	change_env_pwd(t_msh *mini, char *oldpwd)
 	char	*oldpwd_var;
 
 	oldpwd_var = malloc(strlen("OLDPWD=") + ft_strlen(oldpwd) + 1);
-	strcpy(oldpwd_var, "OLDPWD=");
-	strcat(oldpwd_var, oldpwd);
+	ft_strcpy(oldpwd_var, "OLDPWD=");
+	ft_strcat(oldpwd_var, oldpwd);
 	mini->env = rm_env(mini->env, "OLDPWD");
 	mini->env = add_env(oldpwd_var, mini->env);
 	free(oldpwd_var);
@@ -58,7 +58,7 @@ int	get_directory(char **cmd, t_msh *mini, char **dir)
 {
 	if (!cmd[1])
 		*dir = get_env_var_value_cd(mini->env, "HOME");
-	else if (strcmp(cmd[1], "-") == 0)
+	else if (ft_strcmp(cmd[1], "-") == 0)
 	{
 		*dir = get_env_var_value_cd(mini->env, "OLDPWD");
 		if (*dir)

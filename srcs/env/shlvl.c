@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 14:24:07 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/09/02 14:24:50 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/03 16:40:18 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_env	*rm_env(t_env *env, char *del_env)
 	current = env;
 	while (current)
 	{
-		if (strncmp(current->value, del_env, strlen(del_env)) == 0)
+		if (ft_strncmp(current->value, del_env, ft_strlen(del_env)) == 0)
 		{
 			if (prev)
 				prev->next = current->next;

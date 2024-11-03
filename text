@@ -1,12 +1,1 @@
-build
-includes
-libs
-main.c
-main.o
-Makefile
-minishell
-readline.supp
-README.md
-srcs
-text
-text1
+      1       1       5

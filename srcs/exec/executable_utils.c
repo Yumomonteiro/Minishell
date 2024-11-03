@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executable_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
+/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 17:49:43 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/10/26 13:07:54 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/11/03 16:44:58 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	**copy_env_values(struct s_env *env_list, char **array, int count)
 	i = 0;
 	while (i < count)
 	{
-		array[i] = strdup(current->value);
+		array[i] = ft_strdup(current->value);
 		if (array[i] == NULL)
 		{
 			while (i > 0)

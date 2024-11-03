@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
+/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:50:14 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/03 13:14:54 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/11/03 16:44:34 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	**cmd_tab(t_token *start)
 	i = 0;
 	while (token && token->type < TRUNC)
 	{
-		tab[i] = strdup(token->str);
+		tab[i] = ft_strdup(token->str);
 		if (!tab[i])
 			free_tab(tab);
 		i++;

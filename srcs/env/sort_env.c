@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 14:25:30 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/09/02 14:31:54 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/03 16:40:47 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	sort_env(t_env *env)
 		ptr1 = env;
 		while (ptr1->next != lptr)
 		{
-			if (strcmp(ptr1->value, ptr1->next->value) > 0)
+			if (ft_strcmp(ptr1->value, ptr1->next->value) > 0)
 			{
 				swap(ptr1, ptr1->next);
 				swapped = 1;

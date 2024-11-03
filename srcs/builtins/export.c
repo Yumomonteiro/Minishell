@@ -64,7 +64,7 @@ static void	add_to_envs(char *arg, t_env *env, t_env *secret)
 	char	var_name[BUFF_SIZE];
 
 	get_env_name(var_name, arg);
-	if (strchr(arg, '=') != NULL)
+	if (ft_strchr(arg, '=') != NULL)
 	{
 		updated = update_env_and_secret(env, secret, arg);
 		if (updated == 1 && !find_env_var(env, var_name))

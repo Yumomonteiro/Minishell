@@ -87,11 +87,11 @@ void	handle_variable_expansion(char **params, t_env *env,
 		(*i)++;
 		while (line[*i] && (ft_isalnum(line[*i]) || line[*i] == '_'))
 			(*i)++;
-		strncpy(env->var_cpy, &line[indices[2]], *i - indices[2]);
+		ft_strncpy(env->var_cpy, &line[indices[2]], *i - indices[2]);
 		env->var_cpy[*i - indices[2]] = '\0';
 		env->expanded_value = expansions(env->var_cpy, env, ret);
-		strcpy(&temp[*j], env->expanded_value);
-		*j += strlen(env->expanded_value);
+		ft_strcpy(&temp[*j], env->expanded_value);
+		*j += ft_strlen(env->expanded_value);
 		free(env->expanded_value);
 	}
 }
