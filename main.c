@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 18:46:41 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/10/30 19:10:27 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/11/03 13:17:29 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,17 @@ void	shell_loop(t_msh *mini)
 		line = readline("minishell: ");
 		if (handle_sig_eof(line) == 1)
 			continue ;
-		if (line[0])
+		if (line && *line)
 		{
 			add_history(line);
 			if (!quote_check(mini, &line))
 			{
 				process_line(line, mini);
+				free(line);
 			}
 		}
-		free(line);
+		else if (!line)
+			free_all(mini);
 	}
 }
 
@@ -80,6 +82,4 @@ int	main(int ac, char **av, char **env)
 		exit_error();
 	func_initiate(env, &mini);
 	shell_loop(&mini);
-	free_all(&mini);
-	return (mini.ret);
 }

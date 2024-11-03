@@ -42,29 +42,34 @@ void	free_token(t_token *start)
 	}
 }
 
-void	*ft_memdel(void *ptr)
+void	free_ptr(void *ptr)
 {
-	if (ptr)
+	if (ptr != NULL)
 	{
 		free(ptr);
 		ptr = NULL;
 	}
-	return (NULL);
 }
 
 void	free_tab(char **tab)
 {
-	int		i;
+	int	i;
 
 	i = 0;
-	if (!tab)
-		return ;
-	while (tab[i])
+	if (tab)
 	{
-		free(tab[i]);
-		i++;
+		while (tab[i])
+		{
+			if (tab[i])
+			{
+				free_ptr(tab[i]);
+				tab[i] = NULL;
+			}
+			i++;
+		}
+		free(tab);
+		tab = NULL;
 	}
-	free(tab);
 }
 
 void	cleanup(t_msh *mini)

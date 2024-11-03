@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:50:14 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/10/30 18:35:38 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/11/03 13:14:54 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,22 @@ char	**cmd_tab(t_token *start)
 	t_token	*token;
 	char	**tab;
 	int		i;
+	int		num_tokens;
 
 	if (!start)
 		return (NULL);
-	i = count_tokens(start);
-	tab = malloc(sizeof(char *) * i);
+	num_tokens = count_tokens(start);
+	tab = malloc(sizeof(char *) * (num_tokens + 1));
 	if (!tab)
 		return (NULL);
-	token = start->next;
-	tab[0] = start->str;
-	i = 1;
+	token = start;
+	i = 0;
 	while (token && token->type < TRUNC)
 	{
-		tab[i++] = token->str;
+		tab[i] = strdup(token->str);
+		if (!tab[i])
+			free_tab(tab);
+		i++;
 		token = token->next;
 	}
 	tab[i] = NULL;
@@ -91,5 +94,5 @@ void	exec_cmd(t_msh *mini, t_token *token)
 	ft_close(mini->pipout);
 	mini->pipin = -1;
 	mini->pipout = -1;
-	free(cmd);
+	free_tab(cmd);
 }

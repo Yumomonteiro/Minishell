@@ -12,6 +12,19 @@
 
 #include "../../includes/minishell.h"
 
+void	free_env_list(t_env *env)
+{
+	t_env	*temp;
+
+	while (env)
+	{
+		temp = env;
+		env = env->next;
+		free(temp->value);
+		free(temp);
+	}
+}
+
 void	free_all(t_msh *mini)
 {
 	if (mini->env)
@@ -20,8 +33,8 @@ void	free_all(t_msh *mini)
 		free_env(mini->secret_env);
 	if (mini->start)
 		free_token(mini->start);
-	if (mini->env->value)
-		free(mini->env->value);
-	if (mini->secret_env->value)
-		free(mini->secret_env->value);
+	if (mini->env)
+		free_env_list(mini->env);
+	if (mini->secret_env)
+		free_env_list(mini->secret_env);
 }
