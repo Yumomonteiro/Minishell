@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 18:52:20 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/03 17:41:48 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/03 17:48:20 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	execute_child_process(t_msh *mini, t_token *token, int pipefd[2])
 }
 
 void	handle_parent_process(t_msh *mini, t_token **token,
-		int pipefd[2], pid_t pid)
+			int pipefd[2], pid_t pid)
 {
 	close(pipefd[1]);
 	waitpid(pid, &mini->ret, 0);

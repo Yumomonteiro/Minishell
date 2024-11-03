@@ -6,22 +6,22 @@
 /*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:52:04 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/03 17:11:29 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/11/03 17:44:56 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char    *ft_strcpy(char *s1, char *s2)
-  {
-      int i;
- 
-      i = 0;
-      while (s2[i])
-      {
-          s1[i] = s2[i];
-          i++;
-      }
-      s1[i] = s2[i];
-      return (s1);
-  }
+char	*ft_strcpy(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s2[i])
+	{
+		s1[i] = s2[i];
+		i++;
+	}
+	s1[i] = s2[i];
+	return (s1);
+}
