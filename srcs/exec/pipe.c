@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 18:52:20 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/03 17:48:20 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/11/03 18:17:42 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	handle_parent_process(t_msh *mini, t_token **token,
 	close(pipefd[1]);
 	waitpid(pid, &mini->ret, 0);
 	if (mini->pipin != STDIN_FILENO)
-		close(mini->pipin);
+		ft_close(mini->pipin);
 	mini->pipin = pipefd[0];
 	while (*token && (*token)->type != PIPE)
 		*token = (*token)->next;

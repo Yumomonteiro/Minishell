@@ -38,3 +38,9 @@ void	free_all(t_msh *mini)
 	if (mini->secret_env)
 		free_env_list(mini->secret_env);
 }
+
+void	close_in_out(t_msh *mini)
+{
+	ft_close(mini->in);
+	ft_close(mini->out);
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:50:14 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/03 16:44:34 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/11/04 08:53:30 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	exec_cmd(t_msh *mini, t_token *token)
 	{
 		mini_exit(mini, cmd);
 		mini_clean(mini);
+		free_tab(cmd);
 		exit(0);
 	}
 	else if (cmd && is_builtin(cmd[0]))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bin.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
+/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 14:40:43 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/03 13:23:44 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/11/04 09:16:42 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,10 @@ int	execute(char *path, char **args, t_env *env, t_msh *mini)
 		if (ft_strchr(path, '/') != NULL)
 			execve(path, args, env_array);
 		ret = error_message(path);
+		close_in_out(mini);
 		free_tab(env_array);
 		free_token(mini->start);
+		free_env(mini->env);
 		exit(ret);
 	}
 	else

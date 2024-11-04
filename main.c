@@ -6,7 +6,7 @@
 /*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 18:46:41 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/11/03 17:15:33 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/04 09:06:06 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,23 @@ void	func_initiate(char **env, t_msh *mini)
 
 void	process_line(char *line, t_msh *mini)
 {
-	char	**args;
-	char	*line_arg;
+	//char	**args;
+	//char	*line_arg;
 
-	args = parse_input(line);
-	line_arg = concat_args(args);
-	mini->start = get_tokens(line_arg, mini->env, mini->ret);
+	mini->args = parse_input(line);
+	mini->line_arg = concat_args(mini->args);
+	mini->start = get_tokens(mini->line_arg, mini->env, mini->ret);
 	if (parse(mini) == 1)
 	{
-		free_tab(args);
+		free_tab(mini->args);
 		free_token(mini->start);
-		free(line_arg);
+		free(mini->line_arg);
 		return ;
 	}
 	minishell(mini);
-	free_tab(args);
+	free_tab(mini->args);
 	free_token(mini->start);
-	free(line_arg);
+	free(mini->line_arg);
 }
 
 void	shell_loop(t_msh *mini)
@@ -58,7 +58,7 @@ void	shell_loop(t_msh *mini)
 	while (1)
 	{
 		line = readline("minishell: ");
-		if (handle_sig_eof(line) == 1)
+		if (handle_sig_eof(mini, line) == 1)
 			continue ;
 		if (line && *line)
 		{
@@ -71,9 +71,9 @@ void	shell_loop(t_msh *mini)
 		}
 		else if (!line)
 			free_all(mini);
-		ft_close(mini->in);
-		ft_close(mini->out);
-	}
+	} 
+	ft_close(mini->in);
+	ft_close(mini->out);
 }
 
 int	main(int ac, char **av, char **env)

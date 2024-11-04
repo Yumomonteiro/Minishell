@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:08:24 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/10/30 19:34:25 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/11/04 08:51:01 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,16 @@ void	handle_eof(void)
 	exit(0);
 }
 
-int	handle_sig_eof(char *line)
+int	handle_sig_eof(t_msh *mini, char *line)
 {
 	if (line == NULL)
 	{
+		if (mini->env)
+			free_env(mini->env);
+		if (mini->secret_env)
+			free_env(mini->secret_env);
+		ft_close(mini->in);
+		ft_close(mini->out);
 		handle_eof();
 		return (1);
 	}

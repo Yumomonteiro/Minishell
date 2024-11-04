@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/10/31 16:22:27 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/11/04 09:05:49 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ typedef struct s_msh
 	int				last;
 	int				ret;
 	int				exit;
+	char 			**args;
+	char			*line_arg;
 }				t_msh;
 // BUILTINS
 int			ft_pwd(int flag);
@@ -145,8 +147,9 @@ int			update_env_and_secret(t_env *env, t_env *secret, char *args);
 void		handle_eof(void);
 void		handle_sigint(int sig);
 void		handle_sigint(int sig);
-int			handle_sig_eof(char *line);
+int			handle_sig_eof(t_msh *mini, char *line);
 void		handle_eof(void);
+void		close_in_out(t_msh *mini);
 //PIPES
 int			check_path(char **args, t_env *env, t_msh *mini, char *path);
 char		*path_join_pipe(const char *s1, const char *s2);
