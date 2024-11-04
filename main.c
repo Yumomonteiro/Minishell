@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 18:46:41 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/11/04 09:06:06 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/04 09:42:09 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,6 @@ void	func_initiate(char **env, t_msh *mini)
 
 void	process_line(char *line, t_msh *mini)
 {
-	//char	**args;
-	//char	*line_arg;
-
 	mini->args = parse_input(line);
 	mini->line_arg = concat_args(mini->args);
 	mini->start = get_tokens(mini->line_arg, mini->env, mini->ret);
@@ -71,7 +68,7 @@ void	shell_loop(t_msh *mini)
 		}
 		else if (!line)
 			free_all(mini);
-	} 
+	}
 	ft_close(mini->in);
 	ft_close(mini->out);
 }

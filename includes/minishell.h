@@ -6,7 +6,7 @@
 /*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/04 09:35:56 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/11/04 09:42:28 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ typedef struct s_msh
 	int				last;
 	int				ret;
 	int				exit;
-	char 			**args;
+	char			**args;
 	char			*line_arg;
 	char			**bin;
 	char			**cmd;

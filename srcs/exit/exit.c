@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 19:50:57 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/11/04 09:07:06 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/04 09:40:34 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ void	exit_cleanup(char *s1, char **s2, char **s3)
 
 void	mini_clean(t_msh *mini)
 {
-	if(mini->line_arg)
+	if (mini->line_arg)
 		free(mini->line_arg);
-	if(mini->args)
+	if (mini->args)
 		free_tab(mini->args);
 	if (mini->env)
 		free_env(mini->env);

@@ -51,8 +51,8 @@ void	close_in_out(t_msh *mini)
 		free_tab(mini->args);
 	if (mini->line_arg)
 		free(mini->line_arg);
-	if(mini->bin)
+	if (mini->bin)
 		free_tab(mini->bin);
-	if(mini->cmd)
+	if (mini->cmd)
 		free_tab(mini->cmd);
 }
