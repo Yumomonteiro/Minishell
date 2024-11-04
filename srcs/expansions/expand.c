@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:07:58 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/09/03 16:16:49 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:00:56 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*expansions(char *arg, t_env *env, int ret)
 	int				new_arg_len;
 
 	new_arg_len = arg_alloc_len(arg, env, ret);
-	ex.new_arg = malloc(sizeof(char) * new_arg_len + 1);
+	ex.new_arg = malloc(sizeof(char) * new_arg_len + 2);
 	if (!(ex.new_arg))
 		return (NULL);
 	ex.i = 0;

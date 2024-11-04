@@ -49,29 +49,29 @@ int	get_var_len(const char *arg, int pos, t_env *env, int ret)
 
 int	arg_alloc_len(const char *arg, t_env *env, int ret)
 {
-	int		i;
-	int		size;
+	int	i;
+	int	size;
 
-	i = -1;
+	i = 0;
 	size = 0;
-	while (arg[++i])
+	while (arg[i])
 	{
-		if (arg[i] == EXPANSION)
+		if (arg[i] == EXPANSION && arg[i + 1] != '\0')
 		{
 			i++;
-			if ((arg[i] == '\0' || ft_isalnum(arg[i]) == 0) && arg[i] != '?')
+			if ((arg[i] == '\0' || !ft_isalnum(arg[i])) && arg[i] != '?')
 				size++;
 			else
 				size += get_var_len(arg, i, env, ret);
-			if (ft_isdigit(arg[i]) == 0)
-			{
+			if (!ft_isdigit(arg[i]))
 				while (arg[i + 1] && is_env_char(arg[i]))
 					i++;
-			}
 			else
 				size--;
 		}
-		size++;
+		else
+			size++;
+		i++;
 	}
 	return (size);
 }
