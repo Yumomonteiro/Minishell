@@ -43,4 +43,16 @@ void	close_in_out(t_msh *mini)
 {
 	ft_close(mini->in);
 	ft_close(mini->out);
+	if (mini->env)
+		free_env(mini->env);
+	if (mini->secret_env)
+		free_env(mini->secret_env);
+	if (mini->args)
+		free_tab(mini->args);
+	if (mini->line_arg)
+		free(mini->line_arg);
+	if(mini->bin)
+		free_tab(mini->bin);
+	if(mini->cmd)
+		free_tab(mini->cmd);
 }

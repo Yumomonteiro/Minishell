@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bin.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 14:40:43 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/04 09:16:42 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/04 09:32:35 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int	execute(char *path, char **args, t_env *env, t_msh *mini)
 		close_in_out(mini);
 		free_tab(env_array);
 		free_token(mini->start);
-		free_env(mini->env);
 		exit(ret);
 	}
 	else
@@ -108,7 +107,6 @@ char	*check_dir(char *bin, char *command)
 int	exec(char **args, t_env *env, t_msh *mini)
 {
 	int		i;
-	char	**bin;
 	char	*path;
 	int		ret;
 	t_env	*temp_env;
@@ -121,15 +119,15 @@ int	exec(char **args, t_env *env, t_msh *mini)
 		temp_env = temp_env->next;
 	if (temp_env == NULL || temp_env->next == NULL)
 		return (execute(args[0], args, env, mini));
-	bin = ft_split(temp_env->value, ':');
-	if (!args[0] && !bin[0])
+	mini->bin = ft_split(temp_env->value, ':');
+	if (!args[0] && !mini->bin[0])
 		return (ERROR);
 	i = 1;
-	path = check_dir(bin[0] + 5, args[0]);
-	while (args[0] && bin[i] && path == NULL)
-		path = check_dir(bin[i++], args[0]);
+	path = check_dir(mini->bin[0] + 5, args[0]);
+	while (args[0] && mini->bin[i] && path == NULL)
+		path = check_dir(mini->bin[i++], args[0]);
 	ret = check_path(args, env, mini, path);
-	free_tab(bin);
+	free_tab(mini->bin);
 	ft_memdel(path);
 	return (ret);
 }
