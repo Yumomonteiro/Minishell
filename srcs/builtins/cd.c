@@ -18,7 +18,7 @@ void	change_env_oldpwd(t_msh *mini)
 	char	*pwd_var;
 
 	pwd = getcwd(NULL, 0);
-	pwd_var = malloc(strlen("PWD=") + ft_strlen(pwd) + 1);
+	pwd_var = malloc(ft_strlen("PWD=") + ft_strlen(pwd) + 1);
 	ft_strcpy(pwd_var, "PWD=");
 	ft_strcat(pwd_var, pwd);
 	mini->env = rm_env(mini->env, "PWD");
@@ -30,8 +30,7 @@ void	change_env_oldpwd(t_msh *mini)
 void	change_env_pwd(t_msh *mini, char *oldpwd)
 {
 	char	*oldpwd_var;
-
-	oldpwd_var = malloc(strlen("OLDPWD=") + ft_strlen(oldpwd) + 1);
+	oldpwd_var = malloc(ft_strlen("OLDPWD=") + ft_strlen(oldpwd) + 1);
 	ft_strcpy(oldpwd_var, "OLDPWD=");
 	ft_strcat(oldpwd_var, oldpwd);
 	mini->env = rm_env(mini->env, "OLDPWD");

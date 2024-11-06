@@ -18,6 +18,8 @@ char	*ft_strcat(char *dest, char *src)
 	int	j;
 
 	i = 0;
+	if(!src || !src[0])
+		return(NULL);
 	while (dest[i] != '\0')
 		i++;
 	j = 0;
