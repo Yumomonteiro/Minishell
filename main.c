@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 18:46:41 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/11/04 09:42:09 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/11/07 18:37:50 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	func_initiate(char **env, t_msh *mini)
 	mini->fdout = -1;
 	mini->pipin = -1;
 	mini->pipout = -1;
+	mini->ret = 0;
 }
 
 void	process_line(char *line, t_msh *mini)
