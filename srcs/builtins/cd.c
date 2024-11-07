@@ -30,6 +30,7 @@ void	change_env_oldpwd(t_msh *mini)
 void	change_env_pwd(t_msh *mini, char *oldpwd)
 {
 	char	*oldpwd_var;
+
 	oldpwd_var = malloc(ft_strlen("OLDPWD=") + ft_strlen(oldpwd) + 1);
 	ft_strcpy(oldpwd_var, "OLDPWD=");
 	ft_strcat(oldpwd_var, oldpwd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/04 09:42:28 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/11/07 18:49:22 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ void		print_sorted_env(t_env *env);
 void		*ft_memdel(void *ptr);
 void		free_env(t_env *env);
 int			update_env_and_secret(t_env *env, t_env *secret, char *args);
+void		close_all_fds(void);
 //SIGNALS
 void		handle_eof(void);
 void		handle_sigint(int sig);

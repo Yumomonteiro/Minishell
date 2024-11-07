@@ -6,7 +6,7 @@
 /*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:08:24 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/11/04 08:51:01 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/07 18:57:51 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	handle_eof(void)
 {
 	printf("exit\n");
+	close_all_fds();
 	exit(0);
 }
 

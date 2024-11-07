@@ -56,3 +56,15 @@ void	close_in_out(t_msh *mini)
 	if (mini->cmd)
 		free_tab(mini->cmd);
 }
+
+void	close_all_fds(void)
+{
+	int	fd;
+
+	fd = 0;
+	while (fd < 1024)
+	{
+		close(fd);
+		fd++;
+	}
+}
