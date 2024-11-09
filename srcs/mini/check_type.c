@@ -6,7 +6,7 @@
 /*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:14:48 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/04 15:51:06 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/11/09 19:56:30 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,31 +52,9 @@ int	check_args(char **args, t_token *token)
 	return (0);
 }
 
-int	env_init(t_msh *mini, char **env_array)
+int	is_env_char(int c)
 {
-	t_env	*env;
-	char	*pwd;
-	char	*env_pwd;
-	int		i;
-
-	pwd = getcwd(NULL, 0);
-	env = malloc(sizeof(t_env));
-	if (!env)
+	if (ft_isalnum(c) == 1 || c == '_')
 		return (1);
-	env->value = ft_strdup(env_array[0]);
-	env->next = NULL;
-	mini->env = env;
-	i = 1;
-	while (env_array && env_array[0] && env_array[i])
-		if (add_env_variable(&env, env_array[i++]))
-			return (1);
-	if (!env || !env->value)
-	{
-		env_pwd = ft_strjoin("PWD=", pwd);
-		env_add("SHLVL=1", env);
-		env_add(env_pwd, env);
-		env_add("=/usr/bin/env", env);
-	}
-	free(pwd);
 	return (0);
 }

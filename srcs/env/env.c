@@ -12,16 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-t_env	*add_env(char *line, t_env *env)
-{
-	t_env	*new_env;
-
-	new_env = malloc(sizeof(t_env));
-	new_env->value = strdup(line);
-	new_env->next = env;
-	return (new_env);
-}
-
 size_t	size_env(t_env *lst)
 {
 	size_t	lst_len;
@@ -81,12 +71,36 @@ int	add_env_variable(t_env **env, char *value)
 	return (0);
 }
 
+int	env_init(t_msh *mini, char **env_array)
+{
+	t_env	*env;
+	char	*pwd;
+	int		i;
+
+	pwd = getcwd(NULL, 0);
+	env = malloc(sizeof(t_env));
+	if (!env)
+		return (1);
+	env->value = ft_strdup(env_array[0]);
+	env->next = NULL;
+	mini->env = env;
+	i = 1;
+	while (env_array && env_array[0] && env_array[i])
+		if (add_env_variable(&env, env_array[i++]))
+			return (1);
+	if (!env || !env->value)
+		special_env(env, pwd);
+	free(pwd);
+	return (0);
+}
+
 int	secret_env_init(t_msh *mini, char **env_array)
 {
 	t_env	*env;
-	t_env	*new;
+	char	*pwd;
 	int		i;
 
+	pwd = getcwd(NULL, 0);
 	env = malloc(sizeof(t_env));
 	if (!env)
 		return (1);
@@ -95,15 +109,9 @@ int	secret_env_init(t_msh *mini, char **env_array)
 	mini->secret_env = env;
 	i = 1;
 	while (env_array && env_array[0] && env_array[i])
-	{
-		new = malloc(sizeof(t_env));
-		if (!new)
+		if (add_env_variable(&env, env_array[i++]))
 			return (1);
-		new->value = ft_strdup(env_array[i]);
-		new->next = NULL;
-		env->next = new;
-		env = new;
-		i++;
-	}
+	if (!env || !env->value)
+		special_env(env, pwd);
 	return (0);
 }

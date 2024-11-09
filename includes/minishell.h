@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/07 18:49:22 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/09 19:57:54 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ typedef struct s_msh
 	char			*line_arg;
 	char			**bin;
 	char			**cmd;
+	char			*last_arg;
 }				t_msh;
 // BUILTINS
 int			ft_pwd(int flag);
@@ -251,4 +252,6 @@ char		*get_env_var_value_cd(t_env *env, char *env_var);
 t_token		*parse_tokens(char *line, t_env *env,
 				int ret, t_token **last_token);
 t_token		*next_token(char *line, t_env *env, int *i, int ret);
+void		update_last_arg(t_msh *mini);
+void		special_env(t_env *env, char *pwd);
 #endif

@@ -3,20 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 14:22:16 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/09/02 14:23:18 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/09 19:43:33 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	is_env_char(int c)
+t_env	*add_env(char *line, t_env *env)
 {
-	if (ft_isalnum(c) == 1 || c == '_')
-		return (1);
-	return (0);
+	t_env	*new_env;
+
+	new_env = malloc(sizeof(t_env));
+	new_env->value = strdup(line);
+	new_env->next = env;
+	return (new_env);
 }
 
 int	is_valid_env(const char *env)

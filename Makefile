@@ -5,7 +5,7 @@ CFLAGS  = -Wall -Wextra -Werror -g #-fsanitize=address
 
 SRCS    = main.c \
           $(addprefix srcs/builtins/, cd.c echo.c env.c export.c unset.c pwd.c) \
-          $(addprefix srcs/env/, env.c get_env.c sort_env.c shlvl.c) \
+          $(addprefix srcs/env/, env.c get_env.c sort_env.c shlvl.c env_utils.c) \
           $(addprefix srcs/expansions/, expand.c expand_utils.c) \
 					$(addprefix srcs/parse/, parse.c parse_utils.c parse_utils2.c parse_utils3.c) \
 					$(addprefix srcs/exec/, bin.c exec.c executable_utils.c pipe.c exec_builtins.c executable_utils2.c executable_utils3.c redir.c) \
