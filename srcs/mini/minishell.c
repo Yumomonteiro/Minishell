@@ -6,7 +6,7 @@
 /*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:08:24 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/11/13 10:59:56 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/13 11:03:11 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,12 @@ int	handle_special_redir_cases(t_msh *mini, t_token *token)
 	if (is_type(token, HEREDOC))
 	{
 		heredoc(mini, token);
+		return (1);
+	}
+	if (is_type(token, PIPE))
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
+		mini->ret = 258;
 		return (1);
 	}
 	return (0);
