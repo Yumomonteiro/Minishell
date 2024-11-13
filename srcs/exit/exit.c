@@ -6,7 +6,7 @@
 /*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 19:50:57 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/11/07 18:49:41 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/13 14:23:11 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,6 @@ int	str_is_num(const char *str)
 
 void	mini_exit(t_msh *mini, char **cmd)
 {
-	ft_close(mini->in);
-	ft_close(mini->out);
-	close_all_fds();
 	if (cmd[1] && cmd[2])
 	{
 		mini->ret = 1;
@@ -52,6 +49,9 @@ void	mini_exit(t_msh *mini, char **cmd)
 	}
 	else
 		mini->ret = 0;
+	ft_close(mini->in);
+	ft_close(mini->out);
+	close_all_fds();
 }
 
 void	exit_error(void)
