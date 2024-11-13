@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
+/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:08:24 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/11/09 19:18:08 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/11/13 10:59:56 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
+// ls
 t_token	*next_run(t_token *token, int skip)
 {
 	type_arg(token, 0);
 	if (token && skip)
 		token = token->next;
-	while (token && token->type != CMD)
+	while (token && token->type != CMD && token->type != TRUNC && token->type != APPEND
+		&& token->type != INPUT && token->type != PIPE && token->type != HEREDOC)
 	{
 		token = token->next;
 		if (token && token->type == CMD && token->prev == NULL)
@@ -53,7 +54,25 @@ int	handle_special_tokens(t_msh *mini, t_token *tmp)
 	}
 	return (0);
 }
-
+int	handle_special_redir_cases(t_msh *mini, t_token *token)
+{
+	if (is_type(token, TRUNC) || is_type(token, APPEND))
+	{
+		redir(mini, token);
+		return (1);
+	}
+	if (is_type(token, INPUT))
+	{
+		input(mini, token);
+		return (1);
+	}
+	if (is_type(token, HEREDOC))
+	{
+		heredoc(mini, token);
+		return (1);
+	}
+	return (0);
+}
 void	process_tokens(t_msh *mini)
 {
 	t_token	*token;
@@ -62,6 +81,8 @@ void	process_tokens(t_msh *mini)
 	token = next_run(mini->start, NOSKIP);
 	while (token)
 	{
+		if(handle_special_redir_cases(mini, token) == 1)
+			return ;
 		tmp = token;
 		if (tmp->next)
 			tmp = skip_cmd(tmp);
