@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_type.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
+/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:14:48 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/09 19:56:30 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/11/14 13:58:53 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,6 @@ int	search_pipe(t_token *token)
 		if (is_type(token, PIPE))
 			return (1);
 		token = token->next;
-	}
-	return (0);
-}
-
-int	check_args(char **args, t_token *token)
-{
-	if (args && args[0] && ft_strncmp(args[0], "cat", 3) == 0
-		&& !args[1] && token && token->next && token->next->type == PIPE)
-	{
-		return (1);
 	}
 	return (0);
 }

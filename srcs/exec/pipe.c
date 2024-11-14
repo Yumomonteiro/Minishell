@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 18:52:20 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/09 15:33:21 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/14 13:50:32 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ void execute_child_process(t_msh *mini, t_token *token, int pipefd[2])
 	while (next_token && (next_token->type != PIPE))
 	{
 		if (next_token->type == TRUNC || next_token->type == APPEND)
+		{
 			redir(mini, next_token);
+		}
 		if (next_token->type == INPUT)
 			input(mini, next_token);
 		next_token = next_token->next;
@@ -62,7 +64,7 @@ int pipex(t_msh *mini, t_token *token)
 {
 	int pipefd[2];
 	pid_t pid;
-	pid_t pids[256]; // Array para armazenar os PIDs (ajuste o tamanho conforme necessário)
+	pid_t pids[256];
 	int pid_count = 0;
 
 	mini->pipin = STDIN_FILENO;
@@ -78,7 +80,6 @@ int pipex(t_msh *mini, t_token *token)
 
 		if (pid == 0)
 		{
-			// Processo filho
 			execute_child_process(mini, token, pipefd);
 		}
 		else

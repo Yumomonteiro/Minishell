@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executable_utils3.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
+/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:00:44 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/07 08:19:24 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/11/14 14:01:10 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,6 @@ void	exec_pipe_cmd(t_msh *mini, t_token *token)
 		exit_cleanup(path, args, env_array);
 		return ;
 	}
-	if (check_args(args, token) == 0)
-		execute_and_cleanup(path, args, env_array);
-	token = token->next;
 	exec_cmd(mini, token);
 	exit_cleanup(path, args, env_array);
 }
@@ -88,7 +85,7 @@ t_token	*execute_command_or_pipe(t_msh *mini, t_token *token, t_token *tmp)
 			return (NULL);
 		token = tmp->next;
 	}
-	if (token && is_type(token, PIPE) == 0)
+	else if (token && is_type(token, PIPE) == 0)
 	{
 		if (token->prev && is_type(token->prev, HEREDOC) == 1)
 			token = token->next;

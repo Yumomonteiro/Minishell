@@ -6,12 +6,12 @@
 /*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:08:24 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/11/13 11:03:11 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/14 13:58:43 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-// ls
+
 t_token	*next_run(t_token *token, int skip)
 {
 	type_arg(token, 0);
@@ -42,6 +42,12 @@ int	handle_special_tokens(t_msh *mini, t_token *tmp)
 	}
 	else if (is_type(tmp->next, TRUNC) == 1 || is_type(tmp->next, APPEND) == 1)
 	{
+		if(search_pipe(tmp))
+		{
+			res = pipex(mini, tmp);
+			if (res == 1)
+				return (1);
+		}
 		res = redir(mini, tmp->next);
 		if (res == 1)
 			return (1);
@@ -73,7 +79,7 @@ int	handle_special_redir_cases(t_msh *mini, t_token *token)
 	}
 	if (is_type(token, PIPE))
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
+		ft_putstr_fd("minishell: syntax error near unexpected token `|' \n", 2);
 		mini->ret = 258;
 		return (1);
 	}
@@ -83,18 +89,24 @@ void	process_tokens(t_msh *mini)
 {
 	t_token	*token;
 	t_token	*tmp;
-
-	token = next_run(mini->start, NOSKIP);
-	while (token)
+	token = next_run(mini->start, 0);
+	if (token)
 	{
 		if(handle_special_redir_cases(mini, token) == 1)
 			return ;
-		tmp = token;
-		if (tmp->next)
-			tmp = skip_cmd(tmp);
-		if (handle_special_tokens(mini, tmp) == 1)
+		else
+		{
+			tmp = token;
+			if (tmp->next)
+				tmp = skip_cmd(tmp);
+			if (handle_special_tokens(mini, tmp) == 1)
+				return ;
+			else
+			{
+				token = execute_command_or_pipe(mini, token, tmp);
+			}
 			return ;
-		token = execute_command_or_pipe(mini, token, tmp);
+		}
 	}
 }
 

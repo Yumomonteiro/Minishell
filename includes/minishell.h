@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
+/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/09 19:57:54 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/11/14 13:59:47 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,6 @@ int			heredoc(t_msh *mini, t_token *token);
 t_token		*skip_cmd(t_token *tmp);
 int			add_env_variable(t_env **env, char *value);
 int			env_init(t_msh *mini, char **env_array);
-int			check_args(char **args, t_token *token);
 char		*concat_args(char **args);
 int			ignore_sep(char *line, int i);
 int			quotes(char *line, int index);
