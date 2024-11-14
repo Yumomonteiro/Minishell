@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
+/*   By: yude-oli <yude-oli@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 17:31:05 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/06 18:42:55 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/11/14 21:44:35 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,15 @@ void	handle_child_process(int fd_in, t_token *token,
 
 	dup2(fd_in, STDIN_FILENO);
 	next_token = token;
+        cmd = cmd_tab(token);
 	while (next_token && next_token->type != PIPE)
 	{
 		if (next_token->type == TRUNC || next_token->type == APPEND)
-			redir(mini, next_token);
+                {
+                        redir(mini, next_token);
+                        exec_builtin(cmd, mini, 0);
+                }
+			
 		if (next_token->type == INPUT)
 			input(mini, next_token);
 		next_token = next_token->next;
@@ -54,7 +59,7 @@ void	handle_child_process(int fd_in, t_token *token,
 	if (cmd && is_builtin(cmd[0]))
 		exec_builtin(cmd, mini, 0);
 	else
-		exec_pipe_cmd(mini, token);
+		exec_cmd(mini, token);
 	exit(EXIT_FAILURE);
 }
 

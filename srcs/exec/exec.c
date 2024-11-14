@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
+/*   By: yude-oli <yude-oli@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:50:14 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/09 19:29:02 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/11/14 21:33:55 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	exec_cmd(t_msh *mini, t_token *token)
 	}
 	else if (mini->cmd && is_builtin(mini->cmd[0]))
 	{
+                printf("entrou\n");
 		if (search_pipe(token))
 			pipex_builtin(mini, token);
 		else if (has_redir(token))

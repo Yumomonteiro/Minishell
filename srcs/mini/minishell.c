@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yude-oli <yude-oli@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:08:24 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/11/14 13:58:43 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/14 21:32:46 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,10 @@ int	handle_special_tokens(t_msh *mini, t_token *tmp)
 	}
 	else if (is_type(tmp->next, TRUNC) == 1 || is_type(tmp->next, APPEND) == 1)
 	{
+                printf("entrou3\n");
 		if(search_pipe(tmp))
 		{
+                        printf("entrou2\n");
 			res = pipex(mini, tmp);
 			if (res == 1)
 				return (1);
@@ -99,12 +101,9 @@ void	process_tokens(t_msh *mini)
 			tmp = token;
 			if (tmp->next)
 				tmp = skip_cmd(tmp);
-			if (handle_special_tokens(mini, tmp) == 1)
+			if (is_builtin(token->str) == 0 && handle_special_tokens(mini, tmp) == 1) 
 				return ;
-			else
-			{
-				token = execute_command_or_pipe(mini, token, tmp);
-			}
+			token = execute_command_or_pipe(mini, token, tmp);
 			return ;
 		}
 	}
