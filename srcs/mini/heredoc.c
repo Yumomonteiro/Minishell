@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yude-oli <yude-oli@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 14:30:16 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/10/31 15:05:22 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/14 18:28:13 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ void	read_heredoc_input(t_msh *mini, t_token *token, int fd[1])
 	while (1)
 	{
 		line = readline("> ");
+                if(line == NULL)
+                {
+                        printf("bash: warning: here-document delimited by end-of-file (wanted `eof')\n");
+			break ;
+                }
 		line = expansions(line, mini->env, 0);
 		if (!line || ft_strcmp(line, delimiter) == 0)
 		{

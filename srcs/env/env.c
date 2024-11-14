@@ -113,5 +113,6 @@ int	secret_env_init(t_msh *mini, char **env_array)
 			return (1);
 	if (!env || !env->value)
 		special_env(env, pwd);
+        free (pwd);
 	return (0);
 }
