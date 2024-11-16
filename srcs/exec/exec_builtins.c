@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
+/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 17:31:05 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/16 11:21:48 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/11/16 14:47:43 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,7 @@ void	handle_child_process(int fd_in, t_token *token,
 	while (next_token && next_token->type != PIPE)
 	{
 		if (next_token->type == TRUNC || next_token->type == APPEND)
-		{
-			redir(mini, next_token);
-			exec_builtin(cmd, mini, 0);
-		}
-			
+			handle_redir(mini, next_token, cmd);
 		if (next_token->type == INPUT)
 			input(mini, next_token);
 		next_token = next_token->next;
@@ -104,4 +100,5 @@ void	pipex_builtin(t_msh *mini, t_token *token)
 		if (token)
 			token = token->next;
 	}
+	mini->ret = 0;
 }

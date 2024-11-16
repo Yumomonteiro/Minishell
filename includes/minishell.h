@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/16 12:43:22 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/11/16 14:17:25 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct s_msh
 	t_token			*start;
 	t_env			*env;
 	t_env			*secret_env;
+	pid_t			pid;
 	int				in;
 	int				out;
 	int				pid_count;
@@ -154,7 +155,7 @@ void		handle_sigint(int sig);
 void		handle_sigint(int sig);
 int			handle_sig_eof(t_msh *mini, char *line);
 void		handle_eof(void);
-void		close_in_out(t_msh *mini);
+void		close_in_out(t_msh *mini, char *path);
 //PIPES
 int			check_path(char **args, t_env *env, t_msh *mini, char *path);
 char		*path_join_pipe(const char *s1, const char *s2);
@@ -204,6 +205,8 @@ void		shell_lvl(t_env *env);
 void		ft_skip_whitespaces(const char *str, int *i);
 void		shell_level(t_env *env);
 //REDIR
+void		handle_redir(t_msh *mini, t_token *token, char **cmd);
+int			free_heredoc(char *line);
 int			search_redir(t_token *token);
 void		redir_builtin(char **cmd, t_msh *mini, t_token *token);
 int			input(t_msh *mini, t_token *token);

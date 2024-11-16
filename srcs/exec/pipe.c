@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/02 18:52:20 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/16 12:59:31 by ada-mata         ###   ########.fr       */
+/*   Created: 2024/11/16 13:06:36 by yude-oli          #+#    #+#             */
+/*   Updated: 2024/11/16 14:49:58 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ void	execute_child_process(t_msh *mini, t_token *token, int pipefd[2])
 	while (next_token && (next_token->type != PIPE))
 	{
 		if (next_token->type == TRUNC || next_token->type == APPEND)
-		{
 			redir(mini, next_token);
-		}
 		if (next_token->type == INPUT)
 			input(mini, next_token);
 		next_token = next_token->next;
@@ -107,5 +105,6 @@ int	pipex(t_msh *mini, t_token *token)
 		waitpid(pids[i], &mini->ret, 0);
 		i++;
 	}
+	mini->ret = 0;
 	return (0);
 }

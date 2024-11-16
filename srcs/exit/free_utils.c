@@ -39,7 +39,7 @@ void	free_all(t_msh *mini)
 		free_env_list(mini->secret_env);
 }
 
-void	close_in_out(t_msh *mini)
+void	close_in_out(t_msh *mini, char *path)
 {
 	ft_close(mini->in);
 	ft_close(mini->out);
@@ -51,10 +51,10 @@ void	close_in_out(t_msh *mini)
 		free_tab(mini->args);
 	if (mini->line_arg)
 		free(mini->line_arg);
+	if (path != NULL)
+		return ;
 	if (mini->bin)
 		free_tab(mini->bin);
-	if (mini->cmd)
-		free_tab(mini->cmd);
 }
 
 void	close_all_fds(void)

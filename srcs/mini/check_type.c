@@ -6,7 +6,7 @@
 /*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:14:48 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/14 13:58:53 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/16 14:21:11 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,10 @@ int	is_env_char(int c)
 	if (ft_isalnum(c) == 1 || c == '_')
 		return (1);
 	return (0);
+}
+
+void	handle_redir(t_msh *mini, t_token *token, char **cmd)
+{
+	redir(mini, token);
+	exec_builtin(cmd, mini, 0);
 }
