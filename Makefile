@@ -34,6 +34,9 @@ fclean: clean
 
 re: fclean all
 
+valgrind: 
+	valgrind --trace-children=yes --track-fds=yes --leak-check=full ./$(NAME)
+
 .PHONY: all clean fclean re
 
 .SILENT:
