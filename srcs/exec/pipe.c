@@ -6,7 +6,7 @@
 /*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 18:52:20 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/14 13:50:32 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/16 10:56:17 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void execute_child_process(t_msh *mini, t_token *token, int pipefd[2])
 	t_token *next_token;
 
 	dup2(mini->pipin, STDIN_FILENO);
+	ft_close(mini->pipin);
 	next_token = token;
 	while (next_token && (next_token->type != PIPE))
 	{
@@ -80,6 +81,8 @@ int pipex(t_msh *mini, t_token *token)
 
 		if (pid == 0)
 		{
+			ft_close(mini->in);
+			ft_close(mini->out);
 			execute_child_process(mini, token, pipefd);
 		}
 		else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 17:31:05 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/14 21:44:35 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/16 11:06:19 by yude-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	handle_child_process(int fd_in, t_token *token,
 	char	**cmd;
 
 	dup2(fd_in, STDIN_FILENO);
+	ft_close(fd_in);
 	next_token = token;
         cmd = cmd_tab(token);
 	while (next_token && next_token->type != PIPE)
@@ -74,7 +75,11 @@ void	setup_child_process(int fd_in, t_token *token,
 	if (pid == -1)
 		exit(EXIT_FAILURE);
 	if (pid == 0)
+	{
+		ft_close(mini->in);
+		ft_close(mini->out);
 		handle_child_process(fd_in, token, pipefd, mini);
+	}
 }
 
 void	pipex_builtin(t_msh *mini, t_token *token)
