@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
+/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 18:52:20 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/16 11:13:36 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/11/16 12:59:31 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../includes/minishell.h"
 
-int setup_pipe_and_fork(int pipefd[2], pid_t *pid)
+int	setup_pipe_and_fork(int pipefd[2], pid_t *pid)
 {
 	if (pipe(pipefd) == -1)
 	{
@@ -29,9 +28,9 @@ int setup_pipe_and_fork(int pipefd[2], pid_t *pid)
 	return (0);
 }
 
-void execute_child_process(t_msh *mini, t_token *token, int pipefd[2])
+void	execute_child_process(t_msh *mini, t_token *token, int pipefd[2])
 {
-	t_token *next_token;
+	t_token	*next_token;
 
 	dup2(mini->pipin, STDIN_FILENO);
 	ft_close(mini->pipin);
@@ -54,7 +53,7 @@ void execute_child_process(t_msh *mini, t_token *token, int pipefd[2])
 	exit(EXIT_FAILURE);
 }
 
-void handle_parent_process(t_msh *mini, int pipefd[2])
+void	handle_parent_process(t_msh *mini, int pipefd[2])
 {
 	close(pipefd[1]);
 	if (mini->pipin != STDIN_FILENO)
@@ -62,44 +61,51 @@ void handle_parent_process(t_msh *mini, int pipefd[2])
 	mini->pipin = pipefd[0];
 }
 
-int pipex(t_msh *mini, t_token *token)
+static void	manage_child_or_parent(t_msh *mini, t_token **token,
+			int pipefd[2], pid_t *pids)
 {
-	int pipefd[2];
-	pid_t pid;
-	pid_t pids[256];
-	int pid_count = 0;
+	pid_t	pid;
 
+	if (setup_pipe_and_fork(pipefd, &pid) != 0)
+		exit(1);
+	if (pid == 0)
+	{
+		ft_close(mini->in);
+		ft_close(mini->out);
+		execute_child_process(mini, *token, pipefd);
+	}
+	else
+	{
+		pids[(mini->pid_count)++] = pid;
+		handle_parent_process(mini, pipefd);
+		while (*token && (*token)->type != PIPE)
+			*token = (*token)->next;
+		if (*token)
+			*token = (*token)->next;
+	}
+}
+
+int	pipex(t_msh *mini, t_token *token)
+{
+	int		pipefd[2];
+	pid_t	pids[256];
+	int		i;
+
+	i = 0;
 	mini->pipin = STDIN_FILENO;
 	while (token)
 	{
 		if (token->type == PIPE)
 		{
 			token = token->next;
-			continue;
+			continue ;
 		}
-		if (setup_pipe_and_fork(pipefd, &pid) != 0)
-			return (1);
-
-		if (pid == 0)
-		{
-			ft_close(mini->in);
-			ft_close(mini->out);
-			execute_child_process(mini, token, pipefd);
-		}
-		else
-		{
-			// Processo pai
-			pids[pid_count++] = pid; // Armazena o PID do processo filho
-			handle_parent_process(mini, pipefd);
-			while (token && token->type != PIPE)
-				token = token->next;
-			if (token)
-				token = token->next;
-		}
+		manage_child_or_parent(mini, &token, pipefd, pids);
 	}
-
-	// Aguarda todos os processos filhos ao final
-	for (int i = 0; i < pid_count; i++)
+	while (i < mini->pid_count)
+	{
 		waitpid(pids[i], &mini->ret, 0);
+		i++;
+	}
 	return (0);
 }

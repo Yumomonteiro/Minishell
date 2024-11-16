@@ -6,7 +6,7 @@
 /*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/16 12:08:29 by ada-mata         ###   ########.fr       */
+/*   Updated: 2024/11/16 12:43:22 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ typedef struct s_msh
 	t_env			*secret_env;
 	int				in;
 	int				out;
+	int				pid_count;
 	int				fdin;
 	int				fdout;
 	int				pipin;
@@ -186,7 +187,6 @@ void		check_type(t_msh *mini);
 int			execute(char *path, char **args, t_env *env, t_msh *mini);
 void		exec_cmd(t_msh *mini, t_token *token);
 void		free_tab(char **tab);
-void		free_tab1(char ***tab);
 char		**cmd_tab(t_token *start);
 int			exec(char **args, t_env *env, t_msh *mini);
 int			handle_special_tokens(t_msh *mini, t_token *tmp);

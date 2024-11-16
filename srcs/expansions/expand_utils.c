@@ -54,11 +54,7 @@ int	arg_alloc_len(const char *arg, t_env *env, int ret)
 
 	i = 0;
 	size = 0;
-        if(arg == NULL)
-        {
-                return (-1);
-        }
-	while (arg[i])
+	while (arg && arg[i])
 	{
 		if (arg[i] == EXPANSION && arg[i + 1] != '\0')
 		{
