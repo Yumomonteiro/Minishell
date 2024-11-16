@@ -10,7 +10,7 @@ SRCS    = main.c \
 					$(addprefix srcs/parse/, parse.c parse_utils.c parse_utils2.c parse_utils3.c) \
 					$(addprefix srcs/exec/, bin.c exec.c executable_utils.c pipe.c exec_builtins.c executable_utils2.c executable_utils3.c redir.c) \
 					$(addprefix srcs/exit/, exit.c free.c free_utils.c) \
-					$(addprefix srcs/mini/, check_type.c fd.c heredoc.c mini_utils.c minishell.c) \
+					$(addprefix srcs/mini/, check_type.c fd.c heredoc.c mini_utils.c mini_utils2.c minishell.c) \
 
 OBJS    = $(SRCS:.c=.o)
 

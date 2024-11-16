@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
+/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/15 20:47:25 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/11/16 12:08:29 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,9 @@ void		free_tab1(char ***tab);
 char		**cmd_tab(t_token *start);
 int			exec(char **args, t_env *env, t_msh *mini);
 int			handle_special_tokens(t_msh *mini, t_token *tmp);
+int			handle_special_redir_cases(t_msh *mini, t_token *token);
+int			handle_heredoc_or_input(t_msh *mini, t_token *tmp);
+int			handle_redirection_or_pipe(t_msh *mini, t_token *tmp);
 void		process_tokens(t_msh *mini);
 void		minishell(t_msh *mini);
 t_token		*next_run(t_token *token, int skip);

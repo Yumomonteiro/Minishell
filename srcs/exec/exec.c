@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
+/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:50:14 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/15 23:21:53 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/11/16 11:47:32 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,12 @@ int	has_redir(t_token *token)
 
 void	exec_cmd(t_msh *mini, t_token *token)
 {
-	char **cmd;
+	char	**cmd;
+
 	cmd = cmd_tab(token);
 	if (cmd && ft_strcmp(cmd[0], "exit") == 0)
 	{
 		mini_exit(mini, cmd);
-		mini_clean(mini);
 		free_tab(cmd);
 		exit(0);
 	}

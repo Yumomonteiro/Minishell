@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 19:50:57 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/11/13 14:31:12 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/16 11:44:33 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	mini_exit(t_msh *mini, char **cmd)
 	ft_close(mini->in);
 	ft_close(mini->out);
 	close_all_fds();
+	mini_clean(mini);
 }
 
 void	exit_error(void)

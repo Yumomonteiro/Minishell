@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
+/*   By: ada-mata <ada-mata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:08:24 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/11/16 11:24:09 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/11/16 12:09:48 by ada-mata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ t_token	*next_run(t_token *token, int skip)
 	type_arg(token, 0);
 	if (token && skip)
 		token = token->next;
-	while (token && token->type != CMD && token->type != TRUNC && token->type != APPEND
-		&& token->type != INPUT && token->type != PIPE && token->type != HEREDOC)
+	while (token && token->type != CMD && token->type != TRUNC
+		&& token->type != APPEND
+		&& token->type != INPUT && token->type != PIPE
+		&& token->type != HEREDOC)
 	{
 		token = token->next;
 		if (token && token->type == CMD && token->prev == NULL)
@@ -31,75 +33,30 @@ t_token	*next_run(t_token *token, int skip)
 
 int	handle_special_tokens(t_msh *mini, t_token *tmp)
 {
-	int	res;
+	if (handle_heredoc_or_input(mini, tmp) == 1)
+		return (1);
+	if (handle_redirection_or_pipe(mini, tmp) == 1)
+		return (1);
+	return (0);
+}
 
-	res = 0;
-	if (is_type(tmp->next, HEREDOC) == 1)
-	{
-		res = heredoc(mini, tmp->next);
-		if (res == 1)
-			return (1);
-	}
-	else if (is_type(tmp->next, TRUNC) == 1 || is_type(tmp->next, APPEND) == 1)
-	{
-		if(search_pipe(tmp))
-		{
-			res = pipex(mini, tmp);
-			if (res == 1)
-				return (1);
-		}
-		res = redir(mini, tmp->next);
-		if (res == 1)
-			return (1);
-	}
-	else if (is_type(tmp->next, INPUT) == 1)
-	{
-		res = input(mini, tmp->next);
-		if (res == 1)
-			return (1);
-	}
-	return (0);
-}
-int	handle_special_redir_cases(t_msh *mini, t_token *token)
-{
-	if (is_type(token, TRUNC) || is_type(token, APPEND))
-	{
-		redir(mini, token);
-		return (1);
-	}
-	if (is_type(token, INPUT))
-	{
-		input(mini, token);
-		return (1);
-	}
-	if (is_type(token, HEREDOC))
-	{
-		heredoc(mini, token);
-		return (1);
-	}
-	if (is_type(token, PIPE))
-	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `|' \n", 2);
-		mini->ret = 258;
-		return (1);
-	}
-	return (0);
-}
 void	process_tokens(t_msh *mini)
 {
 	t_token	*token;
 	t_token	*tmp;
+
 	token = next_run(mini->start, 0);
 	if (token)
 	{
-		if(handle_special_redir_cases(mini, token) == 1)
+		if (handle_special_redir_cases(mini, token) == 1)
 			return ;
 		else
 		{
 			tmp = token;
 			if (tmp->next)
 				tmp = skip_cmd(tmp);
-			if (is_builtin(token->str) == 0 && handle_special_tokens(mini, tmp) == 1) 
+			if (is_builtin(token->str) == 0
+				&& handle_special_tokens(mini, tmp) == 1)
 				return ;
 			token = execute_command_or_pipe(mini, token, tmp);
 			return ;
