@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 18:52:20 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/16 10:56:17 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/16 11:13:36 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
 
@@ -100,6 +101,5 @@ int pipex(t_msh *mini, t_token *token)
 	// Aguarda todos os processos filhos ao final
 	for (int i = 0; i < pid_count; i++)
 		waitpid(pids[i], &mini->ret, 0);
-
 	return (0);
 }

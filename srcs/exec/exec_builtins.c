@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 17:31:05 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/16 11:06:19 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/16 11:21:48 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ void	handle_child_process(int fd_in, t_token *token,
 	dup2(fd_in, STDIN_FILENO);
 	ft_close(fd_in);
 	next_token = token;
-        cmd = cmd_tab(token);
+	cmd = cmd_tab(token);
 	while (next_token && next_token->type != PIPE)
 	{
 		if (next_token->type == TRUNC || next_token->type == APPEND)
-                {
-                        redir(mini, next_token);
-                        exec_builtin(cmd, mini, 0);
-                }
+		{
+			redir(mini, next_token);
+			exec_builtin(cmd, mini, 0);
+		}
 			
 		if (next_token->type == INPUT)
 			input(mini, next_token);
@@ -56,11 +56,11 @@ void	handle_child_process(int fd_in, t_token *token,
 		dup2(pipefd[1], STDOUT_FILENO);
 	close(pipefd[0]);
 	close(pipefd[1]);
-	cmd = cmd_tab(token);
 	if (cmd && is_builtin(cmd[0]))
 		exec_builtin(cmd, mini, 0);
 	else
 		exec_cmd(mini, token);
+	free_tab(cmd);
 	exit(EXIT_FAILURE);
 }
 

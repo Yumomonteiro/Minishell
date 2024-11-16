@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 15:57:03 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/14 13:59:47 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/15 20:47:25 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,7 @@ void		check_type(t_msh *mini);
 int			execute(char *path, char **args, t_env *env, t_msh *mini);
 void		exec_cmd(t_msh *mini, t_token *token);
 void		free_tab(char **tab);
+void		free_tab1(char ***tab);
 char		**cmd_tab(t_token *start);
 int			exec(char **args, t_env *env, t_msh *mini);
 int			handle_special_tokens(t_msh *mini, t_token *tmp);

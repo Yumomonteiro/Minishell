@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:08:24 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/11/14 21:32:46 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/16 11:24:09 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,8 @@ int	handle_special_tokens(t_msh *mini, t_token *tmp)
 	}
 	else if (is_type(tmp->next, TRUNC) == 1 || is_type(tmp->next, APPEND) == 1)
 	{
-                printf("entrou3\n");
 		if(search_pipe(tmp))
 		{
-                        printf("entrou2\n");
 			res = pipex(mini, tmp);
 			if (res == 1)
 				return (1);

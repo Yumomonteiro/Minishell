@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executable_utils3.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:00:44 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/14 14:01:10 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/15 22:20:36 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	exec_pipe_cmd(t_msh *mini, t_token *token)
 	char	**args;
 	char	*path;
 	char	**env_array;
-
+	
 	args = build_args(token);
 	path = find_executable(args[0], mini->env);
 	env_array = env_list_to_array(mini->env);

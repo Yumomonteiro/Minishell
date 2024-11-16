@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yude-oli <yude-oli@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:50:14 by yude-oli          #+#    #+#             */
-/*   Updated: 2024/11/14 21:33:55 by yude-oli         ###   ########.fr       */
+/*   Updated: 2024/11/15 23:21:53 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,29 +70,29 @@ int	has_redir(t_token *token)
 
 void	exec_cmd(t_msh *mini, t_token *token)
 {
-	mini->cmd = cmd_tab(token);
-	if (mini->cmd && ft_strcmp(mini->cmd[0], "exit") == 0)
+	char **cmd;
+	cmd = cmd_tab(token);
+	if (cmd && ft_strcmp(cmd[0], "exit") == 0)
 	{
-		mini_exit(mini, mini->cmd);
+		mini_exit(mini, cmd);
 		mini_clean(mini);
-		free_tab(mini->cmd);
+		free_tab(cmd);
 		exit(0);
 	}
-	else if (mini->cmd && is_builtin(mini->cmd[0]))
+	else if (cmd && is_builtin(cmd[0]))
 	{
-                printf("entrou\n");
 		if (search_pipe(token))
 			pipex_builtin(mini, token);
 		else if (has_redir(token))
-			redir_builtin(mini->cmd, mini, token);
+			redir_builtin(cmd, mini, token);
 		else
-			mini->ret = exec_builtin(mini->cmd, mini, 0);
+			mini->ret = exec_builtin(cmd, mini, 0);
 	}
-	else if (mini->cmd && is_type(token, PIPE) == 0)
-		mini->ret = exec(mini->cmd, mini->env, mini);
+	else if (cmd && is_type(token, PIPE) == 0)
+		mini->ret = exec(cmd, mini->env, mini);
 	ft_close(mini->pipin);
 	ft_close(mini->pipout);
 	mini->pipin = -1;
 	mini->pipout = -1;
-	free_tab(mini->cmd);
+	free_tab(cmd);
 }

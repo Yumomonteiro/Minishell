@@ -51,6 +51,24 @@ void	free_ptr(void *ptr)
 	}
 }
 
+void	free_tab1(char ***tab)
+{
+	int	i;
+
+	if (!tab || !*tab)
+		return;
+
+	i = 0;
+	while ((*tab)[i])
+	{
+		free((*tab)[i]);
+		(*tab)[i] = NULL;
+		i++;
+	}
+	free(*tab);
+	*tab = NULL;
+}
+
 void	free_tab(char **tab)
 {
 	int	i;

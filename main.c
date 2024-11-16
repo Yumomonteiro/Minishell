@@ -6,7 +6,7 @@
 /*   By: ada-mata & yude-oli <marvin@42.fr>  <ad    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 18:46:41 by ada-mata          #+#    #+#             */
-/*   Updated: 2024/11/07 18:37:50 by ada-mata &       ###   ########.fr       */
+/*   Updated: 2024/11/15 23:28:27 by ada-mata &       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	shell_loop(t_msh *mini)
 		else if (!line)
 			free_all(mini);
 	}
+	mini_clean(mini);
 	ft_close(mini->in);
 	ft_close(mini->out);
 }
