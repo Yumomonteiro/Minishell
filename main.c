@@ -56,7 +56,7 @@ void	shell_loop(t_msh *mini)
 
 	while (1)
 	{
-		line = readline("minishell: ");
+		line = readline("\033[34mminishell:\033[0m ");
 		if (handle_sig_eof(mini, line) == 1)
 			continue ;
 		if (line && *line)
