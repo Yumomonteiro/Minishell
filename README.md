@@ -59,7 +59,8 @@ Usage
 
     Enter commands as you would in a standard shell, such as:
         ls -l | grep txt > output.txt
-        export MY_VAR=42 && echo $MY_VAR
+        export MY_VAR=42
+        echo $MY_VAR
         cat file.txt | wc -l
 
     To exit, type exit or press Ctrl+D.
